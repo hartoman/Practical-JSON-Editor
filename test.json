@@ -1,9 +1,5 @@
 {
-  "array": [
-    1,
-    2,
-    3
-  ],
+  "array": [1, 2, 3],
   "boolean": true,
   "color": "gold",
   "null": null,
@@ -13,14 +9,14 @@
     "c": "d"
   },
   "string": "Hello World",
-  "arrayofObjects":[
-  	{
-  	"value1":1,
-  	"value2":"eee"
-  	},
-  	  {
-        "value1":2,
-        "value2":"aaaa"
-        }
+  "arrayofObjects": [
+    {
+      "value1": 1,
+      "value2": "eee"
+    },
+    {
+      "value1": 2,
+      "value2": "aaaa"
+    }
   ]
 }

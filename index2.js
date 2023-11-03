@@ -1,13 +1,14 @@
 const selectors2 = {
-  mainAddbtn: "#mainAddBtn",
+  addBtn: ".add-button",
+  clearBtn:".clear-button",
   mainContainer: "#mainContainer",
   addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
-  modalXBtn: "#addBtnModal .close",
-  modalCloseBtn: "#addBtnModal .btn-secondary",
+  modalCloseBtn: "#addBtnModal .close",
   modalCreateBtn: "#addBtnModal .btn-primary",
   modalNameInput: "#modalNameInput",
   modalSelection: "#modalSelection",
+  arrayType: "#arrayType",
 };
 
 // keeps track of the div that contains the add button
@@ -19,31 +20,46 @@ $(document).ready(function () {
 
 function init() {
   bindButtons();
+  initModal();
+
+  // Get the template element
+var templateElement = $('#template').html();
+let test={ 
+  name: 'fieldname'
+}
+
+$(selectors2.mainContainer).append(Mustache.render(templateElement,test))
+
 }
 
 function bindButtons() {
-  // top-most add button
-  $(selectors2.mainAddbtn).on("click", function () {
-    addBtnClicked(this);
+  // add fields button
+  $(selectors2.addBtn).on("click", function () {
+    $(selectors2.addBtnModal).show();
+    setTargetContainer(this);
   });
-
-  // toggles the save button to enabled if there is at least one field
-  toggleSaveBtn();
 
   // when save button is clicked
   $(selectors2.saveBtn).on("click", function () {
     let obj = {};
     obj = createJsonObj();
-    console.log(obj);
-    dataObjToJson(obj);
+
+    saveJson(obj);
   });
 
   // modal close buttons
-  $(selectors2.modalXBtn)
-    .add(selectors2.modalCloseBtn)
-    .on("click", function () {
-      $(selectors2.addBtnModal).hide();
-    });
+  $(selectors2.modalCloseBtn).on("click", function () {
+    $(selectors2.addBtnModal).hide();
+  });
+
+  // arrayType row appears when Array option is selected
+  $(selectors2.modalSelection).on("change", function () {
+    if ($(selectors2.modalSelection).find(":selected").val() === "array") {
+      $(selectors2.arrayType).show();
+    } else {
+      $(selectors2.arrayType).hide();
+    }
+  });
 
   // modal toggle enabled create btn
   $(selectors2.modalNameInput).on("input", function () {
@@ -58,58 +74,39 @@ function bindButtons() {
   $(selectors2.modalCreateBtn).on("click", function () {
     let fieldName = $(selectors2.modalNameInput).val();
     let selectedOption = $(selectors2.modalSelection).find(":selected").val();
-    createFromModal(fieldName, selectedOption);
+    createField(fieldName, selectedOption,holdingContainer);
     $(selectors2.addBtnModal).hide();
     $(selectors2.modalNameInput).val("");
   });
 }
 
-// makes the save json button enabled only if there is at least one field in the top container
-function toggleSaveBtn() {
-  // Select the target node to observe
-  const targetNode = document.getElementById("mainContainer");
-  // Create an observer instance
-  const observer = new MutationObserver((mutationsList, observer) => {
-    // Handle DOM changes here
-    // Check if the div has no children
-    if ($(selectors2.mainContainer).children().length === 0) {
-      $(selectors2.saveBtn).prop("disabled", true);
-    } else {
-      $(selectors2.saveBtn).prop("disabled", false);
-    }
-  });
-  // Start observing the target node for DOM changes
-  observer.observe(targetNode, { childList: true, subtree: true });
+function initModal() {
+  toggleSaveBtn(document.getElementById("mainContainer"));
+
+  // makes the save json button enabled only if there is at least one field in the top container
+  function toggleSaveBtn(targetNode) {
+    // Select the target node to observe
+    // const targetNode = document.getElementById("mainContainer");
+    // Create an observer instance
+    const observer = new MutationObserver((mutationsList, observer) => {
+      // Handle DOM changes here
+      // Check if the div has no children
+      if ($(selectors2.mainContainer).children().length === 0) {
+        $(selectors2.saveBtn).prop("disabled", true);
+      } else {
+        $(selectors2.saveBtn).prop("disabled", false);
+      }
+    });
+    // Start observing the target node for DOM changes
+    observer.observe(targetNode, { childList: true, subtree: true });
+  }
 }
 
 // sets parentDivOfAddBtn to be a sibling container to the add button (same parent)
-function addBtnClicked(btn) {
-  $(selectors2.addBtnModal).show();
+function setTargetContainer(btn) {
   immediatParent = btn.parentNode;
   parentDivOfAddBtn = immediatParent.parentNode;
   holdingContainer = $(parentDivOfAddBtn).children(".container");
-}
-
-// creates a field depending on type selection
-function createFromModal(fieldName, selectedOption) {
-  switch (selectedOption) {
-    case "text": {
-    }
-    case "number": {
-    }
-    case "boolean": {
-      createSimpleField(fieldName, selectedOption, holdingContainer);
-      break;
-    }
-    case "object": {
-      createObjectField(fieldName);
-      break;
-    }
-    case "array": {
-      createArrayField(fieldName);
-      break;
-    }
-  }
 }
 
 function deleteField(e) {
@@ -117,36 +114,15 @@ function deleteField(e) {
   currentField.remove();
 }
 
-function createSimpleField(fieldName, type, parentContainer) {
+function createField(fieldName, type, parentContainer) {
   // field container
-  let fieldDiv = document.createElement("div");
-  $(fieldDiv).addClass("row container border-2");
+  let fieldDiv = createContainer();
   // delete button
-  let deletebutton = document.createElement("button");
-  $(deletebutton).text("delete");
-  $(deletebutton).addClass("col-2");
+  let deletebutton = createDeleteBtn();
   // label
-  let fieldlabel = document.createElement("label");
-  $(fieldlabel).addClass("col-2");
-  $(fieldlabel).text(fieldName);
+  let fieldlabel = createLabel();
   // input
-  let fieldinput = document.createElement("input");
-  $(fieldinput).addClass("col-4");
-  // refine input
-  switch (type) {
-    case "text": {
-      fieldinput.type = "text";
-      break;
-    }
-    case "number": {
-      fieldinput.type = "number";
-      break;
-    }
-    case "boolean": {
-      fieldinput.type = "checkbox";
-      break;
-    }
-  }
+  let fieldinput = defineFieldInput(type); 
 
   // append in field container and then to parent container
   $(fieldDiv).append(deletebutton);
@@ -158,23 +134,101 @@ function createSimpleField(fieldName, type, parentContainer) {
   $(deletebutton).on("click", function (e) {
     deleteField(e);
   });
+
+
+  function createContainer() {
+    let fieldDiv = document.createElement("div");
+    $(fieldDiv).addClass("row container border-2");
+    return fieldDiv;
+  }
+
+  function createDeleteBtn() {
+    let deletebutton = document.createElement("button");
+    $(deletebutton).text("delete");
+    $(deletebutton).addClass("col-2");
+    return deletebutton;
+  }
+
+  function createLabel() {
+    let fieldlabel = document.createElement("label");
+    $(fieldlabel).addClass("col-2");
+    $(fieldlabel).text(fieldName);
+    return fieldlabel;
+  }
+
+  function defineFieldInput(type) {
+    let fieldinput;
+    switch (type) {
+      case "object": {
+        fieldinput = createObjectField();
+        break;
+      }
+      case "array": {
+        fieldinput = createArrayField();
+        break;
+      }
+        default: {                  // default: text, textfield, number, boolean
+          fieldinput = createSimpleField(type)
+        break;
+      }
+    }
+    return fieldinput;
+  }
+
+  function createSimpleField(type) {
+    let fieldinput;
+    if (type === "textarea") {
+      fieldinput = document.createElement("textarea");
+      $(fieldinput).addClass("col-8");
+    } else {
+      fieldinput = document.createElement("input");
+      $(fieldinput).addClass("col-2");
+    }
+  
+    // refine input
+    switch (type) {
+      case "text": {
+        fieldinput.type = "text";
+        break;
+      }
+      case "number": {
+        fieldinput.type = "number";
+        break;
+      }
+      case "boolean": {
+        fieldinput.type = "checkbox";
+        break;
+      }
+    }
+    return fieldinput;
+  }
+
+  function createArrayField() {
+    let fieldinput=document.createElement('div')
+    return fieldinput;
+  }
+  
+  function createObjectField() {
+    let fieldinput = document.createElement('div')
+    
+      // Get the template element
+var templateElement = $('#template').html();
+let test={ 
+  name: 'testfield'
 }
 
-function createArrayField(fieldName) {
-  console.log("array: " + fieldName);
-}
+    $(selectors2.mainContainer).append(Mustache.render(templateElement, test))
+    
+    return fieldinput;
+  }
 
-function createObjectField(fieldName) {
-  console.log("obj: " + fieldName);
 }
-
-function saveJson() {}
 
 function createJsonObj() {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
   const labels = $(selectors2.mainContainer).find("label");
-  const inputs = $(selectors2.mainContainer).find("input");
+  const inputs = $(selectors2.mainContainer).find("input,textarea");
   // creates empty json obj
   const data = {};
   //populates fields of the object
@@ -191,7 +245,7 @@ function createJsonObj() {
         value = false;
       }
     }
-    if (inputs[i].type === "text" || inputs[i].type === "number") {
+    if (inputs[i].type === "text" || inputs[i].type === "number" || inputs[i].type === "textarea") {
       value = $(inputs[i]).val();
     }
     // adds field to the json object
@@ -201,15 +255,14 @@ function createJsonObj() {
 }
 
 // creates json from object and downloads it
-function dataObjToJson(obj) {
+function saveJson(obj) {
   const data = JSON.stringify(obj, null, 2); // Converts the object to a formatted JSON string
+
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-
   const link = document.createElement("a");
   link.href = url;
   link.download = "nyhas.json";
   link.click();
-
   URL.revokeObjectURL(url); // Release the object URL when done
 }
