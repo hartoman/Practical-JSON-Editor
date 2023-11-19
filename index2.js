@@ -1,6 +1,8 @@
-const selectors2 = {
+const selectors = {
   addBtn: ".add-button",
-  clearBtn:".clear-button",
+  clearBtn: ".clear-button",
+  deleteBtn: ".del-button",
+  hideBtn: ".hide-btn",
   mainContainer: "#mainContainer",
   addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
@@ -12,71 +14,142 @@ const selectors2 = {
 };
 
 // keeps track of the div that contains the add button
-let holdingContainer;
+let holdingContainer=$(selectors.mainContainer);
 
 $(document).ready(function () {
   init();
 });
 
 function init() {
+
+  let placetext = 'Η έννοια του κειμένου έχει περιγραφεί από δύο κυρίως σκοπιές: ως δομή ανώτερης τάξης από την πρόταση, προϊόν της διαδικασίας γραφής , και ως διαδικασία σε εξέλιξη, που ενσωματώνει συμφραστικούς παράγοντες (κυρίως το συνομιλιακό κείμενο). Η πρώτη προσέγγιση αντιμετωπίζει το κείμενο ως στατική γλωσσική οντότητα, της οποίας ο κύκλος ζωής έχει ολοκληρωθεί από τη στιγμή που το κείμενο έφυγε από τα χέρια του συγγραφέα (ή και του ομιλητή στην περίπτωση του μονολόγου), ενώ η δεύτερη το αντιλαμβάνεται ως διαδικασία παραγωγής μέσα σε συμφραζόμενα (καταστασιακά, ποιος γράφει/μιλάει σε ποιον κλπ.'
+
   bindButtons();
   initModal();
-
-  // Get the template element
-var templateElement = $('#template').html();
-let test={ 
-  name: 'fieldname'
+ // createObjectField("object", $(selectors.mainContainer));
+ // createTextInputField("input", "oioi", $(selectors.mainContainer));
+ // createTextArea("textarea", placetext, $(selectors.mainContainer));
+ // createNumberInputField("number", 3.14, $(selectors.mainContainer));
+ // createArrayField("array", $(selectors.mainContainer));
 }
 
-$(selectors2.mainContainer).append(Mustache.render(templateElement,test))
 
-}
 
 function bindButtons() {
-  // add fields button
-  $(selectors2.addBtn).on("click", function () {
-    $(selectors2.addBtnModal).show();
-    setTargetContainer(this);
+
+  // top Add button
+  $('#topAddBtn').on('click', function () {
+    
+    holdingContainer =$(selectors.mainContainer);
+      
+    // TODO: CHANGE TO TRIGGER MODAL
+    createObjectField("main", holdingContainer)
+
+    //TODO: MOVE THIS TO MODAL
+    $('#topClearBtn').prop('disabled',false)
   });
 
-  // when save button is clicked
-  $(selectors2.saveBtn).on("click", function () {
-    let obj = {};
-    obj = createJsonObj();
+  // top Clear button
+  $('#topClearBtn').on('click', function () {
+    $(selectors.mainContainer).empty()
+    $(this).prop('disabled',true)
+  });
 
+  // delegation for all add buttons
+  $(selectors.mainContainer).on('click', '.add-button', function () {
+    let parentOfParent = $(this).parents()[1];
+    let targetContainer = $(parentOfParent).children('.obj-container')
+    holdingContainer = targetContainer;
+    $(selectors.addBtnModal).show()
+   // createObjectField("main", holdingContainer)
+    let secondParent=  $(this).parent()
+    $(secondParent).children('.clear-button').prop('disabled',false);
+  });
+
+  // delegation for all delete buttons
+  $(selectors.mainContainer).on('click', '.del-button', function () {
+    let parentOfParent = $(this).parents()[1];
+    parentOfParent.remove();
+    if ($(selectors.mainContainer).children().length===0) {
+      $('#topClearBtn').prop('disabled',true)
+    }
+  });
+
+  // delegation for all hide buttons
+  $(selectors.mainContainer).on('click', '.hide-button', function () {
+    let parentOfParent = $(this).parents()[1];
+    let targetContainer = $(parentOfParent).children('.obj-container')
+    let addbtn = $(this).parent().children('.add-button');
+    let clearbtn= $(this).parent().children('.clear-button');
+    let icon = $(this).children('.bi');
+
+    if ($(this).val() === 'hide') {
+      $(this).val('show')
+      $(icon).removeClass('bi-arrow-up-left-circle');
+      $(icon).addClass('bi-arrow-down-right-circle-fill');
+
+      addbtn.hide()
+      clearbtn.hide()
+      targetContainer.hide()
+    }
+    else {
+      $(this).val('hide')
+      $(icon).removeClass('bi-arrow-down-right-circle-fill');
+      $(icon).addClass('bi-arrow-up-left-circle');
+      addbtn.show()
+      clearbtn.show()
+      targetContainer.show()
+    }
+  });
+  
+  // delegation for all clear buttons
+  $(selectors.mainContainer).on('click', '.clear-button', function () {
+    let parentOfParent = $(this).parents()[1];
+    let targetContainer = $(parentOfParent).children('.obj-container')
+    $(targetContainer).empty()
+    $(this).prop('disabled',true)
+  });
+
+
+  // when save button is clicked
+  $(selectors.saveBtn).on("click", function () {
+    let obj = {};
+    obj = createJsonObj($(selectors.mainContainer));
     saveJson(obj);
   });
 
   // modal close buttons
-  $(selectors2.modalCloseBtn).on("click", function () {
-    $(selectors2.addBtnModal).hide();
+  $(selectors.modalCloseBtn).on("click", function () {
+    $(selectors.addBtnModal).hide();
   });
 
-  // arrayType row appears when Array option is selected
-  $(selectors2.modalSelection).on("change", function () {
-    if ($(selectors2.modalSelection).find(":selected").val() === "array") {
-      $(selectors2.arrayType).show();
-    } else {
-      $(selectors2.arrayType).hide();
-    }
-  });
 
   // modal toggle enabled create btn
-  $(selectors2.modalNameInput).on("input", function () {
-    if ($(selectors2.modalNameInput).val() == "") {
-      $(selectors2.modalCreateBtn).prop("disabled", true);
+  $(selectors.modalNameInput).on("input", function () {
+    if ($(selectors.modalNameInput).val() == "") {
+      $(selectors.modalCreateBtn).prop("disabled", true);
     } else {
-      $(selectors2.modalCreateBtn).prop("disabled", false);
+      $(selectors.modalCreateBtn).prop("disabled", false);
     }
   });
 
   // modal create btn
-  $(selectors2.modalCreateBtn).on("click", function () {
-    let fieldName = $(selectors2.modalNameInput).val();
-    let selectedOption = $(selectors2.modalSelection).find(":selected").val();
-    createField(fieldName, selectedOption,holdingContainer);
-    $(selectors2.addBtnModal).hide();
-    $(selectors2.modalNameInput).val("");
+  $(selectors.modalCreateBtn).on("click", function () {
+    let fieldName = $(selectors.modalNameInput).val();
+    let selectedOption = $(selectors.modalSelection).find(":selected").val();
+    switch (selectedOption) {
+      case 'object':createObjectField(fieldName, holdingContainer);
+        break;
+        case 'text':createTextInputField(fieldName, "", holdingContainer);
+        break;
+        case 'textarea':createTextArea("textarea", "", holdingContainer);
+        break;
+        case 'number':createNumberInputField("number", "", holdingContainer);
+        break;
+      
+    }
+      $(selectors.addBtnModal).hide();
+    $(selectors.modalNameInput).val("");
   });
 }
 
@@ -91,10 +164,10 @@ function initModal() {
     const observer = new MutationObserver((mutationsList, observer) => {
       // Handle DOM changes here
       // Check if the div has no children
-      if ($(selectors2.mainContainer).children().length === 0) {
-        $(selectors2.saveBtn).prop("disabled", true);
+      if ($(selectors.mainContainer).children().length === 0) {
+        $(selectors.saveBtn).prop("disabled", true);
       } else {
-        $(selectors2.saveBtn).prop("disabled", false);
+        $(selectors.saveBtn).prop("disabled", false);
       }
     });
     // Start observing the target node for DOM changes
@@ -102,137 +175,80 @@ function initModal() {
   }
 }
 
-// sets parentDivOfAddBtn to be a sibling container to the add button (same parent)
-function setTargetContainer(btn) {
-  immediatParent = btn.parentNode;
-  parentDivOfAddBtn = immediatParent.parentNode;
-  holdingContainer = $(parentDivOfAddBtn).children(".container");
+
+
+
+function createObjectField(fieldKey, parentContainer) {
+  let fieldinput = document.createElement('div')
+        // Get the template element
+    let templateElement = $('#object-template').html();
+      let elementValues={ 
+        key: fieldKey,
+      }
+     $(parentContainer).append(Mustache.render(templateElement, elementValues))
+      return fieldinput;
 }
 
-function deleteField(e) {
-  let currentField = e.target.parentNode;
-  currentField.remove();
+function createTextInputField(fieldKey, fieldValue, parentContainer) {
+  let fieldinput = document.createElement('div')
+        // Get the template element
+    let templateElement = $('#textinput-template').html();
+      let elementValues={ 
+        key: fieldKey,
+        value:fieldValue
+      }
+     $(parentContainer).append(Mustache.render(templateElement, elementValues))
+      return fieldinput;
 }
 
-function createField(fieldName, type, parentContainer) {
-  // field container
-  let fieldDiv = createContainer();
-  // delete button
-  let deletebutton = createDeleteBtn();
-  // label
-  let fieldlabel = createLabel();
-  // input
-  let fieldinput = defineFieldInput(type); 
-
-  // append in field container and then to parent container
-  $(fieldDiv).append(deletebutton);
-  $(fieldDiv).append(fieldlabel);
-  $(fieldDiv).append(fieldinput);
-  $(fieldDiv).appendTo(parentContainer);
-
-  // bind deletebutton
-  $(deletebutton).on("click", function (e) {
-    deleteField(e);
-  });
-
-
-  function createContainer() {
-    let fieldDiv = document.createElement("div");
-    $(fieldDiv).addClass("row container border-2");
-    return fieldDiv;
-  }
-
-  function createDeleteBtn() {
-    let deletebutton = document.createElement("button");
-    $(deletebutton).text("delete");
-    $(deletebutton).addClass("col-2");
-    return deletebutton;
-  }
-
-  function createLabel() {
-    let fieldlabel = document.createElement("label");
-    $(fieldlabel).addClass("col-2");
-    $(fieldlabel).text(fieldName);
-    return fieldlabel;
-  }
-
-  function defineFieldInput(type) {
-    let fieldinput;
-    switch (type) {
-      case "object": {
-        fieldinput = createObjectField();
-        break;
+function createTextArea(fieldKey, fieldValue, parentContainer){
+  let fieldinput = document.createElement('div')
+        // Get the template element
+    let templateElement = $('#textarea-template').html();
+      let elementValues={ 
+        key: fieldKey,
+        value:fieldValue
       }
-      case "array": {
-        fieldinput = createArrayField();
-        break;
-      }
-        default: {                  // default: text, textfield, number, boolean
-          fieldinput = createSimpleField(type)
-        break;
-      }
-    }
-    return fieldinput;
-  }
-
-  function createSimpleField(type) {
-    let fieldinput;
-    if (type === "textarea") {
-      fieldinput = document.createElement("textarea");
-      $(fieldinput).addClass("col-8");
-    } else {
-      fieldinput = document.createElement("input");
-      $(fieldinput).addClass("col-2");
-    }
-  
-    // refine input
-    switch (type) {
-      case "text": {
-        fieldinput.type = "text";
-        break;
-      }
-      case "number": {
-        fieldinput.type = "number";
-        break;
-      }
-      case "boolean": {
-        fieldinput.type = "checkbox";
-        break;
-      }
-    }
-    return fieldinput;
-  }
-
-  function createArrayField() {
-    let fieldinput=document.createElement('div')
-    return fieldinput;
-  }
-  
-  function createObjectField() {
-    let fieldinput = document.createElement('div')
-    
-      // Get the template element
-var templateElement = $('#template').html();
-let test={ 
-  name: 'testfield'
+     $(parentContainer).append(Mustache.render(templateElement, elementValues))
+      return fieldinput;
 }
 
-    $(selectors2.mainContainer).append(Mustache.render(templateElement, test))
-    
-    return fieldinput;
-  }
-
+function createNumberInputField(fieldKey, fieldValue, parentContainer){
+  let fieldinput = document.createElement('div')
+        // Get the template element
+    let templateElement = $('#numberinput-template').html();
+      let elementValues={ 
+        key: fieldKey,
+        value:fieldValue
+      }
+     $(parentContainer).append(Mustache.render(templateElement, elementValues))
+      return fieldinput;
 }
 
-function createJsonObj() {
+function createArrayField(fieldKey, parentContainer) {
+  let fieldinput = document.createElement('div')
+        // Get the template element
+    let templateElement = $('#array-template').html();
+      let elementValues={ 
+        key: fieldKey,
+      }
+     $(parentContainer).append(Mustache.render(templateElement, elementValues))
+      return fieldinput;
+}
+
+
+function createJsonObj(holdingContainer) {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
-  const labels = $(selectors2.mainContainer).find("label");
-  const inputs = $(selectors2.mainContainer).find("input,textarea");
+
+  const labels = $(holdingContainer).find("label");
+  const inputs = $(holdingContainer).find("input,textarea,.obj-container");
+
   // creates empty json obj
   const data = {};
   //populates fields of the object
-  for (let i = 0; i < labels.length; i++) {
+
+  for (let i = 0; i < labels.length;i++) {
     // the key is the label
     const key = $(labels[i]).text();
     // the value depends on the type of the input
@@ -245,9 +261,17 @@ function createJsonObj() {
         value = false;
       }
     }
-    if (inputs[i].type === "text" || inputs[i].type === "number" || inputs[i].type === "textarea") {
+    if (inputs[i].type === "text"|| inputs[i].type === "textarea") {
       value = $(inputs[i]).val();
     }
+    if (inputs[i].type === "number") {
+      value = Number($(inputs[i]).val());
+    }
+    if (inputs[i].classList.contains('obj-container')) {
+      holdingContainer = inputs[i];
+      value=createJsonObj(holdingContainer)
+    }
+    //
     // adds field to the json object
     data[key] = value;
   }
