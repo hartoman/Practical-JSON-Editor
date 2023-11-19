@@ -39,13 +39,8 @@ function bindButtons() {
 
   // top Add button
   $('#topAddBtn').on('click', function () {
-    
     holdingContainer =$(selectors.mainContainer);
-      
-    // TODO: CHANGE TO TRIGGER MODAL
-    createObjectField("main", holdingContainer)
-
-    //TODO: MOVE THIS TO MODAL
+    $(selectors.addBtnModal).show()
     $('#topClearBtn').prop('disabled',false)
   });
 
@@ -241,7 +236,7 @@ function createJsonObj(holdingContainer) {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
 
-  const labels = $(holdingContainer).find("label");
+  const labels = $(holdingContainer).children().children().children("label");
   const inputs = $(holdingContainer).find("input,textarea,.obj-container");
 
   // creates empty json obj
