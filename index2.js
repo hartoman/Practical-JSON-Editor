@@ -26,7 +26,7 @@ function init() {
 
   bindButtons();
   initModal();
- // createObjectField("object", $(selectors.mainContainer));
+  createObjectField("object", $(selectors.mainContainer));
  // createTextInputField("input", "oioi", $(selectors.mainContainer));
  // createTextArea("textarea", placetext, $(selectors.mainContainer));
  // createNumberInputField("number", 3.14, $(selectors.mainContainer));
@@ -52,7 +52,7 @@ function bindButtons() {
 
   // delegation for all add buttons
   $(selectors.mainContainer).on('click', '.add-button', function () {
-    let parentOfParent = $(this).parents()[1];
+    let parentOfParent = $(this).parent();
     let targetContainer = $(parentOfParent).children('.obj-container')
     holdingContainer = targetContainer;
     $(selectors.addBtnModal).show()
@@ -236,9 +236,10 @@ function createJsonObj(holdingContainer) {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
 
-  const labels = $(holdingContainer).children().children().children("label");
-  const inputs = $(holdingContainer).find("input,textarea,.obj-container");
+  const labels = $(holdingContainer).children().children("label");
+  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container");
 
+  console.log(labels.length+' '+inputs.length)
   // creates empty json obj
   const data = {};
   //populates fields of the object

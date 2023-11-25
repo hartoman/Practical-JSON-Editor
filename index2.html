@@ -89,35 +89,33 @@
 
     <!-- object template start -->
     <template id="object-template">
-      <div class="container border border-1">
-        <div class="row d-flex border border-1">
-          <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <label class="col-1 my-auto" for="{{key}}">{{key}}</label>
-          <p class="col-1 my-auto text-center">:</p>
-          <button
-            class="btn col-1 hide-button"
-            style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
-            value="hide"
-          >
-            <i class="bi bi-arrow-up-left-circle"></i>
-          </button>
-          <button
-            class="col-1 my-auto mx-4 btn btn-sm add-button"
-            style="width: fit-content; padding: 0; height: fit-content; border: none"
-          >
-            <i class="bi bi-plus-square"></i>
-          </button>
-          <button
-            class="btn btn-sm col-1 my-auto clear-button"
-            style="color: red; width: fit-content; padding: 0; height: fit-content; border: none"
-            disabled
-          >
-            <i class="bi bi-x-octagon-fill"></i>
-          </button>
-          <!-- TODO: insert tooltips for everything-->
-        </div>
+      <div class="container border border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <label class="col-1 my-auto" for="{{key}}">{{key}}</label>
+        <p class="col-1 my-auto text-center">:</p>
+        <button
+          class="btn col-1 hide-button"
+          style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
+          value="hide"
+        >
+          <i class="bi bi-arrow-up-left-circle"></i>
+        </button>
+        <button
+          class="col-1 my-auto mx-4 btn btn-sm add-button"
+          style="width: fit-content; padding: 0; height: fit-content; border: none"
+        >
+          <i class="bi bi-plus-square"></i>
+        </button>
+        <button
+          class="btn btn-sm col-1 my-auto clear-button"
+          style="color: red; width: fit-content; padding: 0; height: fit-content; border: none"
+          disabled
+        >
+          <i class="bi bi-x-octagon-fill"></i>
+        </button>
+        <!-- TODO: insert tooltips for everything-->
         <div class="obj-container" id="{{key}}"></div>
       </div>
     </template>
@@ -125,80 +123,72 @@
 
     <!-- text input template start -->
     <template id="textinput-template">
-      <div class="container border border-1">
-        <div class="row d-flex border border-1">
-          <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <label class="col-1 my-auto">{{key}}</label>
-          <p class="col-1 my-auto text-center">:</p>
-          <input type="text" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
-        </div>
+      <div class="container border border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <label class="col-1 my-auto">{{key}}</label>
+        <p class="col-1 my-auto text-center">:</p>
+        <input type="text" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>
     <!-- text input template end -->
 
     <!-- textarea template start -->
     <template id="textarea-template">
-      <div class="container border border-1 custom">
-        <div class="row d-flex border border-1">
-          <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <label class="col-1 my-auto">{{key}}</label>
-          <p class="col-1 my-auto text-center">:</p>
-          <textarea type="text" class="col" value="" style="padding: 0; border-color: lightgray">{{value}}</textarea>
-        </div>
+      <div class="container border border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <label class="col-1 my-auto">{{key}}</label>
+        <p class="col-1 my-auto text-center">:</p>
+        <textarea type="text" class="col" value="" style="padding: 0; border-color: lightgray">{{value}}</textarea>
       </div>
     </template>
     <!--textarea template end -->
 
     <!-- number template start -->
     <template id="numberinput-template">
-      <div class="container border border-1">
-        <div class="row d-flex border border-1">
-          <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <label class="col-1 my-auto">{{key}}</label>
-          <p class="col-1 my-auto text-center">:</p>
-          <input type="number" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
-        </div>
+      <div class="container border border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <label class="col-1 my-auto">{{key}}</label>
+        <p class="col-1 my-auto text-center">:</p>
+        <input type="number" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>
     <!--number template end -->
 
     <!-- array template start -->
     <template id="array-template">
-      <div class="container border border-1">
-        <div class="row d-flex border border-1">
-          <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <label class="col-1 my-auto">{{key}}</label>
-          <p class="col-1 my-auto text-center">:</p>
-          <button
-            class="btn col-1 hide-button"
-            style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
-            value="hide"
-          >
-            <i class="bi bi-arrow-up-left-circle"></i>
-          </button>
-          <button
-            class="col-1 my-auto mx-4 btn btn-sm add-button"
-            style="width: fit-content; padding: 0; height: fit-content; border: none"
-          >
-            <i class="bi bi-plus-square"></i>
-          </button>
-          <button
-            class="btn btn-sm col-1 my-auto clear-button"
-            style="color: red; width: fit-content; padding: 0; height: fit-content; border: none"
-            disabled
-          >
-            <i class="bi bi-x-octagon-fill"></i>
-          </button>
-          <!-- TODO: insert tooltips for everything-->
-        </div>
+      <div class="container border border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <label class="col-1 my-auto">{{key}}</label>
+        <p class="col-1 my-auto text-center">:</p>
+        <button
+          class="btn col-1 hide-button"
+          style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
+          value="hide"
+        >
+          <i class="bi bi-arrow-up-left-circle"></i>
+        </button>
+        <button
+          class="col-1 my-auto mx-4 btn btn-sm add-button"
+          style="width: fit-content; padding: 0; height: fit-content; border: none"
+        >
+          <i class="bi bi-plus-square"></i>
+        </button>
+        <button
+          class="btn btn-sm col-1 my-auto clear-button"
+          style="color: red; width: fit-content; padding: 0; height: fit-content; border: none"
+          disabled
+        >
+          <i class="bi bi-x-octagon-fill"></i>
+        </button>
+        <!-- TODO: insert tooltips for everything-->
         <div class="obj-container"></div>
       </div>
     </template>
