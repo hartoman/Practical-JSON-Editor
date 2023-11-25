@@ -8,103 +8,123 @@ const selectors = {
   saveBtn: "#saveBtn",
   modalCloseBtn: "#addBtnModal .close",
   modalCreateBtn: "#addBtnModal .btn-primary",
+  modalNameTag:"#modalNameTag",
   modalNameInput: "#modalNameInput",
   modalSelection: "#modalSelection",
   arrayType: "#arrayType",
 };
 
 // keeps track of the div that contains the add button
-let holdingContainer=$(selectors.mainContainer);
+let holdingContainer = $(selectors.mainContainer);
 
 $(document).ready(function () {
   init();
 });
 
 function init() {
-
-  let placetext = 'Η έννοια του κειμένου έχει περιγραφεί από δύο κυρίως σκοπιές: ως δομή ανώτερης τάξης από την πρόταση, προϊόν της διαδικασίας γραφής , και ως διαδικασία σε εξέλιξη, που ενσωματώνει συμφραστικούς παράγοντες (κυρίως το συνομιλιακό κείμενο). Η πρώτη προσέγγιση αντιμετωπίζει το κείμενο ως στατική γλωσσική οντότητα, της οποίας ο κύκλος ζωής έχει ολοκληρωθεί από τη στιγμή που το κείμενο έφυγε από τα χέρια του συγγραφέα (ή και του ομιλητή στην περίπτωση του μονολόγου), ενώ η δεύτερη το αντιλαμβάνεται ως διαδικασία παραγωγής μέσα σε συμφραζόμενα (καταστασιακά, ποιος γράφει/μιλάει σε ποιον κλπ.'
+  let placetext =
+    "Η έννοια του κειμένου έχει περιγραφεί από δύο κυρίως σκοπιές: ως δομή ανώτερης τάξης από την πρόταση, προϊόν της διαδικασίας γραφής , και ως διαδικασία σε εξέλιξη, που ενσωματώνει συμφραστικούς παράγοντες (κυρίως το συνομιλιακό κείμενο). Η πρώτη προσέγγιση αντιμετωπίζει το κείμενο ως στατική γλωσσική οντότητα, της οποίας ο κύκλος ζωής έχει ολοκληρωθεί από τη στιγμή που το κείμενο έφυγε από τα χέρια του συγγραφέα (ή και του ομιλητή στην περίπτωση του μονολόγου), ενώ η δεύτερη το αντιλαμβάνεται ως διαδικασία παραγωγής μέσα σε συμφραζόμενα (καταστασιακά, ποιος γράφει/μιλάει σε ποιον κλπ.";
 
   bindButtons();
   initModal();
+  createArrayField("array", $(selectors.mainContainer));
   createObjectField("object", $(selectors.mainContainer));
- // createTextInputField("input", "oioi", $(selectors.mainContainer));
- // createTextArea("textarea", placetext, $(selectors.mainContainer));
- // createNumberInputField("number", 3.14, $(selectors.mainContainer));
- // createArrayField("array", $(selectors.mainContainer));
+  // createTextInputField("input", "oioi", $(selectors.mainContainer));
+  // createTextArea("textarea", placetext, $(selectors.mainContainer));
+  // createNumberInputField("number", 3.14, $(selectors.mainContainer));
+  // createArrayField("array", $(selectors.mainContainer));
 }
 
-
-
 function bindButtons() {
-
   // top Add button
-  $('#topAddBtn').on('click', function () {
-    holdingContainer =$(selectors.mainContainer);
-    $(selectors.addBtnModal).show()
-    $('#topClearBtn').prop('disabled',false)
+  $("#topAddBtn").on("click", function () {
+    holdingContainer = $(selectors.mainContainer);
+    $(selectors.addBtnModal).show();
+    $("#topClearBtn").prop("disabled", false);
   });
 
   // top Clear button
-  $('#topClearBtn').on('click', function () {
-    $(selectors.mainContainer).empty()
-    $(this).prop('disabled',true)
+  $("#topClearBtn").on("click", function () {
+    $(selectors.mainContainer).empty();
+    $(this).prop("disabled", true);
   });
 
   // delegation for all add buttons
-  $(selectors.mainContainer).on('click', '.add-button', function () {
+  $(selectors.mainContainer).on("click", ".add-button", function () {
     let parentOfParent = $(this).parent();
-    let targetContainer = $(parentOfParent).children('.obj-container')
-    holdingContainer = targetContainer;
-    $(selectors.addBtnModal).show()
-   // createObjectField("main", holdingContainer)
-    let secondParent=  $(this).parent()
-    $(secondParent).children('.clear-button').prop('disabled',false);
+    let targetContainer;
+    if ($(parentOfParent).children(".array-container").length) {
+      targetContainer = $(parentOfParent).children(".array-container");
+      holdingContainer = targetContainer;
+      //
+      //   targetContainer.val("number")
+      if (targetContainer.val() === "") {
+        // no value logic here
+        console.log('no value')
+        toggleModalArrayMode(true);
+        $(selectors.addBtnModal).show(); // TODO omws xwris name field
+        $(parentOfParent).children(".clear-button").prop("disabled", false);
+      } else {
+        console.log('has valuezzz')
+        const arrayType = targetContainer.val();
+        createFields("", arrayType, holdingContainer);
+      }
+
+    } else {
+      targetContainer = $(parentOfParent).children(".obj-container");
+      holdingContainer = targetContainer;
+      $(selectors.addBtnModal).show();
+      $(parentOfParent).children(".clear-button").prop("disabled", false);
+    }
+
+  
   });
 
   // delegation for all delete buttons
-  $(selectors.mainContainer).on('click', '.del-button', function () {
-    let parentOfParent = $(this).parents()[1];
-    parentOfParent.remove();
-    if ($(selectors.mainContainer).children().length===0) {
-      $('#topClearBtn').prop('disabled',true)
+  $(selectors.mainContainer).on("click", ".del-button", function () {
+    if (confirm("Delete field?")) {
+      let parentOfParent = $(this).parent();
+      parentOfParent.remove();
+      if ($(selectors.mainContainer).children().length === 0) {
+        $("#topClearBtn").prop("disabled", true);
+      }
     }
   });
 
   // delegation for all hide buttons
-  $(selectors.mainContainer).on('click', '.hide-button', function () {
-    let parentOfParent = $(this).parents()[1];
-    let targetContainer = $(parentOfParent).children('.obj-container')
-    let addbtn = $(this).parent().children('.add-button');
-    let clearbtn= $(this).parent().children('.clear-button');
-    let icon = $(this).children('.bi');
+  $(selectors.mainContainer).on("click", ".hide-button", function () {
+    let parentOfParent = $(this).parent();
+    let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
+    let addbtn = $(this).parent().children(".add-button");
+    let clearbtn = $(this).parent().children(".clear-button");
+    let icon = $(this).children(".bi");
 
-    if ($(this).val() === 'hide') {
-      $(this).val('show')
-      $(icon).removeClass('bi-arrow-up-left-circle');
-      $(icon).addClass('bi-arrow-down-right-circle-fill');
-
-      addbtn.hide()
-      clearbtn.hide()
-      targetContainer.hide()
-    }
-    else {
-      $(this).val('hide')
-      $(icon).removeClass('bi-arrow-down-right-circle-fill');
-      $(icon).addClass('bi-arrow-up-left-circle');
-      addbtn.show()
-      clearbtn.show()
-      targetContainer.show()
+    if ($(this).val() === "hide") {
+      $(this).val("show");
+      $(icon).removeClass("bi-arrow-up-left-circle");
+      $(icon).addClass("bi-arrow-down-right-circle-fill");
+      addbtn.hide();
+      clearbtn.hide();
+      targetContainer.hide();
+    } else {
+      $(this).val("hide");
+      $(icon).removeClass("bi-arrow-down-right-circle-fill");
+      $(icon).addClass("bi-arrow-up-left-circle");
+      addbtn.show();
+      clearbtn.show();
+      targetContainer.show();
     }
   });
-  
+
   // delegation for all clear buttons
-  $(selectors.mainContainer).on('click', '.clear-button', function () {
-    let parentOfParent = $(this).parents()[1];
-    let targetContainer = $(parentOfParent).children('.obj-container')
-    $(targetContainer).empty()
-    $(this).prop('disabled',true)
+  $(selectors.mainContainer).on("click", ".clear-button", function () {
+    if (confirm("Delete all contents of selected field?")) {
+      let parentOfParent = $(this).parent();
+      let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
+      $(targetContainer).empty();
+      $(this).prop("disabled", true);
+    }
   });
-
 
   // when save button is clicked
   $(selectors.saveBtn).on("click", function () {
@@ -117,7 +137,6 @@ function bindButtons() {
   $(selectors.modalCloseBtn).on("click", function () {
     $(selectors.addBtnModal).hide();
   });
-
 
   // modal toggle enabled create btn
   $(selectors.modalNameInput).on("input", function () {
@@ -132,20 +151,56 @@ function bindButtons() {
   $(selectors.modalCreateBtn).on("click", function () {
     let fieldName = $(selectors.modalNameInput).val();
     let selectedOption = $(selectors.modalSelection).find(":selected").val();
-    switch (selectedOption) {
-      case 'object':createObjectField(fieldName, holdingContainer);
-        break;
-        case 'text':createTextInputField(fieldName, "", holdingContainer);
-        break;
-        case 'textarea':createTextArea("textarea", "", holdingContainer);
-        break;
-        case 'number':createNumberInputField("number", "", holdingContainer);
-        break;
-      
+  
+    if (isArray(holdingContainer)) {
+      $(holdingContainer).parent().children(".array-container").val(selectedOption)
+      fieldName = ""
+      toggleModalArrayMode(false);
     }
-      $(selectors.addBtnModal).hide();
+    createFields(fieldName, selectedOption, holdingContainer); 
+    $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
   });
+}
+
+function toggleModalArrayMode(isForArrayField) {
+  if (isForArrayField) {
+    $(selectors.addBtnModal).find('.modal-title').text("Set Array Type")
+    $(selectors.modalNameTag).hide();
+    $(selectors.modalNameInput).hide();
+    $(selectors.modalCreateBtn).prop("disabled", false);
+  } else {
+    $(selectors.modalNameTag).show();
+    $(selectors.modalNameInput).show();
+    $(selectors.modalCreateBtn).prop("disabled", true);
+  }
+}
+
+function  isArray(inputContainer){
+  return inputContainer.parent().children(".array-container").length
+}
+
+function createFields(fieldName,selectedOption,holdingContainer) {
+  switch (selectedOption) {
+    case "object":
+      createObjectField(fieldName, holdingContainer);
+      break;
+    case "text":
+      createTextInputField(fieldName, "", holdingContainer);
+      break;
+    case "textarea":
+      createTextArea(fieldName, "", holdingContainer);
+      break;
+    case "number":
+      createNumberInputField(fieldName, "", holdingContainer);
+      break;
+    case "boolean":
+      createBooleanField("boolean", false, holdingContainer);
+      break;
+    case "array":
+        createArrayField("array", holdingContainer);
+        break;
+  }
 }
 
 function initModal() {
@@ -170,81 +225,89 @@ function initModal() {
   }
 }
 
-
-
-
 function createObjectField(fieldKey, parentContainer) {
-  let fieldinput = document.createElement('div')
-        // Get the template element
-    let templateElement = $('#object-template').html();
-      let elementValues={ 
-        key: fieldKey,
-      }
-     $(parentContainer).append(Mustache.render(templateElement, elementValues))
-      return fieldinput;
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#object-template").html();
+  let elementValues = {
+    key: fieldKey,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
 }
 
-function createTextInputField(fieldKey, fieldValue, parentContainer) {
-  let fieldinput = document.createElement('div')
-        // Get the template element
-    let templateElement = $('#textinput-template').html();
-      let elementValues={ 
-        key: fieldKey,
-        value:fieldValue
-      }
-     $(parentContainer).append(Mustache.render(templateElement, elementValues))
-      return fieldinput;
+function createTextInputField(fieldKey, fieldValue = "", parentContainer) {
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#textinput-template").html();
+  let elementValues = {
+    key: fieldKey,
+    value: fieldValue,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
 }
 
-function createTextArea(fieldKey, fieldValue, parentContainer){
-  let fieldinput = document.createElement('div')
-        // Get the template element
-    let templateElement = $('#textarea-template').html();
-      let elementValues={ 
-        key: fieldKey,
-        value:fieldValue
-      }
-     $(parentContainer).append(Mustache.render(templateElement, elementValues))
-      return fieldinput;
+function createTextArea(fieldKey, fieldValue = "", parentContainer) {
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#textarea-template").html();
+  let elementValues = {
+    key: fieldKey,
+    value: fieldValue,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
 }
 
-function createNumberInputField(fieldKey, fieldValue, parentContainer){
-  let fieldinput = document.createElement('div')
-        // Get the template element
-    let templateElement = $('#numberinput-template').html();
-      let elementValues={ 
-        key: fieldKey,
-        value:fieldValue
-      }
-     $(parentContainer).append(Mustache.render(templateElement, elementValues))
-      return fieldinput;
+function createNumberInputField(fieldKey, fieldValue, parentContainer) {
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#numberinput-template").html();
+  let elementValues = {
+    key: fieldKey,
+    value: fieldValue,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
 }
 
 function createArrayField(fieldKey, parentContainer) {
-  let fieldinput = document.createElement('div')
-        // Get the template element
-    let templateElement = $('#array-template').html();
-      let elementValues={ 
-        key: fieldKey,
-      }
-     $(parentContainer).append(Mustache.render(templateElement, elementValues))
-      return fieldinput;
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#array-template").html();
+  let elementValues = {
+    key: fieldKey,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
 }
 
+function createBooleanField(fieldKey, fieldValue = false, parentContainer) {
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = $("#boolean-template").html();
+  let elementValues = {
+    key: fieldKey,
+    value: fieldValue,
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
+}
 
 function createJsonObj(holdingContainer) {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
 
   const labels = $(holdingContainer).children().children("label");
-  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container");
+  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
 
-  console.log(labels.length+' '+inputs.length)
+  console.log(labels.length + " " + inputs.length);
   // creates empty json obj
   const data = {};
   //populates fields of the object
 
-  for (let i = 0; i < labels.length;i++) {
+  for (let i = 0; i < labels.length; i++) {
     // the key is the label
     const key = $(labels[i]).text();
     // the value depends on the type of the input
@@ -257,21 +320,34 @@ function createJsonObj(holdingContainer) {
         value = false;
       }
     }
-    if (inputs[i].type === "text"|| inputs[i].type === "textarea") {
+    if (inputs[i].type === "text" || inputs[i].type === "textarea") {
       value = $(inputs[i]).val();
     }
     if (inputs[i].type === "number") {
       value = Number($(inputs[i]).val());
     }
-    if (inputs[i].classList.contains('obj-container')) {
+    if (inputs[i].classList.contains("obj-container")) {
       holdingContainer = inputs[i];
-      value=createJsonObj(holdingContainer)
+      value = createJsonObj(inputs[i]);
     }
     //
     // adds field to the json object
     data[key] = value;
   }
   return data;
+}
+
+function fillValuesFromArray(arrayContainer) {
+  const returnedArray = [];
+  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
+
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].classList.contains("array-container")) {
+      returnedArray.push(fillArray(inputs[i]));
+    }
+  }
+
+  return returnedArray;
 }
 
 // creates json from object and downloads it
