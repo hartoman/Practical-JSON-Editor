@@ -39,7 +39,8 @@
       </div>
       <div class="container border border-2 m-1">
         <div class="row d-flex justify-content-between">
-          <button id="topAddBtn" class="btn btn-primary col-1 add-button">Add</button>
+          <button id="topAddBtnObj" class="btn btn-primary col-1 add-button">Object</button>
+          <button id="topAddBtnArray" class="btn btn-primary col-1 add-button">Array</button>
           <button id="topClearBtn" class="btn btn-danger col-1 clear-button" disabled>Clear</button>
           <div id="mainContainer" class="obj-container"></div>
         </div>
@@ -53,18 +54,17 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Add Json Field</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+            <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
             </button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-6" id="modalNameTag">Name</div>
-              <div class="col-6">Type</div>
+              <div class="col" id="modalNameTag">Name</div>
+              <div class="col">Type</div>
             </div>
             <div class="row">
-              <input id="modalNameInput" class="col-6" />
-              <select id="modalSelection" class="col-6">
+              <input id="modalNameInput" class="col" />
+              <select id="modalSelection" class="col">
                 <option value="text">Text</option>
                 <option value="textarea">Text Area (large text)</option>
                 <option value="number">Number</option>
@@ -93,8 +93,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
-        <label class="col-1 my-auto" for="{{key}}">{{key}}</label>
+        {{#hasLabel}}
+        <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <button
           class="btn col-1 hide-button"
           style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
@@ -127,8 +129,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
+        {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <input type="text" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>
@@ -140,8 +144,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
+        {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <textarea type="text" class="col" value="" style="padding: 0; border-color: lightgray">{{value}}</textarea>
       </div>
     </template>
@@ -153,8 +159,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
+        {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <input type="number" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>
@@ -166,8 +174,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
+        {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <button
           class="btn col-1 hide-button"
           style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
@@ -200,8 +210,10 @@
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
+        {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
+        {{/hasLabel}}
         <input type="checkbox" role="switch" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>

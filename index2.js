@@ -8,7 +8,7 @@ const selectors = {
   saveBtn: "#saveBtn",
   modalCloseBtn: "#addBtnModal .close",
   modalCreateBtn: "#addBtnModal .btn-primary",
-  modalNameTag:"#modalNameTag",
+  modalNameTag: "#modalNameTag",
   modalNameInput: "#modalNameInput",
   modalSelection: "#modalSelection",
   arrayType: "#arrayType",
@@ -22,13 +22,10 @@ $(document).ready(function () {
 });
 
 function init() {
-  let placetext =
-    "Η έννοια του κειμένου έχει περιγραφεί από δύο κυρίως σκοπιές: ως δομή ανώτερης τάξης από την πρόταση, προϊόν της διαδικασίας γραφής , και ως διαδικασία σε εξέλιξη, που ενσωματώνει συμφραστικούς παράγοντες (κυρίως το συνομιλιακό κείμενο). Η πρώτη προσέγγιση αντιμετωπίζει το κείμενο ως στατική γλωσσική οντότητα, της οποίας ο κύκλος ζωής έχει ολοκληρωθεί από τη στιγμή που το κείμενο έφυγε από τα χέρια του συγγραφέα (ή και του ομιλητή στην περίπτωση του μονολόγου), ενώ η δεύτερη το αντιλαμβάνεται ως διαδικασία παραγωγής μέσα σε συμφραζόμενα (καταστασιακά, ποιος γράφει/μιλάει σε ποιον κλπ.";
-
   bindButtons();
   initModal();
-  createArrayField("array", $(selectors.mainContainer));
-  createObjectField("object", $(selectors.mainContainer));
+ // createArrayField("", $(selectors.mainContainer));
+  //  createObjectField("object", $(selectors.mainContainer));
   // createTextInputField("input", "oioi", $(selectors.mainContainer));
   // createTextArea("textarea", placetext, $(selectors.mainContainer));
   // createNumberInputField("number", 3.14, $(selectors.mainContainer));
@@ -36,12 +33,21 @@ function init() {
 }
 
 function bindButtons() {
-  // top Add button
-  $("#topAddBtn").on("click", function () {
+  // top Add Obj button
+  $("#topAddBtnObj").on("click", function () {
     holdingContainer = $(selectors.mainContainer);
+    toggleModalArrayMode(false);
     $(selectors.addBtnModal).show();
     $("#topClearBtn").prop("disabled", false);
   });
+
+    // top Add Obj button
+    $("#topAddBtnArray").on("click", function () {
+      holdingContainer = $(selectors.mainContainer);
+      toggleModalArrayMode(true);
+      $(selectors.addBtnModal).show();
+      $("#topClearBtn").prop("disabled", false);
+    });
 
   // top Clear button
   $("#topClearBtn").on("click", function () {
@@ -53,31 +59,26 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".add-button", function () {
     let parentOfParent = $(this).parent();
     let targetContainer;
+    // if we add from array
     if ($(parentOfParent).children(".array-container").length) {
       targetContainer = $(parentOfParent).children(".array-container");
       holdingContainer = targetContainer;
-      //
-      //   targetContainer.val("number")
       if (targetContainer.val() === "") {
-        // no value logic here
-        console.log('no value')
+        // if no items in the array, the value has not been set
         toggleModalArrayMode(true);
-        $(selectors.addBtnModal).show(); // TODO omws xwris name field
+        $(selectors.addBtnModal).show();
         $(parentOfParent).children(".clear-button").prop("disabled", false);
       } else {
-        console.log('has valuezzz')
         const arrayType = targetContainer.val();
         createFields("", arrayType, holdingContainer);
       }
-
     } else {
       targetContainer = $(parentOfParent).children(".obj-container");
       holdingContainer = targetContainer;
+      toggleModalArrayMode(false);
       $(selectors.addBtnModal).show();
       $(parentOfParent).children(".clear-button").prop("disabled", false);
     }
-
-  
   });
 
   // delegation for all delete buttons
@@ -151,13 +152,13 @@ function bindButtons() {
   $(selectors.modalCreateBtn).on("click", function () {
     let fieldName = $(selectors.modalNameInput).val();
     let selectedOption = $(selectors.modalSelection).find(":selected").val();
-  
+
     if (isArray(holdingContainer)) {
-      $(holdingContainer).parent().children(".array-container").val(selectedOption)
-      fieldName = ""
-      toggleModalArrayMode(false);
+      $(holdingContainer).parent().children(".array-container").val(selectedOption);
+      fieldName = "";
+      //  toggleModalArrayMode(false);
     }
-    createFields(fieldName, selectedOption, holdingContainer); 
+    createFields(fieldName, selectedOption, holdingContainer);
     $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
   });
@@ -165,22 +166,23 @@ function bindButtons() {
 
 function toggleModalArrayMode(isForArrayField) {
   if (isForArrayField) {
-    $(selectors.addBtnModal).find('.modal-title').text("Set Array Type")
+    $(selectors.addBtnModal).find(".modal-title").text("Set Array Type");
     $(selectors.modalNameTag).hide();
     $(selectors.modalNameInput).hide();
     $(selectors.modalCreateBtn).prop("disabled", false);
   } else {
+    $(selectors.addBtnModal).find(".modal-title").text("Add Json Field");
     $(selectors.modalNameTag).show();
     $(selectors.modalNameInput).show();
     $(selectors.modalCreateBtn).prop("disabled", true);
   }
 }
 
-function  isArray(inputContainer){
-  return inputContainer.parent().children(".array-container").length
+function isArray(inputContainer) {
+  return inputContainer.parent().children(".array-container").length;
 }
 
-function createFields(fieldName,selectedOption,holdingContainer) {
+function createFields(fieldName, selectedOption, holdingContainer) {
   switch (selectedOption) {
     case "object":
       createObjectField(fieldName, holdingContainer);
@@ -198,8 +200,8 @@ function createFields(fieldName,selectedOption,holdingContainer) {
       createBooleanField("boolean", false, holdingContainer);
       break;
     case "array":
-        createArrayField("array", holdingContainer);
-        break;
+      createArrayField("array", holdingContainer);
+      break;
   }
 }
 
@@ -231,6 +233,9 @@ function createObjectField(fieldKey, parentContainer) {
   let templateElement = $("#object-template").html();
   let elementValues = {
     key: fieldKey,
+    hasLabel: function () {
+      return this.key !== "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -243,6 +248,9 @@ function createTextInputField(fieldKey, fieldValue = "", parentContainer) {
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
+    hasLabel: function () {
+      return this.key !== "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -255,6 +263,9 @@ function createTextArea(fieldKey, fieldValue = "", parentContainer) {
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
+    hasLabel: function () {
+      return this.key !== "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -267,6 +278,9 @@ function createNumberInputField(fieldKey, fieldValue, parentContainer) {
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
+    hasLabel: function () {
+      return this.key !== "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -278,6 +292,9 @@ function createArrayField(fieldKey, parentContainer) {
   let templateElement = $("#array-template").html();
   let elementValues = {
     key: fieldKey,
+    hasLabel: function () {
+      return this.key !== "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -304,7 +321,7 @@ function createJsonObj(holdingContainer) {
 
   console.log(labels.length + " " + inputs.length);
   // creates empty json obj
-  const data = {};
+  let data = {};
   //populates fields of the object
 
   for (let i = 0; i < labels.length; i++) {
@@ -330,9 +347,21 @@ function createJsonObj(holdingContainer) {
       holdingContainer = inputs[i];
       value = createJsonObj(inputs[i]);
     }
-    //
+    if (inputs[i].classList.contains("array-container")) {
+      holdingContainer = inputs[i];
+      value = fillValuesFromArray(inputs[i]);
+    }
+    // TODO: for arrays
     // adds field to the json object
     data[key] = value;
+  }
+  // TODO: IF THERE IS AN ARRAY OF OBJECTS WITH NO LABEL
+  if (labels.length===0&& inputs.length>0) {
+    for (let i = 0; i < inputs.length; i++){
+      holdingContainer = inputs[i];
+      value = fillValuesFromArray(inputs[i]);
+      data = value;
+    }
   }
   return data;
 }
@@ -342,9 +371,22 @@ function fillValuesFromArray(arrayContainer) {
   const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
 
   for (let i = 0; i < inputs.length; i++) {
+    let value;
     if (inputs[i].classList.contains("array-container")) {
-      returnedArray.push(fillArray(inputs[i]));
+      value = fillValuesFromArray(inputs[i]);
+    } else if (inputs[i].classList.contains("obj-container")) {
+      value = createJsonObj(inputs[i]);
+    } else if (inputs[i].type === "checkbox") {
+      // for boolean fields
+      if (inputs[i].checked) {
+        value = true;
+      } else {
+        value = false;
+      }
+    } else {
+      value = $(inputs[i]).val();
     }
+    returnedArray.push(value);
   }
 
   return returnedArray;
