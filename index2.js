@@ -41,11 +41,10 @@ function bindButtons() {
     $("#topClearBtn").prop("disabled", false);
   });
 
-    // top Add Obj button
+    // top Add Array button
     $("#topAddBtnArray").on("click", function () {
       holdingContainer = $(selectors.mainContainer);
-      toggleModalArrayMode(true);
-      $(selectors.addBtnModal).show();
+      createArrayField("",holdingContainer);
       $("#topClearBtn").prop("disabled", false);
     });
 
@@ -319,7 +318,7 @@ function createJsonObj(holdingContainer) {
   const labels = $(holdingContainer).children().children("label");
   const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
 
-  console.log(labels.length + " " + inputs.length);
+  // console.log(labels.length + " " + inputs.length);
   // creates empty json obj
   let data = {};
   //populates fields of the object
@@ -356,19 +355,22 @@ function createJsonObj(holdingContainer) {
     data[key] = value;
   }
   // TODO: IF THERE IS AN ARRAY OF OBJECTS WITH NO LABEL
-  if (labels.length===0&& inputs.length>0) {
+  if (labels.length === 0 && inputs.length > 0) {
+    let arrayOfArrays = []
+    
     for (let i = 0; i < inputs.length; i++){
       holdingContainer = inputs[i];
       value = fillValuesFromArray(inputs[i]);
-      data = value;
+      arrayOfArrays.push(value);
     }
+    data = arrayOfArrays;
   }
   return data;
 }
 
 function fillValuesFromArray(arrayContainer) {
   const returnedArray = [];
-  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
+  const inputs = $(arrayContainer).children().children("input,textarea,.obj-container, .array-container");
 
   for (let i = 0; i < inputs.length; i++) {
     let value;
@@ -385,6 +387,7 @@ function fillValuesFromArray(arrayContainer) {
       }
     } else {
       value = $(inputs[i]).val();
+      console.log(value)
     }
     returnedArray.push(value);
   }
