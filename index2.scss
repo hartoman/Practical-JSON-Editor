@@ -1,19 +1,123 @@
-.json-editor{
-    .modal{
-        background-color: rgba(0, 0,0 ,0.5);
+$background-light: rgba(211, 211, 211, 0.1);
+
+.json-editor {
+  background-color: $background-light; //rgba(211, 211, 211, 0.1);
+
+  .btn {
+    border: none;
+  }
+
+  .btn-solid {
+    border: 1px solid darkgray;
+    background-color: lightgray;
+    margin-right: 10px;
+    box-shadow: 1px 1px 1px black;
+
+    &:disabled {
+      //  border:0;
     }
 
-    .container{
-        padding-right: 0;
-        margin-right: 5%;
+    &:hover {
+      background-color: gray;
     }
+  }
 
-.row{
+  .modal {
+    background-color: rgba(255, 255, 255, 0.9);
+    .modal-content {
+      border: 2px solid gray;
+      background-color: lightgray;
+
+      .bi::before {
+        font-weight: 1000 !important;
+      }
+      .modal-header {
+        background-color: darkgray;
+
+        .btn-close {
+          background: unset;
+        }
+      }
+      .modal-body {
+        //  color: black;
+
+        input,
+        select {
+          //     background-color: black;
+          //     color:white;
+        }
+      }
+      .modal-footer {
+        border-color: gray;
+      }
+    }
+  }
+
+  .container {
+    padding-right: 0;
+    margin-right: 5%;
+  }
+
+  .row {
     padding-right: 0;
     margin-right: 0;
+  }
 }
 
+.json-editor-dark {
+  background-color: black;
+  color: white;
 
+  .btn-solid {
+    color: white;
+    background-color: #696969;
 
+    &:hover {
+      background-color: gray;
+    }
+  }
 
+  .btn {
+    border: none;
+    color: white;
+  }
+
+  .modal {
+    background-color: rgba(0, 0, 0, 0.8);
+    .modal-content {
+      border: 2px solid gray;
+      background-color: darkgray;
+
+      .modal-header {
+        background-color: black;
+      }
+      .modal-body {
+        color: black;
+
+        input,
+        select {
+          background-color: black;
+          color: white;
+
+          option:hover {
+            box-shadow: 0 0 10px 100px inset;
+          }
+        }
+      }
+      .modal-footer {
+        border-color: gray;
+
+        .btn-solid {
+            border: 1px solid gray;
+            background-color: darkgray;
+            margin-right: 10px;
+            box-shadow: 1px 1px 1px black;
+  
+            &:hover {
+              background-color: lightgrey;
+            }
+          }
+      }
+    }
+  }
 }

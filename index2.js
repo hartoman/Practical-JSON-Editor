@@ -7,11 +7,15 @@ const selectors = {
   addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
   modalCloseBtn: "#addBtnModal .close",
-  modalCreateBtn: "#addBtnModal .btn-primary",
+  modalCreateBtn: "#addBtnModal #modalOK",
   modalNameTag: "#modalNameTag",
   modalNameInput: "#modalNameInput",
   modalSelection: "#modalSelection",
   arrayType: "#arrayType",
+  optionsBtn: "#optionsBtn",
+  optionsModal: "#optionsModal",
+  darkmodeCheckbox: "#darkmode-checkbox",
+  optionModalOK:"#optionModalOK"
 };
 
 // keeps track of the div that contains the add button
@@ -42,11 +46,11 @@ function bindButtons() {
   });
 
     // top Add Array button
-    $("#topAddBtnArray").on("click", function () {
+  $("#topAddBtnArray").on("click", function () {
       holdingContainer = $(selectors.mainContainer);
       createArrayField("",holdingContainer);
       $("#topClearBtn").prop("disabled", false);
-    });
+  });
 
   // top Clear button
   $("#topClearBtn").on("click", function () {
@@ -54,6 +58,36 @@ function bindButtons() {
     $(this).prop("disabled", true);
   });
 
+    // top Collapse-All button
+  $("#topCollapseAllBtn").on("click", function () {
+    let targets = $(selectors.mainContainer).find('.hide-button');
+    $(targets).map(function () { 
+      if ($(this).val() === "hide") { 
+        $(this).trigger('click')
+      }    
+    });
+  });
+  
+  // button that opens options modal
+  $(selectors.optionsBtn).on("click", function () {
+    $(selectors.optionsModal).show();
+  });
+
+    // button that opens options modal
+    $(selectors.optionModalOK).on("click", function () {
+      $(selectors.optionsModal).hide();
+    });
+
+      // button that switches between dark mode and normal
+      $(selectors.darkmodeCheckbox).on("change", function () {
+        if ($(selectors.darkmodeCheckbox).prop("checked")) {
+          $("body").addClass('json-editor-dark');
+        } else {
+          $("body").removeClass('json-editor-dark');
+        }
+      });
+  
+  
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
     let parentOfParent = $(this).parent();
@@ -170,7 +204,7 @@ function toggleModalArrayMode(isForArrayField) {
     $(selectors.modalNameInput).hide();
     $(selectors.modalCreateBtn).prop("disabled", false);
   } else {
-    $(selectors.addBtnModal).find(".modal-title").text("Add Json Field");
+    $(selectors.addBtnModal).find(".modal-title").text("Add Object Field");
     $(selectors.modalNameTag).show();
     $(selectors.modalNameInput).show();
     $(selectors.modalCreateBtn).prop("disabled", true);
@@ -196,16 +230,17 @@ function createFields(fieldName, selectedOption, holdingContainer) {
       createNumberInputField(fieldName, "", holdingContainer);
       break;
     case "boolean":
-      createBooleanField("boolean", false, holdingContainer);
+      createBooleanField(fieldName, false, holdingContainer);
       break;
     case "array":
-      createArrayField("array", holdingContainer);
+      createArrayField(fieldName, holdingContainer);
       break;
   }
 }
 
 function initModal() {
   toggleSaveBtn(document.getElementById("mainContainer"));
+}
 
   // makes the save json button enabled only if there is at least one field in the top container
   function toggleSaveBtn(targetNode) {
@@ -216,15 +251,26 @@ function initModal() {
       // Handle DOM changes here
       // Check if the div has no children
       if ($(selectors.mainContainer).children().length === 0) {
+        $("#topAddBtnObj").show("fast");
+        $("#topAddBtnArray").show("fast");
         $(selectors.saveBtn).prop("disabled", true);
       } else {
+        if ($(selectors.mainContainer).children().children('label').length === 0) {
+          console.log('this is array of objects')
+          $("#topAddBtnObj").hide("fast");
+          $("#topAddBtnArray").removeClass("d-flex");
+          $("#topAddBtnArray").hide("fast");
+          $
+        } else {
+          $("#topAddBtnArray").hide("fast");
+          console.log('this is object')
+        }
         $(selectors.saveBtn).prop("disabled", false);
       }
     });
     // Start observing the target node for DOM changes
     observer.observe(targetNode, { childList: true, subtree: true });
   }
-}
 
 function createObjectField(fieldKey, parentContainer) {
   let fieldinput = document.createElement("div");

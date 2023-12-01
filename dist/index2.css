@@ -1,5 +1,36 @@
+.json-editor {
+  background-color: rgba(211, 211, 211, 0.1);
+}
+.json-editor .btn {
+  border: none;
+}
+.json-editor .btn-solid {
+  border: 1px solid darkgray;
+  background-color: lightgray;
+  margin-right: 10px;
+  box-shadow: 1px 1px 1px black;
+}
+.json-editor .btn-solid:hover {
+  background-color: gray;
+}
 .json-editor .modal {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.json-editor .modal .modal-content {
+  border: 2px solid gray;
+  background-color: lightgray;
+}
+.json-editor .modal .modal-content .bi::before {
+  font-weight: 1000 !important;
+}
+.json-editor .modal .modal-content .modal-header {
+  background-color: darkgray;
+}
+.json-editor .modal .modal-content .modal-header .btn-close {
+  background: unset;
+}
+.json-editor .modal .modal-content .modal-footer {
+  border-color: gray;
 }
 .json-editor .container {
   padding-right: 0;
@@ -8,4 +39,54 @@
 .json-editor .row {
   padding-right: 0;
   margin-right: 0;
+}
+
+.json-editor-dark {
+  background-color: black;
+  color: white;
+}
+.json-editor-dark .btn-solid {
+  color: white;
+  background-color: #696969;
+}
+.json-editor-dark .btn-solid:hover {
+  background-color: gray;
+}
+.json-editor-dark .btn {
+  border: none;
+  color: white;
+}
+.json-editor-dark .modal {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.json-editor-dark .modal .modal-content {
+  border: 2px solid gray;
+  background-color: darkgray;
+}
+.json-editor-dark .modal .modal-content .modal-header {
+  background-color: black;
+}
+.json-editor-dark .modal .modal-content .modal-body {
+  color: black;
+}
+.json-editor-dark .modal .modal-content .modal-body input,
+.json-editor-dark .modal .modal-content .modal-body select {
+  background-color: black;
+  color: white;
+}
+.json-editor-dark .modal .modal-content .modal-body input option:hover,
+.json-editor-dark .modal .modal-content .modal-body select option:hover {
+  box-shadow: 0 0 10px 100px inset;
+}
+.json-editor-dark .modal .modal-content .modal-footer {
+  border-color: gray;
+}
+.json-editor-dark .modal .modal-content .modal-footer .btn-solid {
+  border: 1px solid gray;
+  background-color: darkgray;
+  margin-right: 10px;
+  box-shadow: 1px 1px 1px black;
+}
+.json-editor-dark .modal .modal-content .modal-footer .btn-solid:hover {
+  background-color: lightgrey;
 }/*# sourceMappingURL=index2.css.map */
