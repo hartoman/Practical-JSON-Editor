@@ -200,9 +200,8 @@ function bindButtons() {
       const jsonContent = JSON.parse(contents);
       holdingContainer = $(selectors.mainContainer);
       if (Array.isArray(jsonContent)) {
-        //console.log(jsonContent)
-        
-      //  holdingContainer = createArrayField("", holdingContainer).find('.array-container');
+        createArrayField("", holdingContainer)
+        holdingContainer = $(holdingContainer).find('.array-container');
       }
       printLoadedJson(jsonContent, holdingContainer);
     };
@@ -468,7 +467,7 @@ function saveJson(obj) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "nyhas.json";
+  link.download = "test.json";
   link.click();
   URL.revokeObjectURL(url); // Release the object URL when done
 }
