@@ -11,21 +11,18 @@ $(selectors.fileInput).on('change', function (e) {
 
     reader.onload = (e) => {
       const contents = e.target.result;
-      // Parse the JSON data
-     //   const jsonContent = JSON.parse(contents);
-        processWorkingJson(contents);
-     // Use the JSON data as required
-    //    printFields(jsonContent,$(selectors.container));
+      //  processWorkingJson(contents);
+        const jsonContent = JSON.parse(contents);
     };
-
     reader.readAsText(file);
 });
 
 
 function processWorkingJson(inputJson) {
-    originalJson = inputJson;
+  //  originalJson = inputJson;
     const jsonContent = JSON.parse(originalJson);
-    printFields(jsonContent,$(selectors.container));
+
+  //  printFields(jsonContent,$(selectors.container));
 }
 
 function printFields(json,parentContainer) {

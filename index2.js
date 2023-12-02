@@ -15,7 +15,8 @@ const selectors = {
   optionsBtn: "#optionsBtn",
   optionsModal: "#optionsModal",
   darkmodeCheckbox: "#darkmode-checkbox",
-  optionModalOK:"#optionModalOK"
+  optionModalOK: "#optionModalOK",
+  fileInput: "#jsonFileInput",
 };
 
 // keeps track of the div that contains the add button
@@ -28,12 +29,13 @@ $(document).ready(function () {
 function init() {
   bindButtons();
   initModal();
- // createArrayField("", $(selectors.mainContainer));
+  // createArrayField("", $(selectors.mainContainer));
   //  createObjectField("object", $(selectors.mainContainer));
   // createTextInputField("input", "oioi", $(selectors.mainContainer));
   // createTextArea("textarea", placetext, $(selectors.mainContainer));
   // createNumberInputField("number", 3.14, $(selectors.mainContainer));
   // createArrayField("array", $(selectors.mainContainer));
+  // createBooleanField('oi', false, $(selectors.mainContainer))
 }
 
 function bindButtons() {
@@ -42,14 +44,12 @@ function bindButtons() {
     holdingContainer = $(selectors.mainContainer);
     toggleModalArrayMode(false);
     $(selectors.addBtnModal).show();
-    $("#topClearBtn").prop("disabled", false);
   });
 
-    // top Add Array button
+  // top Add Array button
   $("#topAddBtnArray").on("click", function () {
-      holdingContainer = $(selectors.mainContainer);
-      createArrayField("",holdingContainer);
-      $("#topClearBtn").prop("disabled", false);
+    holdingContainer = $(selectors.mainContainer);
+    createArrayField("", holdingContainer);
   });
 
   // top Clear button
@@ -58,36 +58,35 @@ function bindButtons() {
     $(this).prop("disabled", true);
   });
 
-    // top Collapse-All button
+  // top Collapse-All button
   $("#topCollapseAllBtn").on("click", function () {
-    let targets = $(selectors.mainContainer).find('.hide-button');
-    $(targets).map(function () { 
-      if ($(this).val() === "hide") { 
-        $(this).trigger('click')
-      }    
+    let targets = $(selectors.mainContainer).find(".hide-button");
+    $(targets).map(function () {
+      if ($(this).val() === "hide") {
+        $(this).trigger("click");
+      }
     });
   });
-  
+
   // button that opens options modal
   $(selectors.optionsBtn).on("click", function () {
     $(selectors.optionsModal).show();
   });
 
-    // button that opens options modal
-    $(selectors.optionModalOK).on("click", function () {
-      $(selectors.optionsModal).hide();
-    });
+  // button that opens options modal
+  $(selectors.optionModalOK).on("click", function () {
+    $(selectors.optionsModal).hide();
+  });
 
-      // button that switches between dark mode and normal
-      $(selectors.darkmodeCheckbox).on("change", function () {
-        if ($(selectors.darkmodeCheckbox).prop("checked")) {
-          $("body").addClass('json-editor-dark');
-        } else {
-          $("body").removeClass('json-editor-dark');
-        }
-      });
-  
-  
+  // button that switches between dark mode and normal
+  $(selectors.darkmodeCheckbox).on("change", function () {
+    if ($(selectors.darkmodeCheckbox).prop("checked")) {
+      $("body").addClass("json-editor-dark");
+    } else {
+      $("body").removeClass("json-editor-dark");
+    }
+  });
+
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
     let parentOfParent = $(this).parent();
@@ -119,9 +118,6 @@ function bindButtons() {
     if (confirm("Delete field?")) {
       let parentOfParent = $(this).parent();
       parentOfParent.remove();
-      if ($(selectors.mainContainer).children().length === 0) {
-        $("#topClearBtn").prop("disabled", true);
-      }
     }
   });
 
@@ -189,11 +185,29 @@ function bindButtons() {
     if (isArray(holdingContainer)) {
       $(holdingContainer).parent().children(".array-container").val(selectedOption);
       fieldName = "";
-      //  toggleModalArrayMode(false);
     }
     createFields(fieldName, selectedOption, holdingContainer);
     $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
+  });
+
+  $(selectors.fileInput).on("change", function (e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      const jsonContent = JSON.parse(contents);
+      holdingContainer = $(selectors.mainContainer);
+      if (Array.isArray(jsonContent)) {
+        //console.log(jsonContent)
+        
+      //  holdingContainer = createArrayField("", holdingContainer).find('.array-container');
+      }
+      printLoadedJson(jsonContent, holdingContainer);
+    };
+
+    reader.readAsText(file);
   });
 }
 
@@ -242,35 +256,35 @@ function initModal() {
   toggleSaveBtn(document.getElementById("mainContainer"));
 }
 
-  // makes the save json button enabled only if there is at least one field in the top container
-  function toggleSaveBtn(targetNode) {
-    // Select the target node to observe
-    // const targetNode = document.getElementById("mainContainer");
-    // Create an observer instance
-    const observer = new MutationObserver((mutationsList, observer) => {
-      // Handle DOM changes here
-      // Check if the div has no children
-      if ($(selectors.mainContainer).children().length === 0) {
-        $("#topAddBtnObj").show("fast");
-        $("#topAddBtnArray").show("fast");
-        $(selectors.saveBtn).prop("disabled", true);
+// makes the save json button enabled only if there is at least one field in the top container
+function toggleSaveBtn(targetNode) {
+  // Select the target node to observe
+  // const targetNode = document.getElementById("mainContainer");
+  // Create an observer instance
+  const observer = new MutationObserver((mutationsList, observer) => {
+    // Handle DOM changes here
+    // Check if the div has no children
+    if ($(selectors.mainContainer).children().length === 0) {
+      $("#topAddBtnObj").show("fast");
+      $("#topAddBtnArray").show("fast");
+      $(selectors.saveBtn).prop("disabled", true);
+    } else {
+      if ($(selectors.mainContainer).children().children("label").length === 0) {
+      //array of objects
+        $("#topAddBtnObj").hide("fast");
+        $("#topAddBtnArray").removeClass("d-flex");
+        $("#topAddBtnArray").hide("fast");
+        $;
       } else {
-        if ($(selectors.mainContainer).children().children('label').length === 0) {
-          console.log('this is array of objects')
-          $("#topAddBtnObj").hide("fast");
-          $("#topAddBtnArray").removeClass("d-flex");
-          $("#topAddBtnArray").hide("fast");
-          $
-        } else {
-          $("#topAddBtnArray").hide("fast");
-          console.log('this is object')
-        }
-        $(selectors.saveBtn).prop("disabled", false);
+        // object
+        $("#topAddBtnArray").hide("fast");
       }
-    });
-    // Start observing the target node for DOM changes
-    observer.observe(targetNode, { childList: true, subtree: true });
-  }
+      $(selectors.saveBtn).prop("disabled", false);
+    }
+  });
+  // Start observing the target node for DOM changes
+  observer.observe(targetNode, { childList: true, subtree: true });
+}
 
 function createObjectField(fieldKey, parentContainer) {
   let fieldinput = document.createElement("div");
@@ -345,13 +359,19 @@ function createArrayField(fieldKey, parentContainer) {
   return fieldinput;
 }
 
-function createBooleanField(fieldKey, fieldValue = false, parentContainer) {
+function createBooleanField(fieldKey, fieldValue, parentContainer) {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = $("#boolean-template").html();
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
+    hasLabel: function () {
+      return this.key !== "";
+    },
+    checked: function () {
+      return (this.value) ? "checked" : "";
+    }
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
@@ -364,7 +384,6 @@ function createJsonObj(holdingContainer) {
   const labels = $(holdingContainer).children().children("label");
   const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
 
-  // console.log(labels.length + " " + inputs.length);
   // creates empty json obj
   let data = {};
   //populates fields of the object
@@ -396,20 +415,21 @@ function createJsonObj(holdingContainer) {
       holdingContainer = inputs[i];
       value = fillValuesFromArray(inputs[i]);
     }
-    // TODO: for arrays
-    // adds field to the json object
     data[key] = value;
   }
   // TODO: IF THERE IS AN ARRAY OF OBJECTS WITH NO LABEL
   if (labels.length === 0 && inputs.length > 0) {
-    let arrayOfArrays = []
-    
-    for (let i = 0; i < inputs.length; i++){
+    //  let arrayOfArrays = [];
+
+    //  data = [];
+    for (let i = 0; i < inputs.length; i++) {
       holdingContainer = inputs[i];
-      value = fillValuesFromArray(inputs[i]);
-      arrayOfArrays.push(value);
+      //   value = fillValuesFromArray(inputs[i]);
+      data = fillValuesFromArray(inputs[i]);
+      //   arrayOfArrays.push(value);
+      //  data.push(value);
     }
-    data = arrayOfArrays;
+    // data = arrayOfArrays;
   }
   return data;
 }
@@ -433,7 +453,6 @@ function fillValuesFromArray(arrayContainer) {
       }
     } else {
       value = $(inputs[i]).val();
-      console.log(value)
     }
     returnedArray.push(value);
   }
@@ -452,4 +471,37 @@ function saveJson(obj) {
   link.download = "nyhas.json";
   link.click();
   URL.revokeObjectURL(url); // Release the object URL when done
+}
+
+function printLoadedJson(json, parentContainer) {
+  for (let key in json) {
+    /**/
+    if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
+      if (Array.isArray(json[key])) {
+        createArrayField(key, parentContainer);
+        let arrayContainer = $(parentContainer).find(`#${key}`);
+        printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
+      } else {
+        createObjectField(key, parentContainer);
+        let arrayContainer = $(parentContainer).find(`#${key}`);
+        printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
+      }
+    } else {
+      //  console.log(`${key}: ${json[key]}`); // Print the field
+      if (typeof json[key] === "string") {
+        createTextInputField(key, json[key], parentContainer);
+      } else if (typeof json[key] === "number") {
+        createNumberInputField(key, json[key], parentContainer);
+      }
+      if (typeof json[key] === "boolean") {
+        createBooleanField(key, json[key], parentContainer);
+      }
+    }
+  }
+  $('label').each(function() {
+    if (!isNaN($(this).text())) { // Check if text is a number
+      $(this).text(''); // Set text to nothing
+      $(this).remove();
+    }
+  });
 }

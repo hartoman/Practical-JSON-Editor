@@ -2,6 +2,14 @@ $background-light: rgba(211, 211, 211, 0.1);
 
 .json-editor {
   background-color: $background-light; //rgba(211, 211, 211, 0.1);
+  
+  h1, label,p,select,input{
+    font-family: courier;
+  }
+  
+  .row{
+    margin-left: 0px;
+  }
 
   .btn {
     border: none;
@@ -87,6 +95,11 @@ $background-light: rgba(211, 211, 211, 0.1);
     .modal-content {
       border: 2px solid gray;
       background-color: darkgray;
+
+      .bi-check-lg::before {
+        font-weight: 1000 !important;
+    color:green;
+      }
 
       .modal-header {
         background-color: black;

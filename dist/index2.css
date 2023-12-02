@@ -1,6 +1,12 @@
 .json-editor {
   background-color: rgba(211, 211, 211, 0.1);
 }
+.json-editor h1, .json-editor label, .json-editor p, .json-editor select, .json-editor input {
+  font-family: courier;
+}
+.json-editor .row {
+  margin-left: 0px;
+}
 .json-editor .btn {
   border: none;
 }
@@ -62,6 +68,10 @@
 .json-editor-dark .modal .modal-content {
   border: 2px solid gray;
   background-color: darkgray;
+}
+.json-editor-dark .modal .modal-content .bi-check-lg::before {
+  font-weight: 1000 !important;
+  color: green;
 }
 .json-editor-dark .modal .modal-content .modal-header {
   background-color: black;

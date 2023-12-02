@@ -18,36 +18,46 @@
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./dist/index2.css" />
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
   </head>
 
   <body class="json-editor">
     <!-- main screen start -->
     <div class="container">
-      <div class="container" style="margin-top:2%;">
+      <div class="container" style="margin-top: 2%">
         <div class="row d-flex justify-content-between">
           <h1 class="h1 col-6">Eazy Json Editor</h1>
           <div class="col-6 text-end">
             <button id="optionsBtn" class="btn-solid fs-1"><i class="bi bi-gear"></i></button>
             <button id="helpBtn" class="btn-solid fs-1"><i class="bi bi-question-diamond"></i></button>
-               </div>
+          </div>
         </div>
         <div class="row">
-          <button id="newBtn" class="btn-solid fs-1 col-1"><i class="bi bi-file-earmark-plus" ></i></button>
-          <button id="loadBtn" class="btn-solid fs-1 col-1"><i class="bi bi-caret-down-square"></i></button>
+          <button id="newBtn" class="btn-solid fs-1 col-1"><i class="bi bi-file-earmark-plus"></i></button>
+          <button id="loadBtn" class="btn-solid fs-1 col-1" onclick="document.getElementById('jsonFileInput').click();">
+            <i class="bi bi-caret-down-square"></i>
+          </button>
+          <input type="file" id="jsonFileInput" class="d-none" />
           <button id="saveBtn" class="btn-solid fs-1 col-1" disabled><i class="bi bi-floppy2"></i></button>
         </div>
       </div>
-      <hr>
-      <div class="container  m-1">
+      <hr />
+      <div class="container m-1">
         <div class="row d-flex justify-content-between">
-          <div class="col-10 row" style="margin-bottom: 10px;">
-          <button id="topAddBtnObj" class="btn-solid fs-3 col-1"><i class="bi bi-braces-asterisk"></i></button>
-          <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center">[#]</button>
-          <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1">
-            <i class="bi bi-arrow-up-left-circle"></i></button>
+          <div class="col-10 row" style="margin-bottom: 10px">
+            <button id="topAddBtnObj" class="btn-solid fs-3 col-1"><i class="bi bi-braces-asterisk"></i></button>
+            <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center">[#]</button>
+            <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1">
+              <i class="bi bi-arrow-up-left-circle"></i>
+            </button>
           </div>
-          <button id="topClearBtn" class="btn fs-3 col-1 clear-button" disabled style="color: red; width: fit-content; height: fit-content;"><i class="bi bi-x-octagon-fill"></i></button>
+          <button
+            id="topClearBtn"
+            class="btn fs-3 col-1 clear-button"
+            style="color: red; width: fit-content; height: fit-content"
+          >
+            <i class="bi bi-x-octagon-fill"></i>
+          </button>
           <div id="mainContainer" class="obj-container"></div>
         </div>
       </div>
@@ -58,9 +68,16 @@
     <div id="addBtnModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header ">
+          <div class="modal-header">
             <h5 class="modal-title">Add Object Field</h5>
-            <button type="button" class="btn-close close fs-3 align-top" data-bs-dismiss="modal" aria-label="Close" style="display: inline; color: red; font-weight: 600;"><i class="bi bi-x-lg"></i></button>
+            <button
+              type="button"
+              class="btn-close close fs-3 align-top"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style="display: inline; color: red; font-weight: 600"
+            >
+              <i class="bi bi-x-lg"></i>
             </button>
           </div>
           <div class="modal-body">
@@ -81,7 +98,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="modalOK" class="btn btn-solid" disabled><i class="bi bi-check-lg" style="color: limegreen;"></i></button>
+            <button type="button" id="modalOK" class="btn btn-solid" disabled>
+              <i class="bi bi-check-lg" style="color: limegreen"></i>
+            </button>
             <button type="button" class="btn btn-solid close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
           </div>
         </div>
@@ -89,32 +108,32 @@
     </div>
     <!-- create new field modal end -->
 
-        <!-- create new field modal start-->
-        <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 60%;">
-              <div class="modal-header ">
-                <h5 class="modal-title">Options</h5>
-                    </div>
-              <div class="modal-body">
-                <div class="row justify-content-center">
-                  <input id="darkmode-checkbox" name="darkmode-checkbox" class="col-2" type="checkbox"/>
-                  <label class="col" for="darkmode-checkbox">Dark Mode</label>
-                  </div>
-                <div class="row justify-content-center">
-                  <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox"/>
-                  <label class="col" for="confirm-msg-checkbox">Confirmation Messages</label>
-                    
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" id="optionModalOK" class="btn btn-solid"><i class="bi bi-check-lg" style="color: limegreen;"></i></button>
-      
-              </div>
+    <!-- options modal start-->
+    <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 60%">
+          <div class="modal-header">
+            <h5 class="modal-title">Options</h5>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-center">
+              <input id="darkmode-checkbox" name="darkmode-checkbox" class="col-2" type="checkbox" />
+              <label class="col" for="darkmode-checkbox">Dark Mode</label>
+            </div>
+            <div class="row justify-content-center">
+              <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
+              <label class="col" for="confirm-msg-checkbox">Confirmation Messages</label>
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" id="optionModalOK" class="btn btn-solid">
+              <i class="bi bi-check-lg" style="color: limegreen"></i>
+            </button>
+          </div>
         </div>
-        <!-- create new field modal end -->
+      </div>
+    </div>
+    <!-- options modal end -->
 
     <!-- save json file modal start -->
     <div></div>
@@ -122,14 +141,14 @@
 
     <!-- object template start -->
     <template id="object-template">
-      <div class="container row border-bottom border-1 d-flex">
+      <div class="container row d-flex">
         <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
         {{/hasLabel}}
+        <p class="col-1 my-auto text-center">:</p>
         <button
           class="btn col-1 hide-button"
           style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
@@ -146,7 +165,6 @@
         <button
           class="btn btn-sm col-1 my-auto clear-button"
           style="color: red; width: fit-content; padding: 0; height: fit-content; border: none"
-          disabled
         >
           <i class="bi bi-x-octagon-fill"></i>
         </button>
@@ -158,16 +176,16 @@
 
     <!-- text input template start -->
     <template id="textinput-template">
-      <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+      <div class="container d-flex">
+        <button class="btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
+        <label class="my-auto">{{key}}</label>
+        <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input type="text" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
-        <p class="col-1 my-auto">(text)</p>
+        <input type="text" value="{{value}}" style="padding: 0; border-color: lightgray" />
+        <p class="my-auto">(text)</p>
       </div>
     </template>
     <!-- text input template end -->
@@ -189,15 +207,15 @@
 
     <!-- number template start -->
     <template id="numberinput-template">
-      <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+      <div class="container d-flex">
+        <button class="btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
+        <label class="my-auto">{{key}}</label>
+        <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input type="number" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
+        <input type="number" class="" value="{{value}}" style="padding: 0; border-color: lightgray" />
       </div>
     </template>
     <!--number template end -->
@@ -210,8 +228,8 @@
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
         {{/hasLabel}}
+        <p class="col-1 my-auto text-center">:</p>
         <button
           class="btn col-1 hide-button"
           style="text-align: center; width: fit-content; padding: 0; height: fit-content; border: none"
@@ -233,26 +251,31 @@
           <i class="bi bi-x-octagon-fill"></i>
         </button>
         <!-- TODO: insert tooltips for everything-->
-        <div class="array-container" value=""></div>
+        <div class="array-container" value="" id="{{key}}"></div>
       </div>
     </template>
     <!--array template end -->
 
     <!--boolean template start-->
     <template id="boolean-template">
-      <div class="container row d-flex" >
-        <button class="col-1 btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
+      <div class="container d-flex">
+        <button class="btn my-auto mx-2 del-button" style="color: red; width: fit-content; padding: 0px">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
+        <label class="my-auto">{{key}}</label>
+        <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input type="checkbox" role="switch" class="col-1" value="{{value}}" style="padding: 0; border-color: lightgray" />
+        <input
+          type="checkbox"
+          class="col-1"
+          value="{{value}}"
+          style="padding: 0; border-color: lightgray"
+          {{checked}}
+        />
       </div>
     </template>
     <!--boolean template end-->
-
 
     <script src="index2.js"></script>
   </body>
