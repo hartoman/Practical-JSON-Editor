@@ -16,11 +16,13 @@ const selectors = {
   optionsModal: "#optionsModal",
   darkmodeCheckbox: "#darkmode-checkbox",
   optionModalOK: "#optionModalOK",
-  fileInput: "#jsonFileInput",
+  fileInputBtn: "#jsonFileInputBtn",
+  fileNameInput:"#fileNameInput"
 };
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
+let tooltipsHidden = true;
 
 $(document).ready(function () {
   init();
@@ -29,13 +31,6 @@ $(document).ready(function () {
 function init() {
   bindButtons();
   initModal();
-  // createArrayField("", $(selectors.mainContainer));
-  //  createObjectField("object", $(selectors.mainContainer));
-  // createTextInputField("input", "oioi", $(selectors.mainContainer));
-  // createTextArea("textarea", placetext, $(selectors.mainContainer));
-  // createNumberInputField("number", 3.14, $(selectors.mainContainer));
-  // createArrayField("array", $(selectors.mainContainer));
-  // createBooleanField('oi', false, $(selectors.mainContainer))
 }
 
 function bindButtons() {
@@ -55,17 +50,34 @@ function bindButtons() {
   // top Clear button
   $("#topClearBtn").on("click", function () {
     $(selectors.mainContainer).empty();
-    $(this).prop("disabled", true);
+    // $(this).prop("disabled", true);
   });
 
   // top Collapse-All button
   $("#topCollapseAllBtn").on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
-    $(targets).map(function () {
-      if ($(this).val() === "hide") {
-        $(this).trigger("click");
-      }
-    });
+    let icon = $(this).children(".bi");
+    if ($(this).val() === "hide") {
+      $(this).val("show");
+      $(icon).removeClass("bi-arrow-up-left-circle");
+      $(icon).addClass("bi-arrow-down-right-circle-fill");
+
+      $(targets).map(function () {
+        if ($(this).val() === "hide") {
+          $(this).trigger("click");
+        }
+      });
+    } else {
+      $(this).val("hide");
+      $(icon).removeClass("bi-arrow-down-right-circle-fill");
+      $(icon).addClass("bi-arrow-up-left-circle");
+
+      $(targets).map(function () {
+        if ($(this).val() != "hide") {
+          $(this).trigger("click");
+        }
+      });
+    }
   });
 
   // button that opens options modal
@@ -133,16 +145,16 @@ function bindButtons() {
       $(this).val("show");
       $(icon).removeClass("bi-arrow-up-left-circle");
       $(icon).addClass("bi-arrow-down-right-circle-fill");
-      addbtn.hide();
-      clearbtn.hide();
-      targetContainer.hide();
+      targetContainer.hide("fast");
+      addbtn.hide("fast");
+      clearbtn.hide("fast");
     } else {
       $(this).val("hide");
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
-      addbtn.show();
-      clearbtn.show();
-      targetContainer.show();
+      targetContainer.show("fast");
+      addbtn.show("fast");
+      clearbtn.show("fast");
     }
   });
 
@@ -191,19 +203,29 @@ function bindButtons() {
     $(selectors.modalNameInput).val("");
   });
 
-  $(selectors.fileInput).on("change", function (e) {
+  // load file btn
+  $(selectors.fileInputBtn).on("change", function (e) {
+    // remove contents of main
+    // TODO: WARN
+    $(selectors.mainContainer).empty();
+
     const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.onload = (e) => {
       const contents = e.target.result;
-      const jsonContent = JSON.parse(contents);
-      holdingContainer = $(selectors.mainContainer);
-      if (Array.isArray(jsonContent)) {
-        createArrayField("", holdingContainer)
-        holdingContainer = $(holdingContainer).find('.array-container');
+      try {
+        $(selectors.fileNameInput).val(file.name);
+        const jsonContent = JSON.parse(contents);
+        holdingContainer = $(selectors.mainContainer);
+        if (Array.isArray(jsonContent)) {
+          createArrayField("", holdingContainer);
+          holdingContainer = $(holdingContainer).find(".array-container");
+        }
+        printLoadedJson(jsonContent, holdingContainer);
+      } catch (error) {
+        alert("Not a valid .json file");
       }
-      printLoadedJson(jsonContent, holdingContainer);
     };
 
     reader.readAsText(file);
@@ -269,7 +291,7 @@ function toggleSaveBtn(targetNode) {
       $(selectors.saveBtn).prop("disabled", true);
     } else {
       if ($(selectors.mainContainer).children().children("label").length === 0) {
-      //array of objects
+        //array of objects
         $("#topAddBtnObj").hide("fast");
         $("#topAddBtnArray").removeClass("d-flex");
         $("#topAddBtnArray").hide("fast");
@@ -369,17 +391,17 @@ function createBooleanField(fieldKey, fieldValue, parentContainer) {
       return this.key !== "";
     },
     checked: function () {
-      return (this.value) ? "checked" : "";
-    }
+      return this.value ? "checked" : "";
+    },
   };
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
 }
 
+// creates json object from the input fields
 function createJsonObj(holdingContainer) {
   // creates lists that refer to labels and the corresponding inputs
   // the lists must ALWAYS have the same length!!!
-
   const labels = $(holdingContainer).children().children("label");
   const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
 
@@ -412,66 +434,61 @@ function createJsonObj(holdingContainer) {
     }
     if (inputs[i].classList.contains("array-container")) {
       holdingContainer = inputs[i];
-      value = fillValuesFromArray(inputs[i]);
+      value = fromArrayToJson(inputs[i]);
     }
     data[key] = value;
   }
-  // TODO: IF THERE IS AN ARRAY OF OBJECTS WITH NO LABEL
+  // arrays have unlabeled fields
   if (labels.length === 0 && inputs.length > 0) {
-    //  let arrayOfArrays = [];
-
-    //  data = [];
     for (let i = 0; i < inputs.length; i++) {
       holdingContainer = inputs[i];
-      //   value = fillValuesFromArray(inputs[i]);
-      data = fillValuesFromArray(inputs[i]);
-      //   arrayOfArrays.push(value);
-      //  data.push(value);
+      data = fromArrayToJson(inputs[i]);
     }
-    // data = arrayOfArrays;
   }
   return data;
 }
 
-function fillValuesFromArray(arrayContainer) {
+// transforms unlabeled fields from an array to json fields
+function fromArrayToJson(arrayContainer) {
   const returnedArray = [];
   const inputs = $(arrayContainer).children().children("input,textarea,.obj-container, .array-container");
 
   for (let i = 0; i < inputs.length; i++) {
     let value;
     if (inputs[i].classList.contains("array-container")) {
-      value = fillValuesFromArray(inputs[i]);
+      // arrays
+      value = fromArrayToJson(inputs[i]);
     } else if (inputs[i].classList.contains("obj-container")) {
+      //objects
       value = createJsonObj(inputs[i]);
     } else if (inputs[i].type === "checkbox") {
-      // for boolean fields
+      // boolean fields
       if (inputs[i].checked) {
         value = true;
       } else {
         value = false;
       }
     } else {
-      value = $(inputs[i]).val();
+      value = $(inputs[i]).val(); // text, textarea, number
     }
     returnedArray.push(value);
   }
-
   return returnedArray;
 }
 
 // creates json from object and downloads it
 function saveJson(obj) {
   const data = JSON.stringify(obj, null, 2); // Converts the object to a formatted JSON string
-
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "test.json";
+  link.download = $(selectors.fileNameInput).val();
   link.click();
   URL.revokeObjectURL(url); // Release the object URL when done
 }
 
+// creates fields for the loaded json file
 function printLoadedJson(json, parentContainer) {
   for (let key in json) {
     /**/
@@ -488,7 +505,12 @@ function printLoadedJson(json, parentContainer) {
     } else {
       //  console.log(`${key}: ${json[key]}`); // Print the field
       if (typeof json[key] === "string") {
-        createTextInputField(key, json[key], parentContainer);
+        if (json[key].length<=20) {
+          createTextInputField(key, json[key], parentContainer);  // small texts
+        } else {
+          createTextArea(key, json[key], parentContainer);      // longer texts
+        }
+        
       } else if (typeof json[key] === "number") {
         createNumberInputField(key, json[key], parentContainer);
       }
@@ -497,9 +519,10 @@ function printLoadedJson(json, parentContainer) {
       }
     }
   }
-  $('label').each(function() {
-    if (!isNaN($(this).text())) { // Check if text is a number
-      $(this).text(''); // Set text to nothing
+  $("label").each(function () {
+    if (!isNaN($(this).text())) {
+      // Check if text is a number
+      $(this).text(""); // Set text to nothing
       $(this).remove();
     }
   });
