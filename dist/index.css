@@ -7,6 +7,10 @@
     }
   */
 }
+.json-editor .container {
+  margin: 0 5% 0 5%;
+  max-width: 90%;
+}
 .json-editor input,
 .json-editor textarea {
   border: 0;
@@ -146,6 +150,7 @@
   background-color: rgba(211, 211, 211, 0.1);
 }
 .json-editor-dark input[type=text],
+.json-editor-dark input[type=number],
 .json-editor-dark textarea {
   color: white;
 }

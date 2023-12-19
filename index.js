@@ -17,7 +17,7 @@ const selectors = {
   darkmodeCheckbox: "#darkmode-checkbox",
   optionModalOK: "#optionModalOK",
   fileInputBtn: "#jsonFileInputBtn",
-  fileNameInput:"#fileNameInput"
+  fileNameInput: "#fileNameInput",
 };
 
 // keeps track of the div that contains the add button
@@ -57,6 +57,7 @@ function bindButtons() {
   $("#topCollapseAllBtn").on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
     let icon = $(this).children(".bi");
+
     if ($(this).val() === "hide") {
       $(this).val("show");
       $(icon).removeClass("bi-arrow-up-left-circle");
@@ -168,6 +169,29 @@ function bindButtons() {
     }
   });
 
+  // delegation for right clicking on labels to change text
+  $(selectors.mainContainer).on("contextmenu", "label", function (e) {
+    e.preventDefault(); // so that the usual context menu does not appear
+    const oldLabel = $(this).text();
+    const newLabel = prompt("Rename Label", oldLabel);
+    // check if other field with the same label exists
+    const parentOfParent = $(this).parents()[1];
+    const siblingLabels = $(parentOfParent).children().children("label");
+    let hasDuplicateName = false;
+    // check all labels in the same nesting depth for duplicates
+    siblingLabels.map(function () {
+      let labelText = $(this).text();
+      if (labelText === newLabel && newLabel != oldLabel) {
+        hasDuplicateName = true;
+      }
+    });
+    if (!hasDuplicateName) {
+      $(this).text(newLabel);
+    } else {
+      alert("A field with this name already exists");
+    }
+  });
+
   // when save button is clicked
   $(selectors.saveBtn).on("click", function () {
     let obj = {};
@@ -205,31 +229,62 @@ function bindButtons() {
 
   // load file btn
   $(selectors.fileInputBtn).on("change", function (e) {
-    // remove contents of main
-    // TODO: WARN
-    $(selectors.mainContainer).empty();
-
     const file = e.target.files[0];
     const reader = new FileReader();
+    const filetype = getFileType(file);
 
     reader.onload = (e) => {
       const contents = e.target.result;
       try {
-        $(selectors.fileNameInput).val(file.name);
-        const jsonContent = JSON.parse(contents);
-        holdingContainer = $(selectors.mainContainer);
+        // set collapse all btn, holding container
+        prepareFields(file);
+        let jsonContent = {};
+        //sets the content depending on file type
+        if (filetype === "json") {
+          jsonContent = JSON.parse(contents);
+        } else if (filetype === "xls" || filetype === "xlsx") {
+          let data = new Uint8Array(e.target.result);
+          let workbook = XLSX.read(data, { type: "array" });
+          workbook.SheetNames.forEach((sheetName) => {
+            const worksheet = workbook.Sheets[sheetName];
+            jsonContent[sheetName] = XLSX.utils.sheet_to_json(worksheet);
+          });
+        }
+        // if contents are array
         if (Array.isArray(jsonContent)) {
           createArrayField("", holdingContainer);
           holdingContainer = $(holdingContainer).find(".array-container");
         }
+        // display contents
         printLoadedJson(jsonContent, holdingContainer);
       } catch (error) {
-        alert("Not a valid .json file");
+        alert("Not a valid .json or spreadsheet file");
+        $(selectors.fileNameInput).val("");
       }
     };
-
-    reader.readAsText(file);
+    // define reader behavior
+    if (filetype === "json") {
+      reader.readAsText(file);
+    } else if (filetype === "xls" || filetype === "xlsx") {
+      reader.readAsArrayBuffer(file);
+    }
   });
+
+  function prepareFields(file) {
+    // TODO: WARN
+    $(selectors.mainContainer).empty(); // remove contents of main
+    $(selectors.fileNameInput).val(file.name); // set filename to field
+    $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
+    let icon = $("#topCollapseAllBtn").children(".bi");
+    $(icon).removeClass("bi-arrow-down-right-circle-fill");
+    $(icon).addClass("bi-arrow-up-left-circle");
+    holdingContainer = $(selectors.mainContainer); // set holdingcontainer
+  }
+
+  function getFileType(file) {
+    let filename = file.name;
+    return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
+  }
 }
 
 function toggleModalArrayMode(isForArrayField) {
@@ -505,12 +560,11 @@ function printLoadedJson(json, parentContainer) {
     } else {
       //  console.log(`${key}: ${json[key]}`); // Print the field
       if (typeof json[key] === "string") {
-        if (json[key].length<=20) {
-          createTextInputField(key, json[key], parentContainer);  // small texts
+        if (json[key].length <= 20) {
+          createTextInputField(key, json[key], parentContainer); // small texts
         } else {
-          createTextArea(key, json[key], parentContainer);      // longer texts
+          createTextArea(key, json[key], parentContainer); // longer texts
         }
-        
       } else if (typeof json[key] === "number") {
         createNumberInputField(key, json[key], parentContainer);
       }

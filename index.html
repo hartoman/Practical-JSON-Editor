@@ -10,6 +10,7 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -24,7 +25,7 @@
   <body class="json-editor">
     <!-- main screen start -->
     <div class="container">
-      <div class="container" style="margin-top: 2%">
+      <div class="" style="margin-top: 2%">
         <div class="row d-flex justify-content-between">
           <h1 class="h1 col-6">Eazy Json Editor</h1>
           <div class="col-6 text-end">
@@ -34,12 +35,17 @@
         </div>
         <div class="row">
           <button id="newBtn" class="btn-solid fs-1 col-1"><i class="bi bi-file-earmark-plus"></i></button>
-          <button id="loadBtn" class="btn-solid fs-1 col-1" onclick="document.getElementById('jsonFileInputBtn').click();">
+          <button
+            id="loadBtn"
+            class="btn-solid fs-1 col-1"
+            onclick="document.getElementById('jsonFileInputBtn').click();"
+          >
             <i class="bi bi-caret-down-square"></i>
           </button>
-          <input type="file" id="jsonFileInputBtn" class="d-none" />
+          <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx"/>
           <button id="saveBtn" class="btn-solid fs-1 col-1" disabled><i class="bi bi-floppy2"></i></button>
-          <input type="text" id="fileNameInput" class="col-3 text-end fs-3" value="new.json">
+          <p class="col-2 my-auto text-end">filename:</p>
+          <input type="text" id="fileNameInput" class="col-2 fs-5" value="new.json" />
         </div>
       </div>
       <hr />
@@ -48,13 +54,11 @@
           <div class="col-10 row" style="margin-bottom: 10px">
             <button id="topAddBtnObj" class="btn-solid fs-3 col-1"><i class="bi bi-braces-asterisk"></i></button>
             <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center">[#]</button>
-            <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1" value="hide"> 
+            <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1" value="hide">
               <i class="bi bi-arrow-up-left-circle"></i>
             </button>
           </div>
-          <button
-            id="topClearBtn"
-            class="btn fs-3 col-1 clear-button">
+          <button id="topClearBtn" class="btn fs-3 col-1 clear-button">
             <i class="bi bi-x-octagon-fill"></i>
           </button>
           <div id="mainContainer" class="obj-container"></div>
@@ -85,7 +89,7 @@
               <div class="col-4">Type</div>
             </div>
             <div class="row justify-content-center">
-              <input id="modalNameInput" class="col-4" type="text"/>
+              <input id="modalNameInput" class="col-4" type="text" autocomplete="off"/>
               <select id="modalSelection" class="col-4">
                 <option value="text">Text</option>
                 <option value="textarea">Text Area (large text)</option>
@@ -148,16 +152,13 @@
         <label class="col-1 my-auto">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">:</p>
-        <button
-          class="btn col-1 hide-button" value="hide">
+        <button class="btn col-1 hide-button" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
-        <button
-          class="col-1 my-auto mx-4 btn btn-sm add-button">
+        <button class="col-1 my-auto mx-4 btn btn-sm add-button">
           <i class="bi bi-plus-square"></i>
         </button>
-        <button
-          class="btn btn-sm col-1 my-auto clear-button">
+        <button class="btn btn-sm col-1 my-auto clear-button">
           <i class="bi bi-x-octagon-fill"></i>
         </button>
         <!-- TODO: insert tooltips for everything-->
@@ -176,7 +177,7 @@
         <label class="my-auto">{{key}}</label>
         <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input type="text" value="{{value}}" style="padding: 0; border-color: lightgray" />
+        <input type="text" value="{{value}}" />
         <p class="my-auto">(text)</p>
       </div>
     </template>
@@ -185,14 +186,14 @@
     <!-- textarea template start -->
     <template id="textarea-template">
       <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button" >
+        <button class="col-1 btn my-auto mx-2 del-button">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto">{{key}}</label>
         <p class="col-1 my-auto text-center">:</p>
         {{/hasLabel}}
-        <textarea type="text" class="col" value="" style="padding: 0; border-color: lightgray">{{value}}</textarea>
+        <textarea type="text" class="col" value="">{{value}}</textarea>
       </div>
     </template>
     <!--textarea template end -->
@@ -207,7 +208,7 @@
         <label class="my-auto">{{key}}</label>
         <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input type="number" class="" value="{{value}}" style="padding: 0; border-color: lightgray" />
+        <input type="number" class="" value="{{value}}" />
       </div>
     </template>
     <!--number template end -->
@@ -222,12 +223,10 @@
         <label class="col-1 my-auto">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">:</p>
-        <button
-          class="btn col-1 hide-button" value="hide">
+        <button class="btn col-1 hide-button" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
-        <button
-          class="col-1 my-auto mx-4 btn btn-sm add-button">
+        <button class="col-1 my-auto mx-4 btn btn-sm add-button">
           <i class="bi bi-plus-square"></i>
         </button>
         <button class="btn btn-sm col-1 my-auto clear-button">
@@ -249,12 +248,7 @@
         <label class="my-auto">{{key}}</label>
         <p class="my-auto text-center">:</p>
         {{/hasLabel}}
-        <input
-          type="checkbox"
-          class="col-1"
-          value="{{value}}"
-          {{checked}}
-        />
+        <input type="checkbox" class="col-1" value="{{value}}" {{checked}} />
       </div>
     </template>
     <!--boolean template end-->
