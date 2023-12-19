@@ -110,7 +110,7 @@
   background-color: gray;
 }
 .json-editor .modal {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 .json-editor .modal .modal-content {
   border: 2px solid gray;
@@ -128,6 +128,10 @@
 .json-editor .modal .modal-content .modal-body input[type=text] {
   border: 1px solid black;
   background-color: white;
+}
+.json-editor .modal .modal-content .modal-body .duplicate-warning-label {
+  color: red;
+  visibility: hidden;
 }
 .json-editor .modal .modal-content .modal-footer {
   border-color: gray;

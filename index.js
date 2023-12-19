@@ -10,6 +10,7 @@ const selectors = {
   modalCreateBtn: "#addBtnModal #modalOK",
   modalNameTag: "#modalNameTag",
   modalNameInput: "#modalNameInput",
+  modalDuplicateNameWarning: ".duplicate-warning-label",
   modalSelection: "#modalSelection",
   arrayType: "#arrayType",
   optionsBtn: "#optionsBtn",
@@ -172,19 +173,23 @@ function bindButtons() {
   // delegation for right clicking on labels to change text
   $(selectors.mainContainer).on("contextmenu", "label", function (e) {
     e.preventDefault(); // so that the usual context menu does not appear
+
     const oldLabel = $(this).text();
-    const newLabel = prompt("Rename Label", oldLabel);
-    // check if other field with the same label exists
-    const parentOfParent = $(this).parents()[1];
-    const siblingLabels = $(parentOfParent).children().children("label");
-    let hasDuplicateName = false;
+    let newLabel = prompt("Rename Label", oldLabel);
+    while (newLabel === "") {
+      // user tries to leave blank
+      alert("Every label must have a name");
+      newLabel = prompt("Rename Label", oldLabel);
+    }
+    if (newLabel === null) {
+      // hits cancel
+      newLabel = oldLabel;
+    }
+    
     // check all labels in the same nesting depth for duplicates
-    siblingLabels.map(function () {
-      let labelText = $(this).text();
-      if (labelText === newLabel && newLabel != oldLabel) {
-        hasDuplicateName = true;
-      }
-    });
+    holdingContainer = $(this).parents()[1];
+    let hasDuplicateName = (labelExists(newLabel) && newLabel != oldLabel)?true: false;
+
     if (!hasDuplicateName) {
       $(this).text(newLabel);
     } else {
@@ -207,9 +212,19 @@ function bindButtons() {
   // modal toggle enabled create btn
   $(selectors.modalNameInput).on("input", function () {
     if ($(selectors.modalNameInput).val() == "") {
+      // empty
       $(selectors.modalCreateBtn).prop("disabled", true);
+      $(selectors.modalDuplicateNameWarning).css("visibility", "hidden");
     } else {
-      $(selectors.modalCreateBtn).prop("disabled", false);
+      if (labelExists($(selectors.modalNameInput).val())) {
+        // duplicates found
+        $(selectors.modalCreateBtn).prop("disabled", true);
+        $(selectors.modalDuplicateNameWarning).css("visibility", "visible");
+      } else {
+        // not empty and no duplicates
+        $(selectors.modalDuplicateNameWarning).css("visibility", "hidden");
+        $(selectors.modalCreateBtn).prop("disabled", false);
+      }
     }
   });
 
@@ -231,7 +246,8 @@ function bindButtons() {
   $(selectors.fileInputBtn).on("change", function (e) {
     const file = e.target.files[0];
     const reader = new FileReader();
-    const filetype = getFileType(file);
+    const filename = file.name;
+    const filetype = getFileType(filename);
 
     reader.onload = (e) => {
       const contents = e.target.result;
@@ -280,11 +296,18 @@ function bindButtons() {
     $(icon).addClass("bi-arrow-up-left-circle");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
+}
 
-  function getFileType(file) {
-    let filename = file.name;
-    return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
-  }
+// check if the a label with the same name already exists in the holding container
+function labelExists(newLabel) {
+  const childLabels = $(holdingContainer).children().children("label");
+  let exists = false;
+  childLabels.map(function () {
+    if ($(this).text() === newLabel) {
+      exists = true;
+    }
+  });
+  return exists;
 }
 
 function toggleModalArrayMode(isForArrayField) {
@@ -538,9 +561,16 @@ function saveJson(obj) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = $(selectors.fileNameInput).val();
+  const fileType = getFileType($(selectors.fileNameInput).val());
+  // if the file type in the file name field is other than json, then append '.json'
+  link.download = fileType === "json" ? $(selectors.fileNameInput).val() : $(selectors.fileNameInput).val() + ".json";
   link.click();
   URL.revokeObjectURL(url); // Release the object URL when done
+}
+
+// gets the filetype extenstion
+function getFileType(filename) {
+  return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
 }
 
 // creates fields for the loaded json file
