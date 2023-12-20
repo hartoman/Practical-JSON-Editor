@@ -2,11 +2,11 @@ $background-light: rgba(211, 211, 211, 0.1);
 
 .json-editor {
   background-color: $background-light; //rgba(211, 211, 211, 0.1);
-  
 
   .container {
-       margin: 0 5% 0 5%;
-       max-width: 90%;
+    margin: 0 5% 0 5%;
+    max-width: 90%;
+    padding: 0;
   }
 
   input,
@@ -25,12 +25,22 @@ $background-light: rgba(211, 211, 211, 0.1);
     border-left: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
   }
-  /*
+
   .obj-container,
   .array-container {
+    padding: 0 0 0 12px;
+    .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
+    .row {
+      padding-right: 0;
+      margin-right: 0;
+    }
   }
-*/
+
   .obj-container:hover,
   .array-container:hover {
     //  border: 1px dotted lightgray;
@@ -42,7 +52,7 @@ $background-light: rgba(211, 211, 211, 0.1);
     background-color: #fafafa;
     border: 2px solid black;
     padding: 0.5rem;
-    border-radius: 1px;
+    border-radius: 25%;
     display: inline-block;
     height: 1rem;
     width: 1rem;
@@ -53,7 +63,7 @@ $background-light: rgba(211, 211, 211, 0.1);
   }
 
   input[type="checkbox"]:checked {
-    background-color: red;
+    background-color: black;
 
     &:hover {
       border: 2px solid white;
@@ -150,8 +160,8 @@ $background-light: rgba(211, 211, 211, 0.1);
           background-color: white;
         }
 
-        .duplicate-warning-label{
-          color:red;
+        .duplicate-warning-label {
+          color: red;
           visibility: hidden;
         }
       }
@@ -160,16 +170,6 @@ $background-light: rgba(211, 211, 211, 0.1);
         border-color: gray;
       }
     }
-  }
-
-  .container {
-    padding-right: 0;
-    margin-right: 5%;
-  }
-
-  .row {
-    padding-right: 0;
-    margin-right: 0;
   }
 }
 
@@ -265,6 +265,31 @@ $background-light: rgba(211, 211, 211, 0.1);
           }
         }
       }
+    }
+  }
+}
+
+.showTooltips {
+  .tooltip-wrapper {
+    position: relative;
+
+    &.custom-tooltip:hover:after {
+      content: attr(data-tooltiptext);
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      text-wrap: balance;
+      width: max-content;
+
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.75rem;
+      color: black;
+      background-color: lightgray;
+      border: 2px solid black;
+      border-radius: 5%;
+
+      bottom: -30%;
+      padding: 2% 4% 2% 4%;
     }
   }
 }

@@ -19,6 +19,7 @@ const selectors = {
   optionModalOK: "#optionModalOK",
   fileInputBtn: "#jsonFileInputBtn",
   fileNameInput: "#fileNameInput",
+  toggleTooltipsCheckbox:"#show-tooltips-checkbox"
 };
 
 // keeps track of the div that contains the add button
@@ -63,7 +64,7 @@ function bindButtons() {
       $(this).val("show");
       $(icon).removeClass("bi-arrow-up-left-circle");
       $(icon).addClass("bi-arrow-down-right-circle-fill");
-
+      $(this).attr("data-tooltiptext","Unfold all");
       $(targets).map(function () {
         if ($(this).val() === "hide") {
           $(this).trigger("click");
@@ -73,7 +74,7 @@ function bindButtons() {
       $(this).val("hide");
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
-
+      $(this).attr("data-tooltiptext","Fold all");
       $(targets).map(function () {
         if ($(this).val() != "hide") {
           $(this).trigger("click");
@@ -100,6 +101,15 @@ function bindButtons() {
       $("body").removeClass("json-editor-dark");
     }
   });
+
+    // button that toggles tooltips
+    $(selectors.toggleTooltipsCheckbox).on("change", function () {
+      if ($(selectors.toggleTooltipsCheckbox).prop("checked")) {
+        $("body").addClass("showTooltips");
+      } else {
+        $("body").removeClass("showTooltips");
+      }
+    });
 
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
@@ -145,6 +155,7 @@ function bindButtons() {
 
     if ($(this).val() === "hide") {
       $(this).val("show");
+      $(this).attr("data-tooltiptext","Unfold contents");
       $(icon).removeClass("bi-arrow-up-left-circle");
       $(icon).addClass("bi-arrow-down-right-circle-fill");
       targetContainer.hide("fast");
@@ -152,6 +163,7 @@ function bindButtons() {
       clearbtn.hide("fast");
     } else {
       $(this).val("hide");
+      $(this).attr("data-tooltiptext","Fold contents");
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
       targetContainer.show("fast");
@@ -167,6 +179,9 @@ function bindButtons() {
       let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
       $(targetContainer).empty();
       $(this).prop("disabled", true);
+      if ($(targetContainer).hasClass('array-container')){
+        $(targetContainer).val("")
+      }
     }
   });
 
@@ -258,7 +273,7 @@ function bindButtons() {
         //sets the content depending on file type
         if (filetype === "json") {
           jsonContent = JSON.parse(contents);
-        } else if (filetype === "xls" || filetype === "xlsx") {
+        } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
           let data = new Uint8Array(e.target.result);
           let workbook = XLSX.read(data, { type: "array" });
           workbook.SheetNames.forEach((sheetName) => {
@@ -281,9 +296,11 @@ function bindButtons() {
     // define reader behavior
     if (filetype === "json") {
       reader.readAsText(file);
-    } else if (filetype === "xls" || filetype === "xlsx") {
+    } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
       reader.readAsArrayBuffer(file);
     }
+    // clears the file input
+    $(selectors.fileInputBtn).val("")
   });
 
   function prepareFields(file) {
@@ -579,10 +596,12 @@ function printLoadedJson(json, parentContainer) {
     /**/
     if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
       if (Array.isArray(json[key])) {
+        $(parentContainer).val("array")
         createArrayField(key, parentContainer);
         let arrayContainer = $(parentContainer).find(`#${key}`);
         printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
       } else {
+        $(parentContainer).val("object")
         createObjectField(key, parentContainer);
         let arrayContainer = $(parentContainer).find(`#${key}`);
         printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
@@ -591,14 +610,18 @@ function printLoadedJson(json, parentContainer) {
       //  console.log(`${key}: ${json[key]}`); // Print the field
       if (typeof json[key] === "string") {
         if (json[key].length <= 20) {
+          $(parentContainer).val("text")
           createTextInputField(key, json[key], parentContainer); // small texts
         } else {
+          $(parentContainer).val("textarea")
           createTextArea(key, json[key], parentContainer); // longer texts
         }
       } else if (typeof json[key] === "number") {
+        $(parentContainer).val("number")
         createNumberInputField(key, json[key], parentContainer);
       }
       if (typeof json[key] === "boolean") {
+        $(parentContainer).val("boolean")
         createBooleanField(key, json[key], parentContainer);
       }
     }

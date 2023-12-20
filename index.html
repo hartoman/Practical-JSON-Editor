@@ -22,43 +22,43 @@
     <link rel="icon" type="image/x-icon" href="braces-asterisk.svg" />
   </head>
 
-  <body class="json-editor">
+  <body class="json-editor showTooltips">
     <!-- main screen start -->
     <div class="container">
       <div class="" style="margin-top: 2%">
         <div class="row d-flex justify-content-between">
           <h1 class="h1 col-6">Eazy Json Editor</h1>
           <div class="col-6 text-end">
-            <button id="optionsBtn" class="btn-solid fs-1"><i class="bi bi-gear"></i></button>
-            <button id="helpBtn" class="btn-solid fs-1"><i class="bi bi-question-diamond"></i></button>
+            <button id="optionsBtn" class="btn-solid fs-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Options" ><i class="bi bi-gear"></i></button>
+            <button id="helpBtn" class="btn-solid fs-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Info"><i class="bi bi-question-diamond"></i></button>
           </div>
         </div>
         <div class="row">
-          <button id="newBtn" class="btn-solid fs-1 col-1"><i class="bi bi-file-earmark-plus"></i></button>
+          <button id="newBtn" class="btn-solid fs-1 col-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Create new json"><i class="bi bi-file-earmark-plus"></i></button>
           <button
             id="loadBtn"
-            class="btn-solid fs-1 col-1"
+            class="btn-solid fs-1 col-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Load .json, .csv, .xls, .xlsx file" 
             onclick="document.getElementById('jsonFileInputBtn').click();"
           >
             <i class="bi bi-caret-down-square"></i>
           </button>
-          <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx"/>
-          <button id="saveBtn" class="btn-solid fs-1 col-1" disabled><i class="bi bi-floppy2"></i></button>
-          <p class="col-2 my-auto text-end">filename:</p>
-          <input type="text" id="fileNameInput" class="col-2 fs-5" value="new.json" />
+          <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv"/>
+          <button id="saveBtn" class="btn-solid fs-1 col-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Save .json file in 'Downloads'" disabled><i class="bi bi-floppy2"></i></button>
+          <p class="col-2 my-auto text-end tooltip-wrapper custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
+          <input type="text" id="fileNameInput" class="col-2 fs-5 text-end tooltip-wrapper custom-tooltip" data-tooltiptext="test" value="new.json" />
         </div>
       </div>
       <hr />
       <div class="container m-1">
         <div class="row d-flex justify-content-between">
           <div class="col-10 row" style="margin-bottom: 10px">
-            <button id="topAddBtnObj" class="btn-solid fs-3 col-1"><i class="bi bi-braces-asterisk"></i></button>
-            <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center">[#]</button>
-            <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1" value="hide">
+            <button id="topAddBtnObj" class="btn-solid fs-3 col-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Add Object, text, number or boolean to top level"><i class="bi bi-braces-asterisk"></i></button>
+            <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center tooltip-wrapper custom-tooltip" data-tooltiptext="Add array to top level" >[#]</button>
+            <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1 tooltip-wrapper custom-tooltip" data-tooltiptext="Fold all" value="hide">
               <i class="bi bi-arrow-up-left-circle"></i>
             </button>
           </div>
-          <button id="topClearBtn" class="btn fs-3 col-1 clear-button">
+          <button id="topClearBtn" class="btn fs-3 col-1 clear-button tooltip-wrapper custom-tooltip" data-tooltiptext="Remove all contents">
             <i class="bi bi-x-octagon-fill"></i>
           </button>
           <div id="mainContainer" class="obj-container"></div>
@@ -130,6 +130,10 @@
               <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
               <label class="col" for="confirm-msg-checkbox">Warnings</label>
             </div>
+            <div class="row justify-content-center">
+              <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked/>
+              <label class="col" for="show-tooltips-checkbox">Show Tooltips</label>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" id="optionModalOK" class="btn btn-solid">
@@ -148,21 +152,27 @@
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button">
+        <button class="col-1 btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
+        <label class="col-1 my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">:</p>
-        <button class="btn col-1 hide-button" value="hide">
+        <button class="btn col-1 hide-button tooltip-wrapper custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
-        <button class="col-1 my-auto mx-4 btn btn-sm add-button">
+        <button class="btn btn-sm col-1 my-auto mx-4 add-button tooltip-wrapper custom-tooltip" data-tooltiptext="Add field">
           <i class="bi bi-plus-square"></i>
         </button>
-        <button class="btn btn-sm col-1 my-auto clear-button">
+        <button class="btn btn-sm col-1 my-auto clear-button tooltip-wrapper custom-tooltip" data-tooltiptext="Clear contents">
           <i class="bi bi-x-octagon-fill"></i>
+        </button>
+        <button class="btn btn-sm col-1 my-auto copy-button tooltip-wrapper custom-tooltip" data-tooltiptext="test">
+          <i class="bi bi-copy"></i>
+        </button>
+        <button class="btn btn-sm col-1 my-auto paste-button tooltip-wrapper custom-tooltip" data-tooltiptext="test">
+          <i class="bi bi-app-indicator"></i>
         </button>
         <!-- TODO: insert tooltips for everything-->
         <div class="obj-container" id="{{key}}"></div>
@@ -170,18 +180,48 @@
     </template>
     <!-- object template end -->
 
-    <!-- text input template start -->
-    <template id="textinput-template">
-      <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button">
+    <!-- array template start -->
+    <template id="array-template">
+      <div class="container border-bottom border-1 row d-flex">
+        <button class="col-1 btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto">{{key}}</label>
-        <p class="my-auto text-center">:</p>
+        <label class="col-1 my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <p class="col-1 my-auto text-center">[]:</p>
+        <button class="btn col-1 hide-button tooltip-wrapper custom-tooltip" data-tooltiptext="Fold contents" value="hide">
+          <i class="bi bi-arrow-up-left-circle"></i>
+        </button>
+        <button class="col-1 my-auto mx-4 btn btn-sm add-button add-button tooltip-wrapper custom-tooltip" data-tooltiptext="Add to array (once set cannot be changed)">
+          <i class="bi bi-plus-square"></i>
+        </button>
+        <button class="btn btn-sm col-1 my-auto clear-button tooltip-wrapper custom-tooltip" data-tooltiptext="Clear contents">
+          <i class="bi bi-x-octagon-fill"></i>
+        </button>
+        <button class="btn btn-sm col-1 my-auto copy-button">
+          <i class="bi bi-copy"></i>
+        </button>
+        <button class="btn btn-sm col-1 my-auto paste-button">
+          <i class="bi bi-app-indicator"></i>
+        </button>
+        <!-- TODO: insert tooltips for everything-->
+        <div class="array-container" value="" id="{{key}}"></div>
+      </div>
+    </template>
+    <!--array template end -->
+
+    <!-- text input template start -->
+    <template id="textinput-template">
+      <div class="container d-flex">
+        <button class="btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        {{#hasLabel}}
+        <label class="my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        {{/hasLabel}}
+        <p class="my-auto text-center">:</p>
         <input type="text" value="{{value}}" />
-        <p class="my-auto">(text)</p>
       </div>
     </template>
     <!-- text input template end -->
@@ -189,13 +229,13 @@
     <!-- textarea template start -->
     <template id="textarea-template">
       <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button">
+        <button class="col-1 btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
-        <p class="col-1 my-auto text-center">:</p>
+        <label class="col-1 my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <p class="col-1 my-auto text-center">:</p>
         <textarea type="text" class="col" value="">{{value}}</textarea>
       </div>
     </template>
@@ -204,53 +244,28 @@
     <!-- number template start -->
     <template id="numberinput-template">
       <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button">
+        <button class="btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto">{{key}}</label>
-        <p class="my-auto text-center">:</p>
+        <label class="my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <p class="my-auto text-center">:</p>
         <input type="number" class="" value="{{value}}" />
       </div>
     </template>
     <!--number template end -->
 
-    <!-- array template start -->
-    <template id="array-template">
-      <div class="container border-bottom border-1 row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button">
-          <i class="bi bi-x-circle"></i>
-        </button>
-        {{#hasLabel}}
-        <label class="col-1 my-auto">{{key}}</label>
-        {{/hasLabel}}
-        <p class="col-1 my-auto text-center">:</p>
-        <button class="btn col-1 hide-button" value="hide">
-          <i class="bi bi-arrow-up-left-circle"></i>
-        </button>
-        <button class="col-1 my-auto mx-4 btn btn-sm add-button">
-          <i class="bi bi-plus-square"></i>
-        </button>
-        <button class="btn btn-sm col-1 my-auto clear-button">
-          <i class="bi bi-x-octagon-fill"></i>
-        </button>
-        <!-- TODO: insert tooltips for everything-->
-        <div class="array-container" value="" id="{{key}}"></div>
-      </div>
-    </template>
-    <!--array template end -->
-
     <!--boolean template start-->
     <template id="boolean-template">
       <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button">
+        <button class="btn my-auto mx-2 del-button tooltip-wrapper custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto">{{key}}</label>
-        <p class="my-auto text-center">:</p>
+        <label class="my-auto tooltip-wrapper custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <p class="my-auto text-center">:</p>
         <input type="checkbox" class="col-1" value="{{value}}" {{checked}} />
       </div>
     </template>
