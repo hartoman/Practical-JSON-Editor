@@ -1,6 +1,8 @@
 const selectors = {
+  everything: "*",
   addBtn: ".add-button",
   clearBtn: ".clear-button",
+  clipboardBtn:"#clipboardBtn",
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
   mainContainer: "#mainContainer",
@@ -19,12 +21,13 @@ const selectors = {
   optionModalOK: "#optionModalOK",
   fileInputBtn: "#jsonFileInputBtn",
   fileNameInput: "#fileNameInput",
-  toggleTooltipsCheckbox:"#show-tooltips-checkbox"
+  toggleTooltipsCheckbox: "#show-tooltips-checkbox",
 };
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
 let tooltipsHidden = true;
+let clonedElement = null;
 
 $(document).ready(function () {
   init();
@@ -36,6 +39,12 @@ function init() {
 }
 
 function bindButtons() {
+  /* TODO: UNCOMMENT
+  // disables right-click from page
+  $(selectors.everything).on("contextmenu", function (e) {
+    e.preventDefault();
+  });*/
+
   // top Add Obj button
   $("#topAddBtnObj").on("click", function () {
     holdingContainer = $(selectors.mainContainer);
@@ -49,10 +58,15 @@ function bindButtons() {
     createArrayField("", holdingContainer);
   });
 
+    // empty clipboard button
+    $(selectors.clipboardBtn).on("click", function () {
+      clonedElement = null;
+      toggleClipboardBtn();
+    });
+  
   // top Clear button
   $("#topClearBtn").on("click", function () {
     $(selectors.mainContainer).empty();
-    // $(this).prop("disabled", true);
   });
 
   // top Collapse-All button
@@ -64,7 +78,7 @@ function bindButtons() {
       $(this).val("show");
       $(icon).removeClass("bi-arrow-up-left-circle");
       $(icon).addClass("bi-arrow-down-right-circle-fill");
-      $(this).attr("data-tooltiptext","Unfold all");
+      $(this).attr("data-tooltiptext", "Unfold all");
       $(targets).map(function () {
         if ($(this).val() === "hide") {
           $(this).trigger("click");
@@ -74,7 +88,7 @@ function bindButtons() {
       $(this).val("hide");
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
-      $(this).attr("data-tooltiptext","Fold all");
+      $(this).attr("data-tooltiptext", "Fold all");
       $(targets).map(function () {
         if ($(this).val() != "hide") {
           $(this).trigger("click");
@@ -102,14 +116,14 @@ function bindButtons() {
     }
   });
 
-    // button that toggles tooltips
-    $(selectors.toggleTooltipsCheckbox).on("change", function () {
-      if ($(selectors.toggleTooltipsCheckbox).prop("checked")) {
-        $("body").addClass("showTooltips");
-      } else {
-        $("body").removeClass("showTooltips");
-      }
-    });
+  // button that toggles tooltips
+  $(selectors.toggleTooltipsCheckbox).on("change", function () {
+    if ($(selectors.toggleTooltipsCheckbox).prop("checked")) {
+      $("body").addClass("showTooltips");
+    } else {
+      $("body").removeClass("showTooltips");
+    }
+  });
 
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
@@ -155,7 +169,7 @@ function bindButtons() {
 
     if ($(this).val() === "hide") {
       $(this).val("show");
-      $(this).attr("data-tooltiptext","Unfold contents");
+      $(this).attr("data-tooltiptext", "Unfold contents");
       $(icon).removeClass("bi-arrow-up-left-circle");
       $(icon).addClass("bi-arrow-down-right-circle-fill");
       targetContainer.hide("fast");
@@ -163,7 +177,7 @@ function bindButtons() {
       clearbtn.hide("fast");
     } else {
       $(this).val("hide");
-      $(this).attr("data-tooltiptext","Fold contents");
+      $(this).attr("data-tooltiptext", "Fold contents");
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
       targetContainer.show("fast");
@@ -179,9 +193,40 @@ function bindButtons() {
       let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
       $(targetContainer).empty();
       $(this).prop("disabled", true);
-      if ($(targetContainer).hasClass('array-container')){
-        $(targetContainer).val("")
+      if ($(targetContainer).hasClass("array-container")) {
+        $(targetContainer).val("");
       }
+    }
+  });
+
+  // delegation for all copy buttons
+  $(selectors.mainContainer).on("click", ".copy-button", function () {
+    let sourceElement = $(this).parent();
+    clonedElement = $(sourceElement).clone(true);
+    toggleClipboardBtn();
+  });
+
+  // delegation for all paste buttons
+  $(selectors.mainContainer).on("click", ".paste-button", function () {
+    let destinationParent = $(this).parent();
+    let destination = $(destinationParent).children(".obj-container, .array-container").first();
+
+    if (clonedElement) {
+      // deep clone of the global copied element, so that we bypass pass by reference
+      let tempElement = $(clonedElement).clone(true);
+
+      // named objects pasted in arrays lose their label
+      if ($(destinationParent).children(".array-container").length && $(tempElement).children("label").length) {
+        $(tempElement).children("label").remove();
+      }
+      // unnamed objects pasted as fields of parent object gain a label
+      else if ($(destinationParent).children(".obj-container").length && !$(tempElement).children("label").length) {
+        const deletebtn = $(tempElement).children("button").first();
+        deletebtn.after(
+          '<label class="col-1 my-auto custom-tooltip" data-tooltiptext="Right click to change field name">ENTER_NAME</label>'
+        );
+      }
+      $(destination).append(tempElement);
     }
   });
 
@@ -200,10 +245,10 @@ function bindButtons() {
       // hits cancel
       newLabel = oldLabel;
     }
-    
+
     // check all labels in the same nesting depth for duplicates
     holdingContainer = $(this).parents()[1];
-    let hasDuplicateName = (labelExists(newLabel) && newLabel != oldLabel)?true: false;
+    let hasDuplicateName = labelExists(newLabel) && newLabel != oldLabel ? true : false;
 
     if (!hasDuplicateName) {
       $(this).text(newLabel);
@@ -300,19 +345,35 @@ function bindButtons() {
       reader.readAsArrayBuffer(file);
     }
     // clears the file input
-    $(selectors.fileInputBtn).val("")
-  });
+    $(selectors.fileInputBtn).val("");
 
-  function prepareFields(file) {
-    // TODO: WARN
-    $(selectors.mainContainer).empty(); // remove contents of main
-    $(selectors.fileNameInput).val(file.name); // set filename to field
-    $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
-    let icon = $("#topCollapseAllBtn").children(".bi");
-    $(icon).removeClass("bi-arrow-down-right-circle-fill");
-    $(icon).addClass("bi-arrow-up-left-circle");
-    holdingContainer = $(selectors.mainContainer); // set holdingcontainer
+    // prepares the fields when loading a file
+    function prepareFields(file) {
+      $(selectors.mainContainer).empty(); // remove contents of main
+      $(selectors.fileNameInput).val(file.name); // set filename to field
+      $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
+      let icon = $("#topCollapseAllBtn").children(".bi");
+      $(icon).removeClass("bi-arrow-down-right-circle-fill");
+      $(icon).addClass("bi-arrow-up-left-circle");
+      holdingContainer = $(selectors.mainContainer); // set holdingcontainer
+    }
+  });
+}
+
+//changes the display of the clipboard btn
+function toggleClipboardBtn() {
+  let icon = $(selectors.clipboardBtn).children(".bi");
+  if (clonedElement) {
+    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
+    $(icon).removeClass("bi-clipboard");
+    $(icon).addClass("bi-clipboard-check");
+  } else {
+    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
+    $(icon).removeClass("bi-clipboard-check");
+    $(icon).addClass("bi-clipboard");
+
   }
+
 }
 
 // check if the a label with the same name already exists in the holding container
@@ -596,12 +657,12 @@ function printLoadedJson(json, parentContainer) {
     /**/
     if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
       if (Array.isArray(json[key])) {
-        $(parentContainer).val("array")
+        $(parentContainer).val("array");
         createArrayField(key, parentContainer);
         let arrayContainer = $(parentContainer).find(`#${key}`);
         printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
       } else {
-        $(parentContainer).val("object")
+        $(parentContainer).val("object");
         createObjectField(key, parentContainer);
         let arrayContainer = $(parentContainer).find(`#${key}`);
         printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
@@ -610,18 +671,18 @@ function printLoadedJson(json, parentContainer) {
       //  console.log(`${key}: ${json[key]}`); // Print the field
       if (typeof json[key] === "string") {
         if (json[key].length <= 20) {
-          $(parentContainer).val("text")
+          $(parentContainer).val("text");
           createTextInputField(key, json[key], parentContainer); // small texts
         } else {
-          $(parentContainer).val("textarea")
+          $(parentContainer).val("textarea");
           createTextArea(key, json[key], parentContainer); // longer texts
         }
       } else if (typeof json[key] === "number") {
-        $(parentContainer).val("number")
+        $(parentContainer).val("number");
         createNumberInputField(key, json[key], parentContainer);
       }
       if (typeof json[key] === "boolean") {
-        $(parentContainer).val("boolean")
+        $(parentContainer).val("boolean");
         createBooleanField(key, json[key], parentContainer);
       }
     }

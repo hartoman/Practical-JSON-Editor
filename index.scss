@@ -70,6 +70,14 @@ $background-light: rgba(211, 211, 211, 0.1);
     }
   }
 
+  .copy-button,.paste-button{
+    width: fit-content;
+    padding:0;
+    margin: 0 0 0 3%;
+    height: min-content;
+    border: none;
+  }
+
   .clear-button {
     color: red;
     width: fit-content;
@@ -270,7 +278,7 @@ $background-light: rgba(211, 211, 211, 0.1);
 }
 
 .showTooltips {
-  .tooltip-wrapper {
+  .custom-tooltip {
     position: relative;
 
     &.custom-tooltip:hover:after {

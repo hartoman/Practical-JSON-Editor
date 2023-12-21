@@ -60,6 +60,15 @@
 .json-editor input[type=checkbox]:checked:hover {
   border: 2px solid white;
 }
+.json-editor .copy-button, .json-editor .paste-button {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0;
+  margin: 0 0 0 3%;
+  height: -moz-min-content;
+  height: min-content;
+  border: none;
+}
 .json-editor .clear-button {
   color: red;
   width: -moz-fit-content;
@@ -224,10 +233,10 @@
   background-color: lightgrey;
 }
 
-.showTooltips .tooltip-wrapper {
+.showTooltips .custom-tooltip {
   position: relative;
 }
-.showTooltips .tooltip-wrapper.custom-tooltip:hover:after {
+.showTooltips .custom-tooltip.custom-tooltip:hover:after {
   content: attr(data-tooltiptext);
   position: absolute;
   z-index: 1;
