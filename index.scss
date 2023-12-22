@@ -57,6 +57,9 @@ $background-light: rgba(211, 211, 211, 0.1);
     height: 1rem;
     width: 1rem;
 
+    outline: 1px solid black;
+    outline-offset: -4px;
+
     &:hover {
       border: 2px solid red;
     }
@@ -64,13 +67,15 @@ $background-light: rgba(211, 211, 211, 0.1);
 
   input[type="checkbox"]:checked {
     background-color: black;
-
+    outline: 2px solid white;
     &:hover {
-      border: 2px solid white;
+      border: 2px solid red;
     }
   }
 
-  .copy-button,.paste-button{
+  .copy-button,.paste-button,  .hide-button,
+  .add-button,.clear-button, .del-button  {
+    text-align: center; 
     width: fit-content;
     padding:0;
     margin: 0 0 0 3%;
@@ -80,10 +85,6 @@ $background-light: rgba(211, 211, 211, 0.1);
 
   .clear-button {
     color: red;
-    width: fit-content;
-    padding: 0;
-    height: min-content;
-    border: none;
   }
 
   .clear-button:hover {
@@ -92,25 +93,15 @@ $background-light: rgba(211, 211, 211, 0.1);
 
   .del-button {
     color: red;
-    width: fit-content;
-    padding: 0px;
   }
 
   .del-button:hover {
     color: black;
   }
 
-  .hide-button,
-  .add-button {
-    text-align: center; //
-    width: fit-content;
-    padding: 0;
-    height: fit-content;
-    border: none;
-  }
-
   .hide-button:hover,
-  .add-button:hover {
+  .add-button:hover,
+  .copy-button:hover,.paste-button:hover {
     color: red;
   }
 
@@ -211,6 +202,7 @@ $background-light: rgba(211, 211, 211, 0.1);
   }
 
   input[type="checkbox"] {
+    outline: 2px solid white;
     background-color: black;
   }
 

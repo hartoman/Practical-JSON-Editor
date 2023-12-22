@@ -2,7 +2,7 @@ const selectors = {
   everything: "*",
   addBtn: ".add-button",
   clearBtn: ".clear-button",
-  clipboardBtn:"#clipboardBtn",
+  clipboardBtn: "#clipboardBtn",
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
   mainContainer: "#mainContainer",
@@ -58,12 +58,12 @@ function bindButtons() {
     createArrayField("", holdingContainer);
   });
 
-    // empty clipboard button
-    $(selectors.clipboardBtn).on("click", function () {
-      clonedElement = null;
-      toggleClipboardBtn();
-    });
-  
+  // empty clipboard button
+  $(selectors.clipboardBtn).on("click", function () {
+    clonedElement = null;
+    toggleClipboardBtn();
+  });
+
   // top Clear button
   $("#topClearBtn").on("click", function () {
     $(selectors.mainContainer).empty();
@@ -73,11 +73,11 @@ function bindButtons() {
   $("#topCollapseAllBtn").on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
     let icon = $(this).children(".bi");
+    //alternates between two icons
+    $(icon).toggleClass("bi-arrow-up-left-circle bi-arrow-down-right-circle-fill");
 
     if ($(this).val() === "hide") {
       $(this).val("show");
-      $(icon).removeClass("bi-arrow-up-left-circle");
-      $(icon).addClass("bi-arrow-down-right-circle-fill");
       $(this).attr("data-tooltiptext", "Unfold all");
       $(targets).map(function () {
         if ($(this).val() === "hide") {
@@ -86,8 +86,6 @@ function bindButtons() {
       });
     } else {
       $(this).val("hide");
-      $(icon).removeClass("bi-arrow-down-right-circle-fill");
-      $(icon).addClass("bi-arrow-up-left-circle");
       $(this).attr("data-tooltiptext", "Fold all");
       $(targets).map(function () {
         if ($(this).val() != "hide") {
@@ -109,20 +107,12 @@ function bindButtons() {
 
   // button that switches between dark mode and normal
   $(selectors.darkmodeCheckbox).on("change", function () {
-    if ($(selectors.darkmodeCheckbox).prop("checked")) {
-      $("body").addClass("json-editor-dark");
-    } else {
-      $("body").removeClass("json-editor-dark");
-    }
+    $("body").toggleClass("json-editor-dark");
   });
 
   // button that toggles tooltips
   $(selectors.toggleTooltipsCheckbox).on("change", function () {
-    if ($(selectors.toggleTooltipsCheckbox).prop("checked")) {
-      $("body").addClass("showTooltips");
-    } else {
-      $("body").removeClass("showTooltips");
-    }
+    $("body").toggleClass("showTooltips");
   });
 
   // delegation for all add buttons
@@ -143,6 +133,7 @@ function bindButtons() {
         createFields("", arrayType, holdingContainer);
       }
     } else {
+      // add from object
       targetContainer = $(parentOfParent).children(".obj-container");
       holdingContainer = targetContainer;
       toggleModalArrayMode(false);
@@ -166,20 +157,18 @@ function bindButtons() {
     let addbtn = $(this).parent().children(".add-button");
     let clearbtn = $(this).parent().children(".clear-button");
     let icon = $(this).children(".bi");
+    //alternates between two icons
+    $(icon).toggleClass("bi-arrow-up-left-circle bi-arrow-down-right-circle-fill");
 
     if ($(this).val() === "hide") {
       $(this).val("show");
       $(this).attr("data-tooltiptext", "Unfold contents");
-      $(icon).removeClass("bi-arrow-up-left-circle");
-      $(icon).addClass("bi-arrow-down-right-circle-fill");
       targetContainer.hide("fast");
       addbtn.hide("fast");
       clearbtn.hide("fast");
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Fold contents");
-      $(icon).removeClass("bi-arrow-down-right-circle-fill");
-      $(icon).addClass("bi-arrow-up-left-circle");
       targetContainer.show("fast");
       addbtn.show("fast");
       clearbtn.show("fast");
@@ -292,12 +281,47 @@ function bindButtons() {
   $(selectors.modalCreateBtn).on("click", function () {
     let fieldName = $(selectors.modalNameInput).val();
     let selectedOption = $(selectors.modalSelection).find(":selected").val();
-
+    // fields in arrays do not get names
     if (isArray(holdingContainer)) {
       $(holdingContainer).parent().children(".array-container").val(selectedOption);
       fieldName = "";
     }
-    createFields(fieldName, selectedOption, holdingContainer);
+
+    // creating field in an object that is an array element,
+    let parentelement = $(holdingContainer).parent();
+    let containingarray = $(holdingContainer).parents()[2];
+    if ($(parentelement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
+      // options to add to all objects of that array
+      if (
+        confirm(
+          "Create the same field in all objects of this array? (Pre-existing fields with the same name will be overwritten)"
+        )
+      ) {
+        // if a label with the same name already exists in some of the objects, it is removed
+        let parentofParent = $(holdingContainer).parents()[1];
+        let siblingObjects = $(parentofParent).children().children(".obj-container");
+        
+        siblingObjects.map(function () {
+          let preexistingLabels = $(this).children().children("label");
+          let fieldwithsamename = preexistingLabels.filter(function () {
+            return $(this).text() === fieldName;
+          });
+          if (fieldwithsamename.length) {
+            $(fieldwithsamename).parent().remove();
+          }
+
+          // choosing to create the field in all objects of array
+          createFields(fieldName, selectedOption, $(this));
+        });
+      } else {
+        // choosing to create the field only in this object of array
+        createFields(fieldName, selectedOption, holdingContainer);
+      }
+    } else {
+      // solo object field outside of array
+      createFields(fieldName, selectedOption, holdingContainer);
+    }
+
     $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
   });
@@ -331,7 +355,7 @@ function bindButtons() {
           createArrayField("", holdingContainer);
           holdingContainer = $(holdingContainer).find(".array-container");
         }
-        // display contents
+        // display contentsddclass
         printLoadedJson(jsonContent, holdingContainer);
       } catch (error) {
         alert("Not a valid .json or spreadsheet file");
@@ -353,6 +377,7 @@ function bindButtons() {
       $(selectors.fileNameInput).val(file.name); // set filename to field
       $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
       let icon = $("#topCollapseAllBtn").children(".bi");
+      //  $(icon).toggleClass('bi-arrow-up-left-circle bi-arrow-down-right-circle-fill');
       $(icon).removeClass("bi-arrow-down-right-circle-fill");
       $(icon).addClass("bi-arrow-up-left-circle");
       holdingContainer = $(selectors.mainContainer); // set holdingcontainer
@@ -365,15 +390,11 @@ function toggleClipboardBtn() {
   let icon = $(selectors.clipboardBtn).children(".bi");
   if (clonedElement) {
     $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
-    $(icon).removeClass("bi-clipboard");
-    $(icon).addClass("bi-clipboard-check");
+    $(icon).toggleClass("bi-clipboard bi-clipboard-check");
   } else {
     $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
-    $(icon).removeClass("bi-clipboard-check");
-    $(icon).addClass("bi-clipboard");
-
+    $(icon).toggleClass("bi-clipboard bi-clipboard-check");
   }
-
 }
 
 // check if the a label with the same name already exists in the holding container
