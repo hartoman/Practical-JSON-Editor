@@ -28,6 +28,7 @@ const selectors = {
 let holdingContainer = $(selectors.mainContainer);
 let tooltipsHidden = true;
 let clonedElement = null;
+let lastAction = { type: "create", element: "oi" };
 
 $(document).ready(function () {
   init();
@@ -58,7 +59,24 @@ function bindButtons() {
     createArrayField("", holdingContainer);
   });
 
-  // empty clipboard button
+  // top undo button
+  $("#undoBtn").on("click", function () {
+    if (lastAction) {
+      switch (lastAction.type) {
+        case "create": {
+          console.log(lastAction.label + " " + lastAction.elementType  + " " + lastAction.holdingContainer);
+          
+          break;
+        }
+        case "delete": {
+          console.log("delete");
+        }
+      }
+    }
+    lastAction = null;
+  });
+
+  // top empty clipboard button
   $(selectors.clipboardBtn).on("click", function () {
     clonedElement = null;
     toggleClipboardBtn();
@@ -95,12 +113,77 @@ function bindButtons() {
     }
   });
 
-  // button that opens options modal
+  // top load file btn
+  $(selectors.fileInputBtn).on("change", function (e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const filename = file.name;
+    const filetype = getFileType(filename);
+
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      try {
+        // set collapse all btn, holding container
+        prepareFields(file);
+        let jsonContent = {};
+        //sets the content depending on file type
+        if (filetype === "json") {
+          jsonContent = JSON.parse(contents);
+        } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
+          let data = new Uint8Array(e.target.result);
+          let workbook = XLSX.read(data, { type: "array" });
+          workbook.SheetNames.forEach((sheetName) => {
+            const worksheet = workbook.Sheets[sheetName];
+            jsonContent[sheetName] = XLSX.utils.sheet_to_json(worksheet);
+          });
+        }
+        // if contents are array
+        if (Array.isArray(jsonContent)) {
+          createArrayField("", holdingContainer);
+          holdingContainer = $(holdingContainer).find(".array-container");
+        }
+        // display contentsddclass
+        printLoadedJson(jsonContent, holdingContainer);
+      } catch (error) {
+        alert("Not a valid .json or spreadsheet file");
+        $(selectors.fileNameInput).val("");
+      }
+    };
+    // define reader behavior
+    if (filetype === "json") {
+      reader.readAsText(file);
+    } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
+      reader.readAsArrayBuffer(file);
+    }
+    // clears the file input
+    $(selectors.fileInputBtn).val("");
+
+    // prepares the fields when loading a file
+    function prepareFields(file) {
+      $(selectors.mainContainer).empty(); // remove contents of main
+      $(selectors.fileNameInput).val(file.name); // set filename to field
+      $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
+      let icon = $("#topCollapseAllBtn").children(".bi");
+      //  $(icon).toggleClass('bi-arrow-up-left-circle bi-arrow-down-right-circle-fill');
+      $(icon).removeClass("bi-arrow-down-right-circle-fill");
+      $(icon).addClass("bi-arrow-up-left-circle");
+      holdingContainer = $(selectors.mainContainer); // set holdingcontainer
+    }
+  });
+
+  // top save file btn
+  $(selectors.saveBtn).on("click", function () {
+    let obj = {};
+    obj = createJsonObj($(selectors.mainContainer));
+    saveJson(obj);
+  });
+
+  // top open options-modal
   $(selectors.optionsBtn).on("click", function () {
     $(selectors.optionsModal).show();
   });
 
-  // button that opens options modal
+  // close options-modal modal btn
   $(selectors.optionModalOK).on("click", function () {
     $(selectors.optionsModal).hide();
   });
@@ -246,13 +329,6 @@ function bindButtons() {
     }
   });
 
-  // when save button is clicked
-  $(selectors.saveBtn).on("click", function () {
-    let obj = {};
-    obj = createJsonObj($(selectors.mainContainer));
-    saveJson(obj);
-  });
-
   // modal close buttons
   $(selectors.modalCloseBtn).on("click", function () {
     $(selectors.addBtnModal).hide();
@@ -281,6 +357,7 @@ function bindButtons() {
   $(selectors.modalCreateBtn).on("click", function () {
     let fieldName = $(selectors.modalNameInput).val();
     let selectedOption = $(selectors.modalSelection).find(":selected").val();
+
     // fields in arrays do not get names
     if (isArray(holdingContainer)) {
       $(holdingContainer).parent().children(".array-container").val(selectedOption);
@@ -291,98 +368,51 @@ function bindButtons() {
     let parentelement = $(holdingContainer).parent();
     let containingarray = $(holdingContainer).parents()[2];
     if ($(parentelement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
-      // options to add to all objects of that array
-      if (
-        confirm(
-          "Create the same field in all objects of this array? (Pre-existing fields with the same name will be overwritten)"
-        )
-      ) {
-        // if a label with the same name already exists in some of the objects, it is removed
-        let parentofParent = $(holdingContainer).parents()[1];
-        let siblingObjects = $(parentofParent).children().children(".obj-container");
-        
-        siblingObjects.map(function () {
-          let preexistingLabels = $(this).children().children("label");
-          let fieldwithsamename = preexistingLabels.filter(function () {
-            return $(this).text() === fieldName;
-          });
-          if (fieldwithsamename.length) {
-            $(fieldwithsamename).parent().remove();
-          }
-
-          // choosing to create the field in all objects of array
-          createFields(fieldName, selectedOption, $(this));
-        });
-      } else {
-        // choosing to create the field only in this object of array
-        createFields(fieldName, selectedOption, holdingContainer);
-      }
+      addFieldToAllObjectsInArray(fieldName, selectedOption);
     } else {
       // solo object field outside of array
       createFields(fieldName, selectedOption, holdingContainer);
+      setLastAction('create',fieldName, selectedOption, holdingContainer)
     }
 
     $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
   });
+}
 
-  // load file btn
-  $(selectors.fileInputBtn).on("change", function (e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    const filename = file.name;
-    const filetype = getFileType(filename);
-
-    reader.onload = (e) => {
-      const contents = e.target.result;
-      try {
-        // set collapse all btn, holding container
-        prepareFields(file);
-        let jsonContent = {};
-        //sets the content depending on file type
-        if (filetype === "json") {
-          jsonContent = JSON.parse(contents);
-        } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
-          let data = new Uint8Array(e.target.result);
-          let workbook = XLSX.read(data, { type: "array" });
-          workbook.SheetNames.forEach((sheetName) => {
-            const worksheet = workbook.Sheets[sheetName];
-            jsonContent[sheetName] = XLSX.utils.sheet_to_json(worksheet);
+function addFieldToAllObjectsInArray(fieldName, selectedOption) {
+        // options to add to all objects of that array
+        if (
+          confirm(
+            "Create the same field in all objects of this array? (Pre-existing fields with the same name will be overwritten)"
+          )
+        ) {
+          // if a label with the same name already exists in some of the objects, it is removed
+          let parentofParent = $(holdingContainer).parents()[1];
+          let siblingObjects = $(parentofParent).children().children(".obj-container");
+  
+          siblingObjects.map(function () {
+            let preexistingLabels = $(this).children().children("label");
+            let fieldwithsamename = preexistingLabels.filter(function () {
+              return $(this).text() === fieldName;
+            });
+            if (fieldwithsamename.length) {
+              $(fieldwithsamename).parent().remove();
+            }
+  
+            // choosing to create the field in all objects of array
+            createFields(fieldName, selectedOption, $(this));
           });
+        } else {
+          // choosing to create the field only in this object of array
+          createFields(fieldName, selectedOption, holdingContainer);
+          setLastAction('create', fieldName, selectedOption, holdingContainer);
         }
-        // if contents are array
-        if (Array.isArray(jsonContent)) {
-          createArrayField("", holdingContainer);
-          holdingContainer = $(holdingContainer).find(".array-container");
-        }
-        // display contentsddclass
-        printLoadedJson(jsonContent, holdingContainer);
-      } catch (error) {
-        alert("Not a valid .json or spreadsheet file");
-        $(selectors.fileNameInput).val("");
-      }
-    };
-    // define reader behavior
-    if (filetype === "json") {
-      reader.readAsText(file);
-    } else if (filetype === "xls" || filetype === "xlsx" || filetype === "csv") {
-      reader.readAsArrayBuffer(file);
-    }
-    // clears the file input
-    $(selectors.fileInputBtn).val("");
+}
 
-    // prepares the fields when loading a file
-    function prepareFields(file) {
-      $(selectors.mainContainer).empty(); // remove contents of main
-      $(selectors.fileNameInput).val(file.name); // set filename to field
-      $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
-      let icon = $("#topCollapseAllBtn").children(".bi");
-      //  $(icon).toggleClass('bi-arrow-up-left-circle bi-arrow-down-right-circle-fill');
-      $(icon).removeClass("bi-arrow-down-right-circle-fill");
-      $(icon).addClass("bi-arrow-up-left-circle");
-      holdingContainer = $(selectors.mainContainer); // set holdingcontainer
-    }
-  });
+// 
+function setLastAction(actiontype, fieldName, selectedOption, holdingContainer) {
+  lastAction = {type:actiontype,label:fieldName,elementType:selectedOption, holdingContainer:holdingContainer}
 }
 
 //changes the display of the clipboard btn

@@ -51,13 +51,16 @@
       <hr />
       <div class="container m-1">
         <div class="row d-flex justify-content-between">
-          <div class="col-10 row" style="margin-bottom: 10px">
+          <div class="col-9 row" style="margin-bottom: 10px">
             <button id="topAddBtnObj" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Add Object, text, number or boolean to top level"><i class="bi bi-braces-asterisk"></i></button>
             <button id="topAddBtnArray" class="btn-solid fs-3 col-1 d-flex justify-content-center custom-tooltip" data-tooltiptext="Add array to top level" >[#]</button>
             <button id="topCollapseAllBtn" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Fold all" value="hide">
               <i class="bi bi-arrow-up-left-circle"></i>
             </button>
           </div>
+          <button id="undoBtn" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Undo last action">
+            <i class="bi bi-arrow-counterclockwise"></i>
+          </button>
           <button id="clipboardBtn" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Clipboard is empty">
             <i class="bi bi-clipboard"></i>
           </button>
@@ -177,7 +180,6 @@
         <button class="btn btn-sm col-1 my-auto paste-button custom-tooltip" data-tooltiptext="Paste from clipboard here">
           <i class="bi bi-copy"></i>
         </button>
-        <!-- TODO: insert tooltips for everything-->
         <div class="obj-container" id="{{key}}"></div>
       </div>
     </template>
@@ -208,7 +210,6 @@
         <button class="btn btn-sm col-1 my-auto paste-button custom-tooltip" data-tooltiptext="Paste from clipboard here">
           <i class="bi bi-copy"></i>
         </button>
-        <!-- TODO: insert tooltips for everything-->
         <div class="array-container" value="" id="{{key}}"></div>
       </div>
     </template>
