@@ -64,8 +64,8 @@ function bindButtons() {
     if (lastAction) {
       switch (lastAction.type) {
         case "create": {
-          console.log(lastAction.label + " " + lastAction.elementType  + " " + lastAction.holdingContainer);
-          
+          console.log(lastAction.label + " " + lastAction.elementType + " " + lastAction.holdingContainer);
+
           break;
         }
         case "delete": {
@@ -227,9 +227,20 @@ function bindButtons() {
 
   // delegation for all delete buttons
   $(selectors.mainContainer).on("click", ".del-button", function () {
-    if (confirm("Delete field?")) {
-      let parentOfParent = $(this).parent();
-      parentOfParent.remove();
+    let parent = $(this).parent();
+    let parentContainer = $(this).parents()[3];
+
+    if (isArray(parentContainer)) {
+      if (confirm("Delete field from all objects of the array?")) {
+        let fieldName = $(parent).children("label").text();
+        RemoveFromAllObjectsInArray(parentContainer, fieldName, false);
+      } else if (confirm("Delete field?")) {
+        parent.remove();
+      }
+    } else {
+      if (confirm("Delete field?")) {
+        parent.remove();
+      }
     }
   });
 
@@ -365,14 +376,17 @@ function bindButtons() {
     }
 
     // creating field in an object that is an array element,
-    let parentelement = $(holdingContainer).parent();
+    let parentElement = $(holdingContainer).parent();
+    let parentofParent = $(holdingContainer).parents()[1];
     let containingarray = $(holdingContainer).parents()[2];
-    if ($(parentelement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
-      addFieldToAllObjectsInArray(fieldName, selectedOption);
+    if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
+      // if a label with the same name already exists in some of the objects, it is removed
+      RemoveFromAllObjectsInArray(parentofParent, fieldName);
+      addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
     } else {
       // solo object field outside of array
       createFields(fieldName, selectedOption, holdingContainer);
-      setLastAction('create',fieldName, selectedOption, holdingContainer)
+      setLastAction("create", fieldName, selectedOption, holdingContainer);
     }
 
     $(selectors.addBtnModal).hide();
@@ -380,39 +394,42 @@ function bindButtons() {
   });
 }
 
-function addFieldToAllObjectsInArray(fieldName, selectedOption) {
-        // options to add to all objects of that array
-        if (
-          confirm(
-            "Create the same field in all objects of this array? (Pre-existing fields with the same name will be overwritten)"
-          )
-        ) {
-          // if a label with the same name already exists in some of the objects, it is removed
-          let parentofParent = $(holdingContainer).parents()[1];
-          let siblingObjects = $(parentofParent).children().children(".obj-container");
-  
-          siblingObjects.map(function () {
-            let preexistingLabels = $(this).children().children("label");
-            let fieldwithsamename = preexistingLabels.filter(function () {
-              return $(this).text() === fieldName;
-            });
-            if (fieldwithsamename.length) {
-              $(fieldwithsamename).parent().remove();
-            }
-  
-            // choosing to create the field in all objects of array
-            createFields(fieldName, selectedOption, $(this));
-          });
-        } else {
-          // choosing to create the field only in this object of array
-          createFields(fieldName, selectedOption, holdingContainer);
-          setLastAction('create', fieldName, selectedOption, holdingContainer);
-        }
+function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
+  // options to add to all objects of that array
+  if (
+    confirm(
+      "Create the same field in all objects of this array? Preexisting fields with the same name will be overwritten"
+    )
+  ) {
+    let siblingObjects = $(parentofParent).children().children(".obj-container");
+    siblingObjects.map(function () {
+      // choosing to create the field in all objects of array
+      createFields(fieldName, selectedOption, $(this));
+    }); /**/
+  } else {
+    // choosing to create the field only in this object of array
+    createFields(fieldName, selectedOption, holdingContainer);
+    setLastAction("create", fieldName, selectedOption, holdingContainer);
+  }
 }
 
-// 
+function RemoveFromAllObjectsInArray(parentContainer, fieldName) {
+  let siblingObjects = $(parentContainer).children().children(".obj-container");
+
+  siblingObjects.map(function () {
+    let preexistingLabels = $(this).children().children("label");
+    let fieldwithsamename = preexistingLabels.filter(function () {
+      return $(this).text() === fieldName;
+    });
+    if (fieldwithsamename.length) {
+      $(fieldwithsamename).parent().remove();
+    }
+  });
+}
+
+//
 function setLastAction(actiontype, fieldName, selectedOption, holdingContainer) {
-  lastAction = {type:actiontype,label:fieldName,elementType:selectedOption, holdingContainer:holdingContainer}
+  lastAction = { type: actiontype, label: fieldName, elementType: selectedOption, holdingContainer: holdingContainer };
 }
 
 //changes the display of the clipboard btn
@@ -454,7 +471,7 @@ function toggleModalArrayMode(isForArrayField) {
 }
 
 function isArray(inputContainer) {
-  return inputContainer.parent().children(".array-container").length;
+  return $(inputContainer).parent().children(".array-container").length;
 }
 
 function createFields(fieldName, selectedOption, holdingContainer) {
