@@ -134,12 +134,19 @@
 }
 .json-editor .modal .modal-content .modal-header .btn-close {
   background: unset;
+  display: inline;
+  color: red;
+  font-weight: 600;
+  padding: unset;
+  margin: unset;
 }
-.json-editor .modal .modal-content .modal-body input[type=text] {
+.json-editor .modal .modal-content .modal-body input[type=text], .json-editor .modal .modal-content .modal-body select {
   border: 1px solid black;
   background-color: white;
+  margin: 0 0 5%;
 }
 .json-editor .modal .modal-content .modal-body .duplicate-warning-label {
+  margin: 5%;
   color: red;
   visibility: hidden;
 }

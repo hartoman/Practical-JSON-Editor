@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="./dist/index.css" />
     <link rel="icon" type="image/x-icon" href="braces-asterisk.svg" />
 
-    <script src="index.js"></script>
+    <script src="index.js" type="module"></script>
   </head>
 
   <body class="json-editor showTooltips">
@@ -83,22 +83,22 @@
             <h5 class="modal-title">Add Object Field</h5>
             <button
               type="button"
-              class="btn-close close fs-3 align-top"
+              class="btn-close close fs-3 align-top bi bi-x-lg"
               data-bs-dismiss="modal"
               aria-label="Close"
-              style="display: inline; color: red; font-weight: 600"
             >
-              <i class="bi bi-x-lg"></i>
             </button>
           </div>
           <div class="modal-body">
-            <div class="row justify-content-center">
-              <div class="col-4" id="modalNameTag">Name</div>
-              <div class="col-4">Type</div>
+            <div class="row justify-content-center col-11 mx-auto">
+              <div class="col-5" id="modalNameTag">Name</div>
+              <div class="col-1"></div>
+              <div class="col-5">Type</div>
             </div>
-            <div class="row justify-content-center">
-              <input id="modalNameInput" class="col-4" type="text" autocomplete="off"/>
-              <select id="modalSelection" class="col-4">
+            <div class="row justify-content-center col-11 mx-auto">
+              <input id="modalNameInput" class="col-5" type="text" autocomplete="off"/>
+              <div class="col-1"></div>
+              <select id="modalSelection" class="col-5">
                 <option value="text">Text</option>
                 <option value="textarea">Text Area (large text)</option>
                 <option value="number">Number</option>
@@ -107,7 +107,11 @@
                 <option value="array">Array</option>
               </select>
             </div>
-            <div class="row justify-content-start my-auto duplicate-warning-label">
+            <div class="row justify-content-start my-auto col-10 mx-auto " >
+              <input id="" name="addall-checkbox" class="col-2 custom-tooltip" type="checkbox" data-tooltiptext="Add this field to all objects in the array. Preexisting fields with the same name will be overwritten"/>
+              <label class="col" for="addall-checkbox">Add to all objects in array</label>
+            </div>
+            <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto">
               A field with this name already exists!
             </div>
           </div>

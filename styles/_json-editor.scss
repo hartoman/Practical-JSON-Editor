@@ -153,16 +153,25 @@
   
           .btn-close {
             background: unset;
+            display: inline; 
+            color: red; 
+            font-weight: 600;
+            padding: unset;
+            margin: unset;
           }
+
+
         }
   
         .modal-body {
-          input[type="text"] {
+          input[type="text"],select {
             border: 1px solid black;
             background-color: white;
+            margin: 0 0 5% ;
           }
   
           .duplicate-warning-label {
+            margin: 5%;
             color: red;
             visibility: hidden;
           }

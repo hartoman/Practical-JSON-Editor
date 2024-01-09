@@ -1,3 +1,7 @@
+// import * as utils from './js/utils.js';
+
+// utils.test('ela re');
+
 const selectors = {
   everything: "*",
   addBtn: ".add-button",
@@ -26,9 +30,8 @@ const selectors = {
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
-let tooltipsHidden = true;
 let clonedElement = null;
-let lastAction = { type: "create", element: "oi" };
+let lastAction = {};
 
 $(document).ready(function () {
   init();
@@ -36,7 +39,7 @@ $(document).ready(function () {
 
 function init() {
   bindButtons();
-  disableRightClickContextMenu();
+  //disableRightClickContextMenu();
   toggleSaveBtn(document.getElementById("mainContainer"));
 }
 
@@ -58,16 +61,9 @@ function bindButtons() {
   // top undo button TODO:
   $("#undoBtn").on("click", function () {
     if (lastAction) {
-      switch (lastAction.type) {
-        case "create": {
-          console.log(lastAction.label + " " + lastAction.elementType + " " + lastAction.holdingContainer);
-
-          break;
-        }
-        case "delete": {
-          console.log("delete");
-        }
-      }
+      $(selectors.mainContainer).empty(); // remove contents of main
+      holdingContainer = $(selectors.mainContainer);
+      printLoadedJson(lastAction, holdingContainer);
     }
     lastAction = null;
   });
@@ -138,7 +134,7 @@ function bindButtons() {
           createArrayField("", holdingContainer);
           holdingContainer = $(holdingContainer).find(".array-container");
         }
-        // display contentsddclass
+        // display contents
         printLoadedJson(jsonContent, holdingContainer);
       } catch (error) {
         alert("Not a valid .json or spreadsheet file");
@@ -171,6 +167,7 @@ function bindButtons() {
   $(selectors.saveBtn).on("click", function () {
     let obj = {};
     obj = createJsonObj($(selectors.mainContainer));
+
     saveJson(obj);
   });
 
@@ -196,6 +193,9 @@ function bindButtons() {
 
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
+    // TODO:
+    lastAction = createJsonObj($(selectors.mainContainer));
+    
     let parentOfParent = $(this).parent();
     let targetContainer;
     // if we add from array
@@ -370,24 +370,33 @@ function bindButtons() {
       $(holdingContainer).parent().children(".array-container").val(selectedOption);
       fieldName = "";
     }
-
-    // creating field in an object that is an array element,
-    let parentElement = $(holdingContainer).parent();
     let parentofParent = $(holdingContainer).parents()[1];
-    let containingarray = $(holdingContainer).parents()[2];
-    if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
+    // creating field in an object that is an array element,
+    if (isObjectInsideArray(holdingContainer)) {
       // if a label with the same name already exists in some of the objects, it is removed
       removeFromAllObjectsInArray(parentofParent, fieldName);
       addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
     } else {
       // solo object field outside of array
       createFields(fieldName, selectedOption, holdingContainer);
-      setLastAction("create", fieldName, selectedOption, holdingContainer);
     }
 
     $(selectors.addBtnModal).hide();
     $(selectors.modalNameInput).val("");
   });
+}
+
+function isObjectInsideArray(holdingContainer) {
+     // creating field in an object that is an array element,
+     let parentElement = $(holdingContainer).parent();
+     let containingarray = $(holdingContainer).parents()[2];
+     if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
+       // if a label with the same name already exists in some of the objects, it is removed
+     return true
+     } else {
+       // solo object field outside of array
+       return false
+     }
 }
 
 function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
@@ -405,7 +414,6 @@ function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
   } else {
     // choosing to create the field only in this object of array
     createFields(fieldName, selectedOption, holdingContainer);
-    setLastAction("create", fieldName, selectedOption, holdingContainer);
   }
 }
 
@@ -423,12 +431,12 @@ function removeFromAllObjectsInArray(parentContainer, fieldName) {
   });
 }
 
-//
-function setLastAction(actiontype, fieldName, selectedOption, holdingContainer) {
-  lastAction = { type: actiontype, label: fieldName, elementType: selectedOption, holdingContainer: holdingContainer };
+// TODO: D
+function setLastAction() {
+  lastAction = createJsonObj($(selectors.mainContainer));
 }
 
-//changes the display of the clipboard btn
+// TODO: A changes the display of the clipboard btn 
 function toggleClipboardBtn() {
   let icon = $(selectors.clipboardBtn).children(".bi");
   if (clonedElement) {
