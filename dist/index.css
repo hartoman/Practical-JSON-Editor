@@ -1,6 +1,9 @@
 .json-editor {
   background-color: rgba(211, 211, 211, 0.1);
 }
+.json-editor * {
+  box-sizing: border-box;
+}
 .json-editor .container {
   margin: 0 5% 0 5%;
   max-width: 90%;
@@ -8,12 +11,13 @@
 }
 .json-editor input,
 .json-editor textarea {
-  border: 0;
+  border: 1px solid transparent;
   background-color: transparent;
 }
 .json-editor input:hover,
 .json-editor textarea:hover {
-  background-color: lightgray;
+  border: 1px solid black;
+  background-color: white;
   color: black;
 }
 .json-editor textarea {
@@ -156,6 +160,11 @@
 .json-editor-dark textarea {
   color: white;
 }
+.json-editor-dark input[type=text]:hover,
+.json-editor-dark input[type=number]:hover,
+.json-editor-dark textarea:hover {
+  color: black;
+}
 .json-editor-dark .btn-solid {
   color: white;
   background-color: #696969;
@@ -221,6 +230,14 @@
   background-color: lightgrey;
 }
 
+/* customize the tooltip with the following variables: */
+/* to be able to show/hide tooltips: add/remove showTooltips class to the body of the document
+If you only add custom-tooltip to an element, it will be always on*/
+.showTooltips {
+  /* elements that have the custom-tooltip class must have an attribute
+  data-tooltiptext="the text of the tooltip".
+  */
+}
 .showTooltips .custom-tooltip {
   position: relative;
 }
@@ -237,7 +254,8 @@
   color: black;
   background-color: lightgray;
   border: 2px solid black;
-  border-radius: 5%;
-  bottom: -30%;
   padding: 2% 4% 2% 4%;
+  border-radius: 5%;
+  top: 90%;
+  left: 70%;
 }/*# sourceMappingURL=index.css.map */

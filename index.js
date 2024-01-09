@@ -36,15 +36,11 @@ $(document).ready(function () {
 
 function init() {
   bindButtons();
-  initModal();
+  disableRightClickContextMenu();
+  toggleSaveBtn(document.getElementById("mainContainer"));
 }
 
 function bindButtons() {
-  /* TODO: UNCOMMENT
-  // disables right-click from page
-  $(selectors.everything).on("contextmenu", function (e) {
-    e.preventDefault();
-  });*/
 
   // top Add Obj button
   $("#topAddBtnObj").on("click", function () {
@@ -59,7 +55,7 @@ function bindButtons() {
     createArrayField("", holdingContainer);
   });
 
-  // top undo button
+  // top undo button TODO:
   $("#undoBtn").on("click", function () {
     if (lastAction) {
       switch (lastAction.type) {
@@ -233,7 +229,7 @@ function bindButtons() {
     if (isArray(parentContainer)) {
       if (confirm("Delete field from all objects of the array?")) {
         let fieldName = $(parent).children("label").text();
-        RemoveFromAllObjectsInArray(parentContainer, fieldName, false);
+        removeFromAllObjectsInArray(parentContainer, fieldName, false);
       } else if (confirm("Delete field?")) {
         parent.remove();
       }
@@ -381,7 +377,7 @@ function bindButtons() {
     let containingarray = $(holdingContainer).parents()[2];
     if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
       // if a label with the same name already exists in some of the objects, it is removed
-      RemoveFromAllObjectsInArray(parentofParent, fieldName);
+      removeFromAllObjectsInArray(parentofParent, fieldName);
       addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
     } else {
       // solo object field outside of array
@@ -413,7 +409,7 @@ function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
   }
 }
 
-function RemoveFromAllObjectsInArray(parentContainer, fieldName) {
+function removeFromAllObjectsInArray(parentContainer, fieldName) {
   let siblingObjects = $(parentContainer).children().children(".obj-container");
 
   siblingObjects.map(function () {
@@ -497,8 +493,11 @@ function createFields(fieldName, selectedOption, holdingContainer) {
   }
 }
 
-function initModal() {
-  toggleSaveBtn(document.getElementById("mainContainer"));
+function disableRightClickContextMenu() {
+  // disables right-click from page
+  $(selectors.everything).on("contextmenu", function (e) {
+    e.preventDefault();
+  });
 }
 
 // makes the save json button enabled only if there is at least one field in the top container

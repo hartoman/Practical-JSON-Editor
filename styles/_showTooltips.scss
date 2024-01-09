@@ -1,0 +1,40 @@
+/* customize the tooltip with the following variables: */
+$tooltip-top:90%;
+$tooltip-left:70%;
+$tooltip-text-font: "Courier New", Courier, monospace;
+$tooltip-font-size: 0.75rem;
+$tooltip-text-color: black;
+$tooltip-background-color: lightgray;
+$tooltip-border: 2px solid black;
+$tooltip-border-radius:5%;
+$tooltip-padding: 2% 4% 2% 4%;
+
+/* to be able to show/hide tooltips: add/remove showTooltips class to the body of the document
+If you only add custom-tooltip to an element, it will be always on*/
+.showTooltips {
+  /* elements that have the custom-tooltip class must have an attribute
+  data-tooltiptext="the text of the tooltip".
+  */
+  .custom-tooltip {
+    position: relative;
+
+    &.custom-tooltip:hover:after {
+      content: attr(data-tooltiptext);
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      text-wrap: balance;
+      width: max-content;
+
+      font-family: $tooltip-text-font;
+      font-size: $tooltip-font-size;
+      color: $tooltip-text-color;
+      background-color: $tooltip-background-color;
+      border: $tooltip-border;
+      padding: $tooltip-padding;
+      border-radius: $tooltip-border-radius;
+      top:$tooltip-top;
+      left:$tooltip-left;
+    }
+  }
+}

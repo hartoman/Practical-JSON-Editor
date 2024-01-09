@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./dist/index.css" />
     <link rel="icon" type="image/x-icon" href="braces-asterisk.svg" />
+
+    <script src="index.js"></script>
   </head>
 
   <body class="json-editor showTooltips">
@@ -30,7 +32,7 @@
           <h1 class="h1 col-6">Eazy Json Editor</h1>
           <div class="col-6 text-end">
             <button id="optionsBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Options" ><i class="bi bi-gear"></i></button>
-            <button id="helpBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Info"><i class="bi bi-question-diamond"></i></button>
+            <a href="README.md" target="_blank"><button id="helpBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Info"><i class="bi bi-question-diamond"></i></button></a>
           </div>
         </div>
         <div class="row">
@@ -275,6 +277,5 @@
     </template>
     <!--boolean template end-->
 
-    <script src="index.js"></script>
   </body>
 </html>
