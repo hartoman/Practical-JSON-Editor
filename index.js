@@ -1,6 +1,6 @@
-// import * as utils from './js/utils.js';
+import * as modals from './js/modals.js';
+import * as utils from './js/utils.js';
 
-// utils.test('ela re');
 
 const selectors = {
   everything: "*",
@@ -12,12 +12,12 @@ const selectors = {
   mainContainer: "#mainContainer",
   addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
-  modalCloseBtn: "#addBtnModal .close",
-  modalCreateBtn: "#addBtnModal #modalOK",
-  modalNameTag: "#modalNameTag",
-  modalNameInput: "#modalNameInput",
-  modalDuplicateNameWarning: ".duplicate-warning-label",
-  modalSelection: "#modalSelection",
+  addModalCloseBtn: "#addBtnModal .close",
+  addModalCreateBtn: "#addBtnModal #modalOK",
+  addModalNameTag: "#modalNameTag",
+  addModalNameInput: "#modalNameInput",
+  addModalDuplicateNameWarning: ".duplicate-warning-label",
+  addModalSelection: "#modalSelection",
   arrayType: "#arrayType",
   optionsBtn: "#optionsBtn",
   optionsModal: "#optionsModal",
@@ -41,10 +41,10 @@ function init() {
   bindButtons();
   //disableRightClickContextMenu();
   toggleSaveBtn(document.getElementById("mainContainer"));
+  bindModals();
 }
 
 function bindButtons() {
-
   // top Add Obj button
   $("#topAddBtnObj").on("click", function () {
     holdingContainer = $(selectors.mainContainer);
@@ -60,12 +60,12 @@ function bindButtons() {
 
   // top undo button TODO:
   $("#undoBtn").on("click", function () {
-    if (lastAction) {
+    if (Object.keys(lastAction).length) {
       $(selectors.mainContainer).empty(); // remove contents of main
       holdingContainer = $(selectors.mainContainer);
       printLoadedJson(lastAction, holdingContainer);
+      lastAction = {};
     }
-    lastAction = null;
   });
 
   // top empty clipboard button
@@ -107,6 +107,7 @@ function bindButtons() {
 
   // top load file btn
   $(selectors.fileInputBtn).on("change", function (e) {
+    lastAction = {};
     const file = e.target.files[0];
     const reader = new FileReader();
     const filename = file.name;
@@ -195,7 +196,7 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".add-button", function () {
     // TODO:
     lastAction = createJsonObj($(selectors.mainContainer));
-    
+
     let parentOfParent = $(this).parent();
     let targetContainer;
     // if we add from array
@@ -223,21 +224,10 @@ function bindButtons() {
 
   // delegation for all delete buttons
   $(selectors.mainContainer).on("click", ".del-button", function () {
-    let parent = $(this).parent();
-    let parentContainer = $(this).parents()[3];
 
-    if (isArray(parentContainer)) {
-      if (confirm("Delete field from all objects of the array?")) {
-        let fieldName = $(parent).children("label").text();
-        removeFromAllObjectsInArray(parentContainer, fieldName, false);
-      } else if (confirm("Delete field?")) {
-        parent.remove();
-      }
-    } else {
-      if (confirm("Delete field?")) {
-        parent.remove();
-      }
-    }
+    const parent = $(this).parent();
+    modals.confRemoveModal(parent);
+    $("#removeModal").dialog("open");
   });
 
   // delegation for all hide buttons
@@ -337,33 +327,33 @@ function bindButtons() {
   });
 
   // modal close buttons
-  $(selectors.modalCloseBtn).on("click", function () {
+  $(selectors.addModalCloseBtn).on("click", function () {
     $(selectors.addBtnModal).hide();
   });
 
   // modal toggle enabled create btn
-  $(selectors.modalNameInput).on("input", function () {
-    if ($(selectors.modalNameInput).val() == "") {
+  $(selectors.addModalNameInput).on("input", function () {
+    if ($(selectors.addModalNameInput).val() == "") {
       // empty
-      $(selectors.modalCreateBtn).prop("disabled", true);
-      $(selectors.modalDuplicateNameWarning).css("visibility", "hidden");
+      $(selectors.addModalCreateBtn).prop("disabled", true);
+      $(selectors.addModalDuplicateNameWarning).css("visibility", "hidden");
     } else {
-      if (labelExists($(selectors.modalNameInput).val())) {
+      if (labelExists($(selectors.addModalNameInput).val())) {
         // duplicates found
-        $(selectors.modalCreateBtn).prop("disabled", true);
-        $(selectors.modalDuplicateNameWarning).css("visibility", "visible");
+        $(selectors.addModalCreateBtn).prop("disabled", true);
+        $(selectors.addModalDuplicateNameWarning).css("visibility", "visible");
       } else {
         // not empty and no duplicates
-        $(selectors.modalDuplicateNameWarning).css("visibility", "hidden");
-        $(selectors.modalCreateBtn).prop("disabled", false);
+        $(selectors.addModalDuplicateNameWarning).css("visibility", "hidden");
+        $(selectors.addModalCreateBtn).prop("disabled", false);
       }
     }
   });
 
   // modal create btn
-  $(selectors.modalCreateBtn).on("click", function () {
-    let fieldName = $(selectors.modalNameInput).val();
-    let selectedOption = $(selectors.modalSelection).find(":selected").val();
+  $(selectors.addModalCreateBtn).on("click", function () {
+    let fieldName = $(selectors.addModalNameInput).val();
+    let selectedOption = $(selectors.addModalSelection).find(":selected").val();
 
     // fields in arrays do not get names
     if (isArray(holdingContainer)) {
@@ -374,7 +364,7 @@ function bindButtons() {
     // creating field in an object that is an array element,
     if (isObjectInsideArray(holdingContainer)) {
       // if a label with the same name already exists in some of the objects, it is removed
-      removeFromAllObjectsInArray(parentofParent, fieldName);
+      utils.removeFromAllObjectsInArray(parentofParent, fieldName);
       addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
     } else {
       // solo object field outside of array
@@ -382,21 +372,59 @@ function bindButtons() {
     }
 
     $(selectors.addBtnModal).hide();
-    $(selectors.modalNameInput).val("");
+    $(selectors.addModalNameInput).val("");
   });
 }
 
+function bindModals() {
+  modals.removeModal();
+/*
+  function removeModal() {
+    $("#removeModal").dialog({
+      autoOpen: true,
+      title: "Dialog Title",
+      modal: true,
+      draggable: false,
+      resizable: false,
+      removeAllInArray:true,
+      buttons: [
+        {
+          text: "Remove",
+          click: function () {
+            console.log("fdfd");
+          },
+        },
+        {
+          text: "Cancel",
+          id: "extraButton",
+          style: "display: none;",
+          click: function () {
+            $(this).dialog("close");
+          },
+        },
+      ],
+    });
+
+    if ($("#removeModal").dialog("option","removeAllInArray")) {
+      $("#extraButton").css("display", "block");
+    } else {
+      $("#extraButton").css("display", "none");
+    }
+  }*/
+}
+
+
 function isObjectInsideArray(holdingContainer) {
-     // creating field in an object that is an array element,
-     let parentElement = $(holdingContainer).parent();
-     let containingarray = $(holdingContainer).parents()[2];
-     if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
-       // if a label with the same name already exists in some of the objects, it is removed
-     return true
-     } else {
-       // solo object field outside of array
-       return false
-     }
+  // creating field in an object that is an array element,
+  let parentElement = $(holdingContainer).parent();
+  let containingarray = $(holdingContainer).parents()[2];
+  if ($(parentElement).children(".obj-container").length && $(containingarray).children(".array-container").length) {
+    // if a label with the same name already exists in some of the objects, it is removed
+    return true;
+  } else {
+    // solo object field outside of array
+    return false;
+  }
 }
 
 function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
@@ -416,7 +444,7 @@ function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
     createFields(fieldName, selectedOption, holdingContainer);
   }
 }
-
+/*
 function removeFromAllObjectsInArray(parentContainer, fieldName) {
   let siblingObjects = $(parentContainer).children().children(".obj-container");
 
@@ -429,14 +457,14 @@ function removeFromAllObjectsInArray(parentContainer, fieldName) {
       $(fieldwithsamename).parent().remove();
     }
   });
-}
+}*/
 
 // TODO: D
 function setLastAction() {
   lastAction = createJsonObj($(selectors.mainContainer));
 }
 
-// TODO: A changes the display of the clipboard btn 
+// TODO: A changes the display of the clipboard btn
 function toggleClipboardBtn() {
   let icon = $(selectors.clipboardBtn).children(".bi");
   if (clonedElement) {
@@ -463,14 +491,14 @@ function labelExists(newLabel) {
 function toggleModalArrayMode(isForArrayField) {
   if (isForArrayField) {
     $(selectors.addBtnModal).find(".modal-title").text("Set Array Type");
-    $(selectors.modalNameTag).hide();
-    $(selectors.modalNameInput).hide();
-    $(selectors.modalCreateBtn).prop("disabled", false);
+    $(selectors.addModalNameTag).hide();
+    $(selectors.addModalNameInput).hide();
+    $(selectors.addModalCreateBtn).prop("disabled", false);
   } else {
     $(selectors.addBtnModal).find(".modal-title").text("Add Object Field");
-    $(selectors.modalNameTag).show();
-    $(selectors.modalNameInput).show();
-    $(selectors.modalCreateBtn).prop("disabled", true);
+    $(selectors.addModalNameTag).show();
+    $(selectors.addModalNameInput).show();
+    $(selectors.addModalCreateBtn).prop("disabled", true);
   }
 }
 
