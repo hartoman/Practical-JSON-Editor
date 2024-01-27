@@ -1,5 +1,6 @@
-import * as modalRemove from './js/modalRemove.js';
-import * as modalAdd from './js/modalAdd.js';
+import * as modalRemove from './js/modals/modalRemove.js';
+import * as modalAdd from './js/modals/modalAdd.js';
+import * as createField from './js/createFieldFunctions.js'
 import * as utils from './js/utils.js';
 
 
@@ -13,12 +14,10 @@ const selectors = {
   mainContainer: "#mainContainer",
   addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
-  addModalCloseBtn: "#addBtnModal .close",
-  addModalCreateBtn: "#addBtnModal #modalOK",
-  addModalNameTag: "#modalNameTag",
-  addModalNameInput: "#modalNameInput",
-  addModalDuplicateNameWarning: ".duplicate-warning-label",
-  addModalSelection: "#modalSelection",
+
+ // addModalCloseBtn: "#addBtnModal .close",
+ // addModalCreateBtn: "#addBtnModal #modalOK",
+
   arrayType: "#arrayType",
   optionsBtn: "#optionsBtn",
   optionsModal: "#optionsModal",
@@ -58,7 +57,7 @@ function bindButtons() {
   // top Add Array button
   $("#topAddBtnArray").on("click", function () {
     holdingContainer = $(selectors.mainContainer);
-    createArrayField("", holdingContainer);
+    createField.createArrayField("", holdingContainer);
   });
 
   // top undo button TODO:
@@ -66,7 +65,7 @@ function bindButtons() {
     if (Object.keys(lastAction).length) {
       $(selectors.mainContainer).empty(); // remove contents of main
       holdingContainer = $(selectors.mainContainer);
-      printLoadedJson(lastAction, holdingContainer);
+      utils.printLoadedJson(lastAction, holdingContainer);
       lastAction = {};
     }
   });
@@ -114,7 +113,7 @@ function bindButtons() {
     const file = e.target.files[0];
     const reader = new FileReader();
     const filename = file.name;
-    const filetype = getFileType(filename);
+    const filetype = utils.getFileType(filename);
 
     reader.onload = (e) => {
       const contents = e.target.result;
@@ -135,11 +134,11 @@ function bindButtons() {
         }
         // if contents are array
         if (Array.isArray(jsonContent)) {
-          createArrayField("", holdingContainer);
+          createField.createArrayField("", holdingContainer);
           holdingContainer = $(holdingContainer).find(".array-container");
         }
         // display contents
-        printLoadedJson(jsonContent, holdingContainer);
+        utils.printLoadedJson(jsonContent, holdingContainer);
       } catch (error) {
         alert("Not a valid .json or spreadsheet file");
         $(selectors.fileNameInput).val("");
@@ -170,9 +169,9 @@ function bindButtons() {
   // top save file btn
   $(selectors.saveBtn).on("click", function () {
     let obj = {};
-    obj = createJsonObj($(selectors.mainContainer));
+    obj = utils.createJsonObj($(selectors.mainContainer));
 
-    saveJson(obj);
+    utils.saveJson(obj);
   });
 
   // top open options-modal
@@ -198,7 +197,7 @@ function bindButtons() {
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
     // TODO:
-    lastAction = createJsonObj($(selectors.mainContainer));
+    lastAction = utils.createJsonObj($(selectors.mainContainer));
 
     let parentOfParent = $(this).parent();
     let targetContainer;
@@ -208,19 +207,22 @@ function bindButtons() {
       holdingContainer = targetContainer;
       if (targetContainer.val() === "") {
         // if no items in the array, the value has not been set
-        toggleModalArrayMode(true);
-        $(selectors.addBtnModal).show();
-        $(parentOfParent).children(".clear-button").prop("disabled", false);
+        modalAdd.toggleAddModalArrayMode(true);
+        modalAdd.addModal(targetContainer)
+    //    $(selectors.addBtnModal).show();
+      //  $(parentOfParent).children(".clear-button").prop("disabled", false);
       } else {
         const arrayType = targetContainer.val();
-        createFields("", arrayType, holdingContainer);
+        createField.createFields("", arrayType, holdingContainer);
       }
     } else {
       // add from object
       targetContainer = $(parentOfParent).children(".obj-container");
-      holdingContainer = targetContainer;
-      toggleModalArrayMode(false);
-      $(selectors.addBtnModal).show();
+     // holdingContainer = targetContainer;
+     // modalAdd.toggleAddModalArrayMode(false);
+      modalAdd.toggleAddModalArrayMode(false);
+      modalAdd.addModal(targetContainer)
+     // $(selectors.addBtnModal).show();
       $(parentOfParent).children(".clear-button").prop("disabled", false);
     }
   });
@@ -333,6 +335,10 @@ function bindButtons() {
     $(selectors.addBtnModal).hide();
   });
 
+
+
+
+/*
   // modal toggle enabled create btn
   $(selectors.addModalNameInput).on("input", function () {
     if ($(selectors.addModalNameInput).val() == "") {
@@ -352,13 +358,16 @@ function bindButtons() {
     }
   });
 
+
+
+
   // modal create btn
   $(selectors.addModalCreateBtn).on("click", function () {
     let fieldName = $(selectors.addModalNameInput).val();
     let selectedOption = $(selectors.addModalSelection).find(":selected").val();
 
     // fields in arrays do not get names
-    if (isArray(holdingContainer)) {
+    if (utils.isArray(holdingContainer)) {
       $(holdingContainer).parent().children(".array-container").val(selectedOption);
       fieldName = "";
     }
@@ -367,15 +376,20 @@ function bindButtons() {
     if (isObjectInsideArray(holdingContainer)) {
       // if a label with the same name already exists in some of the objects, it is removed
       utils.removeFromAllObjectsInArray(parentofParent, fieldName);
-      addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
+      utils.addToAllObjectsInArray(parentofParent, fieldName, selectedOption);
     } else {
       // solo object field outside of array
-      createFields(fieldName, selectedOption, holdingContainer);
+     // createFields(fieldName, selectedOption, holdingContainer);
     }
 
     $(selectors.addBtnModal).hide();
     $(selectors.addModalNameInput).val("");
   });
+  
+*/
+
+
+
 }
 
 function bindModals() {
@@ -383,7 +397,7 @@ function bindModals() {
   modalAdd.initAddModal();
  }
 
-
+/*
 function isObjectInsideArray(holdingContainer) {
   // creating field in an object that is an array element,
   let parentElement = $(holdingContainer).parent();
@@ -396,7 +410,8 @@ function isObjectInsideArray(holdingContainer) {
     return false;
   }
 }
-
+*/
+/*
 function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
   // options to add to all objects of that array
   if (
@@ -408,13 +423,13 @@ function addToAllObjectsInArray(parentofParent, fieldName, selectedOption) {
     siblingObjects.map(function () {
       // choosing to create the field in all objects of array
       createFields(fieldName, selectedOption, $(this));
-    }); /**/
+    }); 
   } else {
     // choosing to create the field only in this object of array
     createFields(fieldName, selectedOption, holdingContainer);
   }
 }
-/*
+
 function removeFromAllObjectsInArray(parentContainer, fieldName) {
   let siblingObjects = $(parentContainer).children().children(".obj-container");
 
@@ -431,7 +446,7 @@ function removeFromAllObjectsInArray(parentContainer, fieldName) {
 
 // TODO: D
 function setLastAction() {
-  lastAction = createJsonObj($(selectors.mainContainer));
+  lastAction = utils.createJsonObj($(selectors.mainContainer));
 }
 
 // TODO: A changes the display of the clipboard btn
@@ -446,6 +461,7 @@ function toggleClipboardBtn() {
   }
 }
 
+/*
 // check if the a label with the same name already exists in the holding container
 function labelExists(newLabel) {
   const childLabels = $(holdingContainer).children().children("label");
@@ -457,47 +473,14 @@ function labelExists(newLabel) {
   });
   return exists;
 }
+*/
 
-function toggleModalArrayMode(isForArrayField) {
-  if (isForArrayField) {
-    $(selectors.addBtnModal).find(".modal-title").text("Set Array Type");
-    $(selectors.addModalNameTag).hide();
-    $(selectors.addModalNameInput).hide();
-    $(selectors.addModalCreateBtn).prop("disabled", false);
-  } else {
-    $(selectors.addBtnModal).find(".modal-title").text("Add Object Field");
-    $(selectors.addModalNameTag).show();
-    $(selectors.addModalNameInput).show();
-    $(selectors.addModalCreateBtn).prop("disabled", true);
-  }
-}
 
+
+/*
 function isArray(inputContainer) {
   return $(inputContainer).parent().children(".array-container").length;
-}
-
-function createFields(fieldName, selectedOption, holdingContainer) {
-  switch (selectedOption) {
-    case "object":
-      createObjectField(fieldName, holdingContainer);
-      break;
-    case "text":
-      createTextInputField(fieldName, "", holdingContainer);
-      break;
-    case "textarea":
-      createTextArea(fieldName, "", holdingContainer);
-      break;
-    case "number":
-      createNumberInputField(fieldName, "", holdingContainer);
-      break;
-    case "boolean":
-      createBooleanField(fieldName, false, holdingContainer);
-      break;
-    case "array":
-      createArrayField(fieldName, holdingContainer);
-      break;
-  }
-}
+}*/
 
 function disableRightClickContextMenu() {
   // disables right-click from page
@@ -536,175 +519,7 @@ function toggleSaveBtn(targetNode) {
   observer.observe(targetNode, { childList: true, subtree: true });
 }
 
-function createObjectField(fieldKey, parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#object-template").html();
-  let elementValues = {
-    key: fieldKey,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-function createTextInputField(fieldKey, fieldValue = "", parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#textinput-template").html();
-  let elementValues = {
-    key: fieldKey,
-    value: fieldValue,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-function createTextArea(fieldKey, fieldValue = "", parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#textarea-template").html();
-  let elementValues = {
-    key: fieldKey,
-    value: fieldValue,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-function createNumberInputField(fieldKey, fieldValue, parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#numberinput-template").html();
-  let elementValues = {
-    key: fieldKey,
-    value: fieldValue,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-function createArrayField(fieldKey, parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#array-template").html();
-  let elementValues = {
-    key: fieldKey,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-function createBooleanField(fieldKey, fieldValue, parentContainer) {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#boolean-template").html();
-  let elementValues = {
-    key: fieldKey,
-    value: fieldValue,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-    checked: function () {
-      return this.value ? "checked" : "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-}
-
-// creates json object from the input fields
-function createJsonObj(holdingContainer) {
-  // creates lists that refer to labels and the corresponding inputs
-  // the lists must ALWAYS have the same length!!!
-  const labels = $(holdingContainer).children().children("label");
-  const inputs = $(holdingContainer).children().children("input,textarea,.obj-container, .array-container");
-
-  // creates empty json obj
-  let data = {};
-  //populates fields of the object
-
-  for (let i = 0; i < labels.length; i++) {
-    // the key is the label
-    const key = $(labels[i]).text();
-    // the value depends on the type of the input
-    let value;
-    if (inputs[i].type === "checkbox") {
-      // for boolean fields
-      if (inputs[i].checked) {
-        value = true;
-      } else {
-        value = false;
-      }
-    }
-    if (inputs[i].type === "text" || inputs[i].type === "textarea") {
-      value = $(inputs[i]).val();
-    }
-    if (inputs[i].type === "number") {
-      value = Number($(inputs[i]).val());
-    }
-    if (inputs[i].classList.contains("obj-container")) {
-      holdingContainer = inputs[i];
-      value = createJsonObj(inputs[i]);
-    }
-    if (inputs[i].classList.contains("array-container")) {
-      holdingContainer = inputs[i];
-      value = fromArrayToJson(inputs[i]);
-    }
-    data[key] = value;
-  }
-  // arrays have unlabeled fields
-  if (labels.length === 0 && inputs.length > 0) {
-    for (let i = 0; i < inputs.length; i++) {
-      holdingContainer = inputs[i];
-      data = fromArrayToJson(inputs[i]);
-    }
-  }
-  return data;
-}
-
-// transforms unlabeled fields from an array to json fields
-function fromArrayToJson(arrayContainer) {
-  const returnedArray = [];
-  const inputs = $(arrayContainer).children().children("input,textarea,.obj-container, .array-container");
-
-  for (let i = 0; i < inputs.length; i++) {
-    let value;
-    if (inputs[i].classList.contains("array-container")) {
-      // arrays
-      value = fromArrayToJson(inputs[i]);
-    } else if (inputs[i].classList.contains("obj-container")) {
-      //objects
-      value = createJsonObj(inputs[i]);
-    } else if (inputs[i].type === "checkbox") {
-      // boolean fields
-      if (inputs[i].checked) {
-        value = true;
-      } else {
-        value = false;
-      }
-    } else {
-      value = $(inputs[i]).val(); // text, textarea, number
-    }
-    returnedArray.push(value);
-  }
-  return returnedArray;
-}
-
+/*
 // creates json from object and downloads it
 function saveJson(obj) {
   const data = JSON.stringify(obj, null, 2); // Converts the object to a formatted JSON string
@@ -723,48 +538,4 @@ function saveJson(obj) {
 function getFileType(filename) {
   return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
 }
-
-// creates fields for the loaded json file
-function printLoadedJson(json, parentContainer) {
-  for (let key in json) {
-    /**/
-    if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
-      if (Array.isArray(json[key])) {
-        $(parentContainer).val("array");
-        createArrayField(key, parentContainer);
-        let arrayContainer = $(parentContainer).find(`#${key}`);
-        printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
-      } else {
-        $(parentContainer).val("object");
-        createObjectField(key, parentContainer);
-        let arrayContainer = $(parentContainer).find(`#${key}`);
-        printLoadedJson(json[key], arrayContainer); // Recursively call the function for nested objects
-      }
-    } else {
-      //  console.log(`${key}: ${json[key]}`); // Print the field
-      if (typeof json[key] === "string") {
-        if (json[key].length <= 20) {
-          $(parentContainer).val("text");
-          createTextInputField(key, json[key], parentContainer); // small texts
-        } else {
-          $(parentContainer).val("textarea");
-          createTextArea(key, json[key], parentContainer); // longer texts
-        }
-      } else if (typeof json[key] === "number") {
-        $(parentContainer).val("number");
-        createNumberInputField(key, json[key], parentContainer);
-      }
-      if (typeof json[key] === "boolean") {
-        $(parentContainer).val("boolean");
-        createBooleanField(key, json[key], parentContainer);
-      }
-    }
-  }
-  $("label").each(function () {
-    if (!isNaN($(this).text())) {
-      // Check if text is a number
-      $(this).text(""); // Set text to nothing
-      $(this).remove();
-    }
-  });
-}
+*/
