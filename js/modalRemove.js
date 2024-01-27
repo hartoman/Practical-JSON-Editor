@@ -1,16 +1,22 @@
 import * as utils from './utils.js';
 
-export const removeModal = () => {
+
+/** remove field modal */
+export const initRemoveModal = () => {
   $("#removeModal").dialog({
     autoOpen: false,
-    title: "Dialog Title",
+    title: "Remove field",
     modal: true,
     draggable: false,
     resizable: false,
     parent: {},
+    open:function() {
+      $('.ui-widget-overlay').css({ opacity: '.7' });
+    },
     buttons: [
       {
         text: "Remove",
+        class:'btn-solid',
         click: function () {
           const targetContainer = $("#removeModal").dialog("option", "parent")
           targetContainer.remove();
@@ -18,8 +24,9 @@ export const removeModal = () => {
         },
       },
       {
-        text: "Remove all",
+        text: "Remove All",
         id: "removeAll",
+        class:'btn-solid',
         style: "display: none;",
         click: function () {
           const targetContainer = $("#removeModal").dialog("option", "parent");
@@ -31,24 +38,39 @@ export const removeModal = () => {
       },
       {
         text: "Cancel",
+        class:'btn-solid',
         click: function () {
           $(this).dialog("close");
         },
       },
     ],
   });
-
 };
 
 
-export const confRemoveModal = (parent) => { 
+export const removeModal = (parent) => { 
 
   $("#removeModal").dialog("option", "parent", parent);  
   const parentContainer = $(parent).parents()[2];
 
   if (utils.isArray(parentContainer)) { 
     $("#removeAll").css("display", "block");
-  } else if (!utils.isArray(parentContainer)) {
+  } else {
     $("#removeAll").css("display", "none");
   }
+
+  const fieldName = $(parent).children("label").text();
+  $('#removeModal').html(`Remove field <strong>'${fieldName}' </strong>?`)
+
+  $("#removeModal").dialog("open");
+
 }
+
+
+/** rename field modal */
+
+
+/** add field modal */
+
+
+/** options modal */

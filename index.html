@@ -40,12 +40,17 @@
     <script src="index.js" type="module"></script>
   </head>
 
-  <body class="json-editor showTooltips">
+  <body class="json-editor-base json-editor-light showTooltips">
+
+   
     <!-- main screen start -->
     <div class="container">
       <div class="" style="margin-top: 2%">
         <div class="row d-flex justify-content-between">
-          <h1 class="h1 col-6">Eazy Json Editor</h1>
+          <div class="col-6">
+          <h1>Eazy Json Editor</h1>
+          <h6> Version 1.0.0 </h6>
+        </div>
           <div class="col-6 text-end">
             <button id="optionsBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Options">
               <i class="bi bi-gear"></i>
@@ -136,8 +141,35 @@
     <!-- main screen end -->
 
     <!-- remove modal start: used by jquery-ui-->
-    <div id="removeModal">Is this a 3 button dialog?</div>
+    <div id="removeModal"></div>
     <!-- remove modal end-->
+
+    <!-- add modal start: used by jquery-ui-->
+    <div id="addModal">
+      <div>
+        <div class="row justify-content-center col-11 mx-auto">
+          <div class="col-5" id="modalNameTag">Name</div>
+          <div class="col-1"></div>
+          <div class="col-5">Type</div>
+        </div>
+        <div class="row justify-content-center col-11 mx-auto">
+          <input id="modalNameInput" class="col-5" type="text" autocomplete="off" />
+          <div class="col-1"></div>
+          <select id="modalSelection" class="col-5">
+            <option value="text">Text</option>
+            <option value="textarea">Text Area (large text)</option>
+            <option value="number">Number</option>
+            <option value="boolean">Boolean</option>
+            <option value="object">Object</option>
+            <option value="array">Array</option>
+          </select>
+        </div>
+      </div>
+      <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto">
+        A field with this name already exists!
+      </div>
+    </div>
+    <!-- add modal end-->
 
     <!-- create new field modal start-->
     <div id="addBtnModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
@@ -237,7 +269,7 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">{}:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
@@ -270,7 +302,7 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">[]:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
@@ -306,7 +338,7 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="my-auto text-center">:</p>
         <input type="text" value="{{value}}" />
@@ -321,7 +353,7 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center">:</p>
         <textarea type="text" class="col" value="">{{value}}</textarea>
@@ -336,7 +368,7 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="my-auto text-center">:</p>
         <input type="number" class="" value="{{value}}" />
@@ -351,12 +383,21 @@
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
-        <label class="my-auto custom-tooltip" data-tooltiptext="Right click to change field name">{{key}}</label>
+        <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="my-auto text-center">:</p>
         <input type="checkbox" class="col-1" value="{{value}}" {{checked}} />
       </div>
     </template>
     <!--boolean template end-->
+
+
+    <div class="temp-mobile">
+      <div>
+      <h1>Eazy Json Editor</h1>
+      <h6> Version 1.0.0 </h6>
+      <p>Mobile view will be implemented in future version</p>
+    </div>
+    </div>
   </body>
 </html>

@@ -1,74 +1,43 @@
-.json-editor {
-  background-color: rgba(211, 211, 211, 0.1);
+.json-editor-base {
+  /* desktop version*/
+  /*mobile version */
 }
-.json-editor * {
+.json-editor-base * {
   box-sizing: border-box;
 }
-.json-editor .container {
+.json-editor-base .container {
   margin: 0 5% 0 5%;
   max-width: 90%;
   padding: 0;
 }
-.json-editor input,
-.json-editor textarea {
-  border: 1px solid transparent;
-  background-color: transparent;
-}
-.json-editor input:hover,
-.json-editor textarea:hover {
-  border: 1px solid black;
-  background-color: white;
-  color: black;
-}
-.json-editor textarea {
-  border-left: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-}
-.json-editor .obj-container,
-.json-editor .array-container {
+.json-editor-base .obj-container,
+.json-editor-base .array-container {
   padding: 0 0 0 12px;
 }
-.json-editor .obj-container .container,
-.json-editor .array-container .container {
+.json-editor-base .obj-container .container,
+.json-editor-base .array-container .container {
   max-width: 100%;
   margin: 0;
   padding: 0;
 }
-.json-editor .obj-container .row,
-.json-editor .array-container .row {
+.json-editor-base .obj-container .row,
+.json-editor-base .array-container .row {
   padding-right: 0;
   margin-right: 0;
 }
-.json-editor .obj-container:hover,
-.json-editor .array-container:hover {
-  background-color: rgba(211, 211, 211, 0.3);
-}
-.json-editor input[type=checkbox] {
+.json-editor-base input[type=checkbox] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  background-color: #fafafa;
-  border: 2px solid black;
   padding: 0.5rem;
   border-radius: 25%;
   display: inline-block;
   height: 1rem;
   width: 1rem;
-  outline: 1px solid black;
   outline-offset: -4px;
 }
-.json-editor input[type=checkbox]:hover {
-  border: 2px solid red;
-}
-.json-editor input[type=checkbox]:checked {
-  background-color: black;
-  outline: 2px solid white;
-}
-.json-editor input[type=checkbox]:checked:hover {
-  border: 2px solid red;
-}
-.json-editor .copy-button, .json-editor .paste-button, .json-editor .hide-button,
-.json-editor .add-button, .json-editor .clear-button, .json-editor .del-button {
+.json-editor-base .copy-button, .json-editor-base .paste-button, .json-editor-base .hide-button,
+.json-editor-base .add-button, .json-editor-base .clear-button, .json-editor-base .del-button {
   text-align: center;
   width: -moz-fit-content;
   width: fit-content;
@@ -78,79 +47,152 @@
   height: min-content;
   border: none;
 }
-.json-editor .clear-button {
-  color: red;
-}
-.json-editor .clear-button:hover {
-  color: black;
-}
-.json-editor .del-button {
-  color: red;
-}
-.json-editor .del-button:hover {
-  color: black;
-}
-.json-editor .hide-button:hover,
-.json-editor .add-button:hover,
-.json-editor .copy-button:hover, .json-editor .paste-button:hover {
-  color: red;
-}
-.json-editor h1,
-.json-editor label,
-.json-editor p,
-.json-editor select,
-.json-editor textarea,
-.json-editor .modal,
-.json-editor input {
+.json-editor-base h1,
+.json-editor-base label,
+.json-editor-base p,
+.json-editor-base select,
+.json-editor-base textarea,
+.json-editor-base .modal,
+.json-editor-base input {
   font-family: courier;
 }
-.json-editor .row {
+.json-editor-base .row {
   margin-left: 0px;
 }
-.json-editor .btn {
+.json-editor-base .btn {
   border: none;
 }
-.json-editor .btn-solid {
-  border: 1px solid darkgray;
-  background-color: lightgray;
+.json-editor-base .btn-solid {
   margin-right: 10px;
-  box-shadow: 1px 1px 1px black;
 }
-.json-editor .btn-solid:hover {
-  background-color: gray;
-}
-.json-editor .modal {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-.json-editor .modal .modal-content {
-  border: 2px solid gray;
-  background-color: lightgray;
-}
-.json-editor .modal .modal-content .bi::before {
+.json-editor-base .modal .modal-content .bi::before {
   font-weight: 1000 !important;
 }
-.json-editor .modal .modal-content .modal-header {
-  background-color: darkgray;
-}
-.json-editor .modal .modal-content .modal-header .btn-close {
+.json-editor-base .modal .modal-content .modal-header .btn-close {
   background: unset;
   display: inline;
-  color: red;
   font-weight: 600;
   padding: unset;
   margin: unset;
 }
-.json-editor .modal .modal-content .modal-body input[type=text], .json-editor .modal .modal-content .modal-body select {
-  border: 1px solid black;
-  background-color: white;
+.json-editor-base .modal .modal-content .modal-body input[type=text], .json-editor-base .modal .modal-content .modal-body select {
   margin: 0 0 5%;
 }
-.json-editor .modal .modal-content .modal-body .duplicate-warning-label {
+.json-editor-base .modal .modal-content .modal-body .duplicate-warning-label {
   margin: 5%;
-  color: red;
   visibility: hidden;
 }
-.json-editor .modal .modal-content .modal-footer {
+.json-editor-base .temp-mobile {
+  display: none;
+}
+@media all and (orientation: portrait) and (max-width: 767px) {
+  .json-editor-base :not(.temp-mobile) {
+    display: none;
+  }
+  .json-editor-base .temp-mobile {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  .json-editor-base .temp-mobile * {
+    display: block;
+  }
+  .json-editor-base .temp-mobile div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+  }
+  .json-editor-base .temp-mobile p {
+    text-align: center;
+  }
+}
+
+.json-editor-light {
+  background-color: rgba(211, 211, 211, 0.1);
+}
+.json-editor-light input,
+.json-editor-light textarea {
+  border: 1px solid transparent;
+  background-color: transparent;
+}
+.json-editor-light input:hover,
+.json-editor-light textarea:hover {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+}
+.json-editor-light textarea {
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+.json-editor-light .obj-container:hover,
+.json-editor-light .array-container:hover {
+  background-color: rgba(211, 211, 211, 0.3);
+}
+.json-editor-light input[type=checkbox] {
+  background-color: #fafafa;
+  border: 2px solid black;
+  outline: 1px solid black;
+}
+.json-editor-light input[type=checkbox]:hover {
+  border: 2px solid red;
+}
+.json-editor-light input[type=checkbox]:checked {
+  background-color: red;
+  outline: 2px solid white;
+}
+.json-editor-light input[type=checkbox]:checked:hover {
+  border: 2px solid red;
+}
+.json-editor-light .clear-button {
+  color: red;
+}
+.json-editor-light .clear-button:hover {
+  color: black;
+}
+.json-editor-light .del-button {
+  color: red;
+}
+.json-editor-light .del-button:hover {
+  color: black;
+}
+.json-editor-light .hide-button:hover,
+.json-editor-light .add-button:hover,
+.json-editor-light .copy-button:hover, .json-editor-light .paste-button:hover {
+  color: red;
+}
+.json-editor-light .btn-solid {
+  border: 1px solid darkgray;
+  background-color: lightgray;
+  box-shadow: 1px 1px 1px black;
+}
+.json-editor-light .btn-solid:hover {
+  background-color: gray;
+}
+.json-editor-light .modal {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.json-editor-light .modal .modal-content {
+  border: 2px solid gray;
+  background-color: lightgray;
+}
+.json-editor-light .modal .modal-content .modal-header {
+  background-color: darkgray;
+}
+.json-editor-light .modal .modal-content .modal-header .btn-close {
+  color: red;
+}
+.json-editor-light .modal .modal-content .modal-body input[type=text], .json-editor-light .modal .modal-content .modal-body select {
+  border: 1px solid black;
+  background-color: white;
+}
+.json-editor-light .modal .modal-content .modal-body .duplicate-warning-label {
+  color: red;
+}
+.json-editor-light .modal .modal-content .modal-footer {
   border-color: gray;
 }
 
@@ -236,7 +278,15 @@
 .json-editor-dark .modal .modal-content .modal-footer .btn-solid:hover {
   background-color: lightgrey;
 }
-
+.json-editor-dark .ui-dialog .ui-dialog-buttonpane {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
 /* customize the tooltip with the following variables: */
 /* to be able to show/hide tooltips: add/remove showTooltips class to the body of the document
 If you only add custom-tooltip to an element, it will be always on*/

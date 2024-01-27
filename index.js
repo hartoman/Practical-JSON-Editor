@@ -1,4 +1,5 @@
-import * as modals from './js/modals.js';
+import * as modalRemove from './js/modalRemove.js';
+import * as modalAdd from './js/modalAdd.js';
 import * as utils from './js/utils.js';
 
 
@@ -48,8 +49,10 @@ function bindButtons() {
   // top Add Obj button
   $("#topAddBtnObj").on("click", function () {
     holdingContainer = $(selectors.mainContainer);
-    toggleModalArrayMode(false);
-    $(selectors.addBtnModal).show();
+    //toggleModalArrayMode(false);
+    //$(selectors.addBtnModal).show();
+
+    modalAdd.addModal(holdingContainer);
   });
 
   // top Add Array button
@@ -226,8 +229,7 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".del-button", function () {
 
     const parent = $(this).parent();
-    modals.confRemoveModal(parent);
-    $("#removeModal").dialog("open");
+    modalRemove.removeModal(parent);
   });
 
   // delegation for all hide buttons
@@ -300,7 +302,7 @@ function bindButtons() {
   });
 
   // delegation for right clicking on labels to change text
-  $(selectors.mainContainer).on("contextmenu", "label", function (e) {
+  $(selectors.mainContainer).on("click", "label", function (e) {
     e.preventDefault(); // so that the usual context menu does not appear
 
     const oldLabel = $(this).text();
@@ -377,41 +379,9 @@ function bindButtons() {
 }
 
 function bindModals() {
-  modals.removeModal();
-/*
-  function removeModal() {
-    $("#removeModal").dialog({
-      autoOpen: true,
-      title: "Dialog Title",
-      modal: true,
-      draggable: false,
-      resizable: false,
-      removeAllInArray:true,
-      buttons: [
-        {
-          text: "Remove",
-          click: function () {
-            console.log("fdfd");
-          },
-        },
-        {
-          text: "Cancel",
-          id: "extraButton",
-          style: "display: none;",
-          click: function () {
-            $(this).dialog("close");
-          },
-        },
-      ],
-    });
-
-    if ($("#removeModal").dialog("option","removeAllInArray")) {
-      $("#extraButton").css("display", "block");
-    } else {
-      $("#extraButton").css("display", "none");
-    }
-  }*/
-}
+  modalRemove.initRemoveModal();
+  modalAdd.initAddModal();
+ }
 
 
 function isObjectInsideArray(holdingContainer) {
