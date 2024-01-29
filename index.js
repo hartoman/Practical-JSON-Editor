@@ -1,4 +1,5 @@
 import * as modalRemove from './js/modals/modalRemove.js';
+import * as modalRename from './js/modals/modalRename.js';
 import * as modalAdd from './js/modals/modalAdd.js';
 import * as createField from './js/createFieldFunctions.js'
 import * as utils from './js/utils.js';
@@ -12,7 +13,7 @@ const selectors = {
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
   mainContainer: "#mainContainer",
-  addBtnModal: "#addBtnModal",
+ // addBtnModal: "#addBtnModal",
   saveBtn: "#saveBtn",
 
  // addModalCloseBtn: "#addBtnModal .close",
@@ -110,6 +111,8 @@ function bindButtons() {
   // top load file btn
   $(selectors.fileInputBtn).on("change", function (e) {
     lastAction = {};
+
+
     const file = e.target.files[0];
     const reader = new FileReader();
     const filename = file.name;
@@ -209,8 +212,6 @@ function bindButtons() {
         // if no items in the array, the value has not been set
         modalAdd.toggleAddModalArrayMode(true);
         modalAdd.addModal(targetContainer)
-    //    $(selectors.addBtnModal).show();
-      //  $(parentOfParent).children(".clear-button").prop("disabled", false);
       } else {
         const arrayType = targetContainer.val();
         createField.createFields("", arrayType, holdingContainer);
@@ -218,11 +219,8 @@ function bindButtons() {
     } else {
       // add from object
       targetContainer = $(parentOfParent).children(".obj-container");
-     // holdingContainer = targetContainer;
-     // modalAdd.toggleAddModalArrayMode(false);
       modalAdd.toggleAddModalArrayMode(false);
       modalAdd.addModal(targetContainer)
-     // $(selectors.addBtnModal).show();
       $(parentOfParent).children(".clear-button").prop("disabled", false);
     }
   });
@@ -303,11 +301,17 @@ function bindButtons() {
     }
   });
 
-  // delegation for right clicking on labels to change text
+  // delegation for clicking on labels to change text
   $(selectors.mainContainer).on("click", "label", function (e) {
     e.preventDefault(); // so that the usual context menu does not appear
 
-    const oldLabel = $(this).text();
+  //  const oldLabel = $(this).text();
+
+     const parent = $(this).parent();
+    modalRename.renameModal(parent)
+    /*
+
+
     let newLabel = prompt("Rename Label", oldLabel);
     while (newLabel === "") {
       // user tries to leave blank
@@ -327,14 +331,15 @@ function bindButtons() {
       $(this).text(newLabel);
     } else {
       alert("A field with this name already exists");
-    }
+    }*/
   });
 
+  /*
   // modal close buttons
   $(selectors.addModalCloseBtn).on("click", function () {
     $(selectors.addBtnModal).hide();
   });
-
+*/
 
 
 
@@ -395,6 +400,7 @@ function bindButtons() {
 function bindModals() {
   modalRemove.initRemoveModal();
   modalAdd.initAddModal();
+  modalRename.initRenameModal()
  }
 
 /*
@@ -510,6 +516,7 @@ function toggleSaveBtn(targetNode) {
         $;
       } else {
         // object
+        $("#topAddBtnObj").show("fast");
         $("#topAddBtnArray").hide("fast");
       }
       $(selectors.saveBtn).prop("disabled", false);

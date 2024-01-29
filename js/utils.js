@@ -22,6 +22,20 @@ export const isObjectInsideArray=(holdingContainer)=> {
   }
 }
 
+export const renameAllObjectsInArray = (parentContainer, oldname, newName)=> {
+  let siblingObjects = $(parentContainer).children().children(".obj-container");
+
+  siblingObjects.map(function () {
+    let preexistingLabels = $(this).children().children("label");
+    let fieldwithsamename = preexistingLabels.filter(function () {
+      return $(this).text() === oldname;
+    });
+    if (fieldwithsamename.length) {
+      $(fieldwithsamename).text(newName);
+    }
+  });
+}
+
 export const removeFromAllObjectsInArray = (parentContainer, fieldName)=> {
     let siblingObjects = $(parentContainer).children().children(".obj-container");
   
@@ -37,9 +51,6 @@ export const removeFromAllObjectsInArray = (parentContainer, fieldName)=> {
 }
   
 export const addToAllObjectsInArray=(parentContainer, fieldName, selectedOption) =>{
-  // options to add to all objects of that array
-
- //   let parentContainer =$(holdingContainer).parents()[1];
   let siblingObjects = $(parentContainer).children().children(".obj-container");
   
     siblingObjects.map(function () {

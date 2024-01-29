@@ -24,6 +24,8 @@ export const initAddModal = () => {
     buttons: [
       {
         text: "Add",
+        id: "addOne",
+        disabled:true,
         class: "btn-solid",
         click: function () {
           const targetContainer = $("#addModal").dialog("option", "parent");
@@ -44,18 +46,19 @@ export const initAddModal = () => {
       {
         text: "Add to All",
         id: "addAll",
+        disabled:true,
         class: "btn-solid",
         style: "display: none;",
         click: function () {
           const targetContainer = $("#addModal").dialog("option", "parent");
           const parentContainer = $(targetContainer).parents()[1];
-          const parentOfParent = $(targetContainer).parents()[2];
-
           const fieldName = $(selectors.addModalNameInput).val();
           let selectedOption = $(selectors.addModalSelection).find(":selected").val();
 
           utils.removeFromAllObjectsInArray(parentContainer, fieldName);
           utils.addToAllObjectsInArray(parentContainer, fieldName, selectedOption);
+
+          $(selectors.addModalNameInput).val("");
           $(this).dialog("close");
         },
       },
@@ -77,6 +80,7 @@ export const addModal = (parent) => {
   if (!utils.isArray(parentContainer)) {
     $(selectors.addModalNameTag).css("display", "block");
     $(selectors.addModalNameInput).css("display", "block");
+
   } else {
     $(selectors.addModalNameTag).css("display", "none");
     $(selectors.addModalNameInput).css("display", "none");
@@ -97,15 +101,21 @@ $(selectors.addModalNameInput).on("input", function () {
     // empty
     $(selectors.addModalCreateBtn).prop("disabled", true);
     $(selectors.addModalDuplicateNameWarning).css("visibility", "hidden");
+    $("#addAll").button('disable');
+    $("#addOne").button('disable');
   } else {
     if (labelExists($(selectors.addModalNameInput).val())) {
       // duplicates found
       $(selectors.addModalCreateBtn).prop("disabled", true);
       $(selectors.addModalDuplicateNameWarning).css("visibility", "visible");
+      $("#addAll").button('disable');
+      $("#addOne").button('disable');
     } else {
       // not empty and no duplicates
       $(selectors.addModalDuplicateNameWarning).css("visibility", "hidden");
       $(selectors.addModalCreateBtn).prop("disabled", false);
+      $("#addAll").button('enable');
+      $("#addOne").button('enable');
     }
   }
 });

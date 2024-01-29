@@ -51,7 +51,8 @@ export const initRemoveModal = () => {
 export const removeModal = (parent) => { 
 
   $("#removeModal").dialog("option", "parent", parent);  
-  const parentContainer = $(parent).parents()[2];
+  console.log(parent)
+  const parentContainer = $(parent).parents()[1];
 
   if (utils.isArray(parentContainer)) { 
     $("#removeAll").css("display", "block");
