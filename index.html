@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eazy Json Editor</title>
+    <meta name="description" content="Simple and intuitive interface for easy json editing" />
+    <meta name="keywords" content="json, editor, simple, eazy" />
+    <meta name="author" content="Christos Chartomatsidis" />
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="braces-asterisk.svg" />
 
@@ -41,21 +44,19 @@
   </head>
 
   <body class="json-editor-base json-editor-light showTooltips">
-
-   
     <!-- main screen start -->
     <div class="container">
       <div class="" style="margin-top: 2%">
         <div class="row d-flex justify-content-between">
           <div class="col-6">
-          <h1>Eazy Json Editor</h1>
-          <h6> Version 1.0.0 </h6>
-        </div>
+            <h1>Eazy Json Editor</h1>
+            <h6>Version 1.0.0</h6>
+          </div>
           <div class="col-6 text-end">
             <button id="optionsBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Options">
               <i class="bi bi-gear"></i>
             </button>
-            <a href="README.md" target="_blank"
+            <a href="./README.md" target="_blank"
               ><button id="helpBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Info">
                 <i class="bi bi-question-diamond"></i></button
             ></a>
@@ -96,8 +97,8 @@
       </div>
       <hr />
       <div class="container m-1">
-        <div class="row d-flex justify-content-between">
-          <div class="col-9 row" style="margin-bottom: 10px">
+        <div class="row d-flex justify-content-between " style="margin-bottom: 10px">
+          <div class="col-8 row" >
             <button
               id="topAddBtnObj"
               class="btn-solid fs-3 col-1 custom-tooltip"
@@ -121,19 +122,24 @@
               <i class="bi bi-arrow-up-left-circle"></i>
             </button>
           </div>
-          <button id="undoBtn" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Undo last action">
+          <div class="col-4 row">
+          <button id="undoBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Undo last action">
             <i class="bi bi-arrow-counterclockwise"></i>
           </button>
-          <button id="clipboardBtn" class="btn-solid fs-3 col-1 custom-tooltip" data-tooltiptext="Clipboard is empty">
+          <button id="redoBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Undo last action">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <button id="clipboardBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Clipboard is empty">
             <i class="bi bi-clipboard"></i>
           </button>
           <button
             id="topClearBtn"
-            class="btn fs-3 col-1 clear-button custom-tooltip"
+            class="btn fs-3 col-3 clear-button custom-tooltip"
             data-tooltiptext="Remove all contents"
           >
             <i class="bi bi-x-octagon-fill"></i>
           </button>
+        </div>
           <div id="mainContainer" class="obj-container"></div>
         </div>
       </div>
@@ -144,19 +150,19 @@
     <div id="removeModal"></div>
     <!-- remove modal end-->
 
-        <!-- remove modal start: used by jquery-ui-->
-        <div id="renameModal">
-          <div class="row justify-content-center col-11 mx-auto">
-            <div id="test"></div>
-            <div class="col-5" id="addModalNameTag">Name</div>
-            <div class="col-1"></div>
-            <input id="renameModalNameInput" class="col-5" type="text" autocomplete="off" />
-          </div>
-          <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto" style="visibility:hidden">
-            A field with this name already exists!
-          </div>
-        </div>
-        <!-- remove modal end-->
+    <!-- remove modal start: used by jquery-ui-->
+    <div id="renameModal">
+      <div class="row justify-content-center col-11 mx-auto">
+        <div id="test"></div>
+        <div class="col-5" id="addModalNameTag">Name</div>
+        <div class="col-1"></div>
+        <input id="renameModalNameInput" class="col-5" type="text" autocomplete="off" />
+      </div>
+      <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto" style="visibility: hidden">
+        A field with this name already exists!
+      </div>
+    </div>
+    <!-- remove modal end-->
 
     <!-- add modal start: used by jquery-ui-->
     <div id="addModal">
@@ -179,7 +185,7 @@
           </select>
         </div>
       </div>
-      <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto" style="visibility:hidden">
+      <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto" style="visibility: hidden">
         A field with this name already exists!
       </div>
     </div>
@@ -199,7 +205,7 @@
             </div>
             <div class="row justify-content-center">
               <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
-              <label class="col" for="confirm-msg-checkbox">Warnings</label>
+              <label class="col" for="confirm-msg-checkbox">PLACEHOLDER</label>
             </div>
             <div class="row justify-content-center">
               <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked />
@@ -216,20 +222,17 @@
     </div>
     <!-- options modal end -->
 
-    <!-- save json file modal start -->
-    <div></div>
-    <!-- save json file modal end -->
 
     <!-- object template start -->
     <template id="object-template">
-      <div class="container row d-flex">
+      <div class="container row d-flex obj-wrapper">
         <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-        <p class="col-1 my-auto text-center">{}:</p>
+        <p class="col-1 my-auto text-center"><i class="bi bi-braces-asterisk"></i>:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
@@ -255,14 +258,14 @@
 
     <!-- array template start -->
     <template id="array-template">
-      <div class="container border-bottom border-1 row d-flex">
+      <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper">
         <button class="col-1 btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-        <p class="col-1 my-auto text-center">[]:</p>
+        <p class="col-1 my-auto text-center">[#]:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
@@ -349,13 +352,12 @@
     </template>
     <!--boolean template end-->
 
-
     <div class="temp-mobile">
       <div>
-      <h1>Eazy Json Editor</h1>
-      <h6> Version 1.0.0 </h6>
-      <p>Mobile view will be implemented in future version</p>
-    </div>
+        <h1>Eazy Json Editor</h1>
+        <h6>Version 1.0.0</h6>
+        <p>Mobile view will be implemented in future version</p>
+      </div>
     </div>
   </body>
 </html>

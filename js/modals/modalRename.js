@@ -1,4 +1,5 @@
-import * as utils from "../utils.js";
+import * as utils from "../functions/utils.js";
+import * as allInArray from "../functions/modifyAllInArray.js";
 
 const selectors = {
   renameModalNameTag: "#renameModalNameTag",
@@ -7,7 +8,6 @@ const selectors = {
   renameModalSelection: "#modalSelection",
 };
 
-/** rename field modal */
 export const initRenameModal = () => {
   $("#renameModal").dialog({
     autoOpen: false,
@@ -47,7 +47,7 @@ export const initRenameModal = () => {
           const oldName = $(parent).children("label").text();
           const newName = $(selectors.renameModalNameInput).val();
           const parentContainer = $(parent).parents()[2];
-          utils.renameAllObjectsInArray(parentContainer, oldName, newName);
+          allInArray.renameAllObjectsInArray(parentContainer, oldName, newName);
           $(selectors.renameModalNameInput).val("");
           $(this).dialog("close");
         },

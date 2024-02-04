@@ -1,5 +1,7 @@
-import * as utils from "../utils.js";
-import * as createFields from "../createFieldFunctions.js";
+import * as utils from "../functions/utils.js";
+import * as undoHandlers from "../functions/undoHandlers.js";
+import * as createField from "../functions/createFieldFunctions.js";
+import * as allInArray from "../functions/modifyAllInArray.js";
 
 const selectors = {
   addModalNameTag: "#addModalNameTag",
@@ -28,6 +30,7 @@ export const initAddModal = () => {
         disabled:true,
         class: "btn-solid",
         click: function () {
+          undoHandlers.setUndo();
           const targetContainer = $("#addModal").dialog("option", "parent");
           let fieldName = $(selectors.addModalNameInput).val();
           let selectedOption = $(selectors.addModalSelection).find(":selected").val();
@@ -38,7 +41,7 @@ export const initAddModal = () => {
             fieldName = "";
           }
 
-          createFields.createFields(fieldName, selectedOption, targetContainer);
+          createField.createFields(fieldName, selectedOption, targetContainer);
           $(selectors.addModalNameInput).val("");
           $(this).dialog("close");
         },
@@ -50,13 +53,14 @@ export const initAddModal = () => {
         class: "btn-solid",
         style: "display: none;",
         click: function () {
+          undoHandlers.setUndo();
           const targetContainer = $("#addModal").dialog("option", "parent");
           const parentContainer = $(targetContainer).parents()[1];
           const fieldName = $(selectors.addModalNameInput).val();
           let selectedOption = $(selectors.addModalSelection).find(":selected").val();
 
-          utils.removeFromAllObjectsInArray(parentContainer, fieldName);
-          utils.addToAllObjectsInArray(parentContainer, fieldName, selectedOption);
+          allInArray.removeFromAllObjectsInArray(parentContainer, fieldName);
+          allInArray.addToAllObjectsInArray(parentContainer, fieldName, selectedOption);
 
           $(selectors.addModalNameInput).val("");
           $(this).dialog("close");
@@ -77,13 +81,16 @@ export const addModal = (parent) => {
   $("#addModal").dialog("option", "parent", parent);
   const parentContainer = $(parent).parents()[2];
 
-  if (!utils.isArray(parentContainer)) {
+  if (!utils.isArray(parent)) {
     $(selectors.addModalNameTag).css("display", "block");
     $(selectors.addModalNameInput).css("display", "block");
-
+    $("#addOne").button('disable');
+    $("#addAll").button('disable');
   } else {
     $(selectors.addModalNameTag).css("display", "none");
     $(selectors.addModalNameInput).css("display", "none");
+    $("#addAll").button('enable');
+    $("#addOne").button('enable');
   }
 
   if (utils.isObjectInsideArray(parent)) {

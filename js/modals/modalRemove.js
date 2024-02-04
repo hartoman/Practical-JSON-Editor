@@ -1,7 +1,6 @@
-import * as utils from '../utils.js';
+import * as utils from "../functions/utils.js";
+import * as allInArray from "../functions/modifyAllInArray.js";
 
-
-/** remove field modal */
 export const initRemoveModal = () => {
   $("#removeModal").dialog({
     autoOpen: false,
@@ -10,15 +9,15 @@ export const initRemoveModal = () => {
     draggable: false,
     resizable: false,
     parent: {},
-    open:function() {
-      $('.ui-widget-overlay').css({ opacity: '.7' });
+    open: function () {
+      $(".ui-widget-overlay").css({ opacity: ".7" });
     },
     buttons: [
       {
         text: "Remove",
-        class:'btn-solid',
+        class: "btn-solid",
         click: function () {
-          const targetContainer = $("#removeModal").dialog("option", "parent")
+          const targetContainer = $("#removeModal").dialog("option", "parent");
           targetContainer.remove();
           $(this).dialog("close");
         },
@@ -26,19 +25,19 @@ export const initRemoveModal = () => {
       {
         text: "Remove All",
         id: "removeAll",
-        class:'btn-solid',
+        class: "btn-solid",
         style: "display: none;",
         click: function () {
           const targetContainer = $("#removeModal").dialog("option", "parent");
           const parentContainer = $(targetContainer).parents()[2];
           const fieldName = $(targetContainer).children("label").text();
-          utils.removeFromAllObjectsInArray(parentContainer, fieldName);
+          allInArray.removeFromAllObjectsInArray(parentContainer, fieldName);
           $(this).dialog("close");
         },
       },
       {
         text: "Cancel",
-        class:'btn-solid',
+        class: "btn-solid",
         click: function () {
           $(this).dialog("close");
         },
@@ -47,31 +46,17 @@ export const initRemoveModal = () => {
   });
 };
 
+export const removeModal = (parent) => {
+  $("#removeModal").dialog("option", "parent", parent);
+  const parentContainer = $(parent).parents()[2];
 
-export const removeModal = (parent) => { 
-
-  $("#removeModal").dialog("option", "parent", parent);  
-  console.log(parent)
-  const parentContainer = $(parent).parents()[1];
-
-  if (utils.isArray(parentContainer)) { 
+  if (utils.isArray(parentContainer)) {
     $("#removeAll").css("display", "block");
   } else {
     $("#removeAll").css("display", "none");
   }
 
   const fieldName = $(parent).children("label").text();
-  $('#removeModal').html(`Remove field <strong>'${fieldName}' </strong>?`)
-
+  $("#removeModal").html(`Remove field <strong>'${fieldName}' </strong>?`);
   $("#removeModal").dialog("open");
-
-}
-
-
-/** rename field modal */
-
-
-/** add field modal */
-
-
-/** options modal */
+};
