@@ -30,6 +30,7 @@ export const initAddModal = () => {
         disabled:true,
         class: "btn-solid",
         click: function () {
+          undoHandlers.unsetRedo();
           undoHandlers.setUndo();
           const targetContainer = $("#addModal").dialog("option", "parent");
           let fieldName = $(selectors.addModalNameInput).val();
@@ -53,6 +54,7 @@ export const initAddModal = () => {
         class: "btn-solid",
         style: "display: none;",
         click: function () {
+          undoHandlers.unsetRedo();
           undoHandlers.setUndo();
           const targetContainer = $("#addModal").dialog("option", "parent");
           const parentContainer = $(targetContainer).parents()[1];

@@ -1,5 +1,6 @@
 import * as utils from "../functions/utils.js";
 import * as allInArray from "../functions/modifyAllInArray.js";
+import * as undoHandlers from "../functions/undoHandlers.js";
 
 const selectors = {
   renameModalNameTag: "#renameModalNameTag",
@@ -28,6 +29,8 @@ export const initRenameModal = () => {
         disabled: true,
         class: "btn-solid",
         click: function () {
+          undoHandlers.unsetRedo();
+          undoHandlers.setUndo();
           const parent = $("#renameModal").dialog("option", "parent");
           const label = $(parent).children("label");
           let newName = $(selectors.renameModalNameInput).val();
@@ -43,6 +46,8 @@ export const initRenameModal = () => {
         class: "btn-solid",
         style: "display: none;",
         click: function () {
+          undoHandlers.unsetRedo();
+          undoHandlers.setUndo();
           const parent = $("#renameModal").dialog("option", "parent");
           const oldName = $(parent).children("label").text();
           const newName = $(selectors.renameModalNameInput).val();

@@ -1,5 +1,6 @@
 import * as utils from "../functions/utils.js";
 import * as allInArray from "../functions/modifyAllInArray.js";
+import * as undoHandlers from "../functions/undoHandlers.js";
 
 export const initRemoveModal = () => {
   $("#removeModal").dialog({
@@ -17,6 +18,8 @@ export const initRemoveModal = () => {
         text: "Remove",
         class: "btn-solid",
         click: function () {
+          undoHandlers.unsetRedo();
+          undoHandlers.setUndo();
           const targetContainer = $("#removeModal").dialog("option", "parent");
           targetContainer.remove();
           $(this).dialog("close");
@@ -28,6 +31,8 @@ export const initRemoveModal = () => {
         class: "btn-solid",
         style: "display: none;",
         click: function () {
+          undoHandlers.unsetRedo();
+          undoHandlers.setUndo();
           const targetContainer = $("#removeModal").dialog("option", "parent");
           const parentContainer = $(targetContainer).parents()[2];
           const fieldName = $(targetContainer).children("label").text();

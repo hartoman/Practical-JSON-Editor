@@ -55,10 +55,14 @@ function bindButtons() {
     createField.createArrayField("", holdingContainer);
   });
 
-  // top undo button TODO:
+  // top undo button
   $("#undoBtn").on("click", function () {
-      undoHandlers.undo()
+    undoHandlers.undo();
+  });
 
+    // top redo button
+    $("#redoBtn").on("click", function () {
+      undoHandlers.redo();
   });
 
   // top empty clipboard button
@@ -248,21 +252,18 @@ function bindModals() {
   modalRename.initRenameModal()
  }
 
- /*
-// TODO: D
-function setLastAction() {
-  lastAction = jsonHandlers.createJsonObj($(selectors.mainContainer));
-}*/
 
 // TODO: A changes the display of the clipboard btn
 function toggleClipboardBtn() {
   let icon = $(selectors.clipboardBtn).children(".bi");
   if (clonedElement) {
     $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
-    $(icon).toggleClass("bi-clipboard bi-clipboard-check");
+    $(icon).removeClass("bi-clipboard");
+    $(icon).addClass("bi-clipboard-check");
   } else {
     $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
-    $(icon).toggleClass("bi-clipboard bi-clipboard-check");
+    $(icon).addClass("bi-clipboard");
+    $(icon).removeClass("bi-clipboard-check");
   }
 }
 
