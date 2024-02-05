@@ -1,0 +1,26 @@
+*[class^="icon"]:after {
+  content: "";
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  // width: 100%; //24px;
+  //  height: 100%; //24px;
+  position: absolute;
+  // top: 50%;
+  // left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-object {
+  background-image: url("../assets/curly-braces-array.svg");
+}
+
+*[class^="icon"] {
+  //font-family: 'Courier New', Courier, monospace;
+  position: relative;
+}
+
+.icon-array:after {
+  // font-family: 'Courier New', Courier, monospace;
+  content: "[#]";
+}

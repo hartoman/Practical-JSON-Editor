@@ -1,133 +1,167 @@
 .json-editor-base {
+  /* desktop version*/
 
-/* desktop version*/
+  * {
+    box-sizing: border-box;
 
-  
-    *{
-      box-sizing:border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-  
+  .container {
+    margin: 0 5% 0 5%;
+    max-width: 90%;
+    padding: 0;
+  }
+
+  .obj-container,
+  .array-container {
+    padding: 0 0 0 12px;
     .container {
-      margin: 0 5% 0 5%;
-      max-width: 90%;
+      max-width: 100%;
+      margin: 0;
       padding: 0;
     }
-  /*/
-    .col-1{
-      width: 4vw;
-    }
-*/
-  
-    .obj-container,
-    .array-container {
-      padding: 0 0 0 12px;
-      .container {
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-  
-      .row {
-        padding-right: 0;
-        margin-right: 0;
-      }
-    }
-  
-    input[type="checkbox"] {
-      appearance: none;
-      padding: 0.5rem;
-      border-radius: 25%;
-      display: inline-block;
-      height: 1rem;
-      width: 1rem;
-      outline-offset: -4px;
-    }
-  
-    .copy-button,.paste-button,  .hide-button,
-    .add-button,.clear-button, .del-button  {
-      text-align: center; 
-      width: fit-content;
-      padding:0;
-      margin: 0 0 0 3%;
-      height: min-content;
-      border: none;
-    }
 
-  
-    h1,
-    label,
-    p,
-    select,
-    textarea,
-    .modal,
-    input {
-      font-family: courier;
-    }
-  
     .row {
-      margin-left: 0px;
+      padding-right: 0;
+      margin-right: 0;
     }
-  
-    .btn {
-      border: none;
-    }
-  
-    .btn-solid {
-      margin-right: 10px;
-    }
-  
-    
-    .modal {
-  
-      .modal-content {
-  
-        .bi::before {
-          font-weight: 1000 !important;
-        }
-  
-        .modal-header {
-  
-          .btn-close {
-            background: unset;
-            display: inline; 
-            font-weight: 600;
-            padding: unset;
-            margin: unset;
-          }
+  }
 
+  input[type="checkbox"] {
+    appearance: none;
+    padding: 0.5rem;
+    border-radius: 25%;
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    outline-offset: -4px;
+  }
 
+  .copy-button,
+  .paste-button,
+  .hide-button,
+  .add-button,
+  .clear-button,
+  .del-button {
+    text-align: center;
+    width: fit-content;
+    padding: 0;
+    margin: 0 0 0 3%;
+    height: min-content;
+    border: none;
+  }
+
+  h1,
+  label,
+  p,
+  select,
+  textarea,
+  .modal,
+  input {
+    font-family: courier;
+  }
+
+  .row {
+    margin-left: 0px;
+  }
+
+  .btn {
+    border: none;
+  }
+
+  .btn-solid {
+    //  padding: 0;
+    width: 3vw;
+    height: 3vw;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* */
+
+    p,
+    .bi::before {
+      font-size: 1vw;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .modal {
+    .modal-content {
+      .bi::before {
+        font-weight: 1000 !important;
+      }
+
+      .modal-header {
+        .btn-close {
+          background: unset;
+          display: inline;
+          font-weight: 600;
+          padding: unset;
+          margin: unset;
         }
-  
-        .modal-body {
-          input[type="text"],select {
-            margin: 0 0 5% ;
-          }
-  
-          .duplicate-warning-label {
-            margin: 5%;
-            visibility: hidden;
-          }
+      }
+
+      .modal-body {
+        input[type="text"],
+        select {
+          margin: 0 0 5%;
+        }
+
+        .duplicate-warning-label {
+          margin: 5%;
+          visibility: hidden;
         }
       }
     }
+  }
 
+  // TODO: WRITE THE CSS MAINLY IN BASE BUT ALSO HERE
+  .ui-dialog {
+    .col-1 {
+      width: unset;
+      height: unset;
+    }
 
+    .btn-solid {
+      //  padding: 0;
+      width: unset;
+      height: unset;
 
+      p,
+      .bi::before {
+        font-size: unset;
+        padding: 0;
+        margin: 0;
+      }
+    }
 
+    .ui-dialog-buttonpane {
+      //   background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-content: stretch;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      text-align: center;
 
+      .ui-dialog-buttonset {
+        .ui-button {
+          //  color: red;
+        }
+      }
+    }
+  }
 
-
-
-
-
-    /*mobile version */
+  /*mobile version */
   .temp-mobile {
     display: none;
   }

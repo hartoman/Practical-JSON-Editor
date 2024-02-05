@@ -1,6 +1,7 @@
 import * as modalRemove from './js/modals/modalRemove.js';
 import * as modalRename from './js/modals/modalRename.js';
 import * as modalAdd from './js/modals/modalAdd.js';
+import * as modalViewClipboard from './js/modals/modalViewClipboard.js';
 import * as utils from './js/functions/utils.js';
 import * as createField from './js/functions/createFieldFunctions.js'
 import * as jsonHandlers from './js/functions/jsonHandlers.js';
@@ -67,7 +68,16 @@ function bindButtons() {
 
   // top empty clipboard button
   $(selectors.clipboardBtn).on("click", function () {
-    clonedElement = null;
+    //   clonedElement = null;
+    let holdingContainer = $(clonedElement).children();
+    let jsonContent;
+    if (utils.isArray(holdingContainer)) {
+      jsonContent = jsonHandlers.fromArrayToJson(holdingContainer)
+    } else {
+      jsonContent = jsonHandlers.createJsonObj(holdingContainer)
+    }
+    let jsonStr = JSON.stringify(jsonContent,null,2)
+    modalViewClipboard.clipboardModal(jsonStr)
     toggleClipboardBtn();
   });
 
@@ -250,6 +260,7 @@ function bindModals() {
   modalRemove.initRemoveModal();
   modalAdd.initAddModal();
   modalRename.initRenameModal()
+  modalViewClipboard.initClipboardModal()
  }
 
 

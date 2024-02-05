@@ -8,7 +8,7 @@
     <meta name="keywords" content="json, editor, simple, eazy" />
     <meta name="author" content="Christos Chartomatsidis" />
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="braces-asterisk.svg" />
+    <link rel="icon" type="image/x-icon" href="./assets/braces-asterisk.svg" />
 
     <!-- jQuery -->
     <script
@@ -63,12 +63,12 @@
           </div>
         </div>
         <div class="row">
-          <button id="newBtn" class="btn-solid fs-1 col-1 custom-tooltip" data-tooltiptext="Create new json">
+          <button id="newBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Create new json">
             <i class="bi bi-file-earmark-plus"></i>
           </button>
           <button
             id="loadBtn"
-            class="btn-solid fs-1 col-1 custom-tooltip"
+            class="btn-solid col-1 custom-tooltip"
             data-tooltiptext="Load .json, .csv, .xls, .xlsx file"
             onclick="document.getElementById('jsonFileInputBtn').click();"
           >
@@ -77,11 +77,12 @@
           <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
           <button
             id="saveBtn"
-            class="btn-solid fs-1 col-1 custom-tooltip"
+            class="btn-solid col-1 custom-tooltip"
             data-tooltiptext="Save .json file in 'Downloads'"
             disabled
           >
             <i class="bi bi-floppy2"></i>
+            <p> Save</p>
           </button>
           <p class="col-2 my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">
             filename:
@@ -89,8 +90,7 @@
           <input
             type="text"
             id="fileNameInput"
-            class="col-2 text-end custom-tooltip"
-            data-tooltiptext="test"
+            class="col-2 text-end"
             value="new.json"
           />
         </div>
@@ -101,21 +101,21 @@
           <div class="col-8 row" >
             <button
               id="topAddBtnObj"
-              class="btn-solid fs-3 col-1 custom-tooltip"
+              class="btn-solid col-1 custom-tooltip"
               data-tooltiptext="Add Object, text, number or boolean to top level"
             >
               <i class="bi bi-braces-asterisk"></i>
             </button>
             <button
               id="topAddBtnArray"
-              class="btn-solid fs-3 col-1 d-flex justify-content-center custom-tooltip"
+              class="btn-solid col-1 d-flex justify-content-center custom-tooltip"
               data-tooltiptext="Add array to top level"
             >
-              [#]
+            <div class="icon-array"></div>
             </button>
             <button
               id="topCollapseAllBtn"
-              class="btn-solid fs-3 col-1 custom-tooltip"
+              class="btn-solid col-1 custom-tooltip"
               data-tooltiptext="Fold all"
               value="hide"
             >
@@ -123,13 +123,13 @@
             </button>
           </div>
           <div class="col-4 row">
-          <button id="undoBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Undo last action" disabled>
+          <button id="undoBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Undo last action" disabled>
             <i class="bi bi-arrow-counterclockwise"></i>
           </button>
-          <button id="redoBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Undo last action" disabled>
+          <button id="redoBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Undo last action" disabled>
             <i class="bi bi-arrow-clockwise"></i>
           </button>
-          <button id="clipboardBtn" class="btn-solid fs-3 col-3 custom-tooltip" data-tooltiptext="Clipboard is empty">
+          <button id="clipboardBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Clipboard is empty">
             <i class="bi bi-clipboard"></i>
           </button>
           <button
@@ -190,6 +190,12 @@
       </div>
     </div>
     <!-- add modal end-->
+
+        <!-- add modal start: used by jquery-ui-->
+        <div id="clipboardModal">
+          <pre id="clipboardContent"></pre>
+        </div>
+        <!-- add modal end-->
 
     <!-- options modal start-->
     <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">

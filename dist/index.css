@@ -1,10 +1,26 @@
+*[class^=icon]:after {
+  content: "";
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.icon-object {
+  background-image: url("../assets/curly-braces-array.svg");
+}
+
+*[class^=icon] {
+  position: relative;
+}
+
+.icon-array:after {
+  content: "[#]";
+}
+
 .json-editor-base {
   /* desktop version*/
-  /*/
-      .col-1{
-        width: 4vw;
-      }
-  */
   /*mobile version */
 }
 .json-editor-base * {
@@ -45,8 +61,12 @@
   width: 1rem;
   outline-offset: -4px;
 }
-.json-editor-base .copy-button, .json-editor-base .paste-button, .json-editor-base .hide-button,
-.json-editor-base .add-button, .json-editor-base .clear-button, .json-editor-base .del-button {
+.json-editor-base .copy-button,
+.json-editor-base .paste-button,
+.json-editor-base .hide-button,
+.json-editor-base .add-button,
+.json-editor-base .clear-button,
+.json-editor-base .del-button {
   text-align: center;
   width: -moz-fit-content;
   width: fit-content;
@@ -72,7 +92,19 @@
   border: none;
 }
 .json-editor-base .btn-solid {
+  width: 3vw;
+  height: 3vw;
   margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* */
+}
+.json-editor-base .btn-solid p,
+.json-editor-base .btn-solid .bi::before {
+  font-size: 1vw;
+  padding: 0;
+  margin: 0;
 }
 .json-editor-base .modal .modal-content .bi::before {
   font-weight: 1000 !important;
@@ -84,12 +116,36 @@
   padding: unset;
   margin: unset;
 }
-.json-editor-base .modal .modal-content .modal-body input[type=text], .json-editor-base .modal .modal-content .modal-body select {
+.json-editor-base .modal .modal-content .modal-body input[type=text],
+.json-editor-base .modal .modal-content .modal-body select {
   margin: 0 0 5%;
 }
 .json-editor-base .modal .modal-content .modal-body .duplicate-warning-label {
   margin: 5%;
   visibility: hidden;
+}
+.json-editor-base .ui-dialog .col-1 {
+  width: unset;
+  height: unset;
+}
+.json-editor-base .ui-dialog .btn-solid {
+  width: unset;
+  height: unset;
+}
+.json-editor-base .ui-dialog .btn-solid p,
+.json-editor-base .ui-dialog .btn-solid .bi::before {
+  font-size: unset;
+  padding: 0;
+  margin: 0;
+}
+.json-editor-base .ui-dialog .ui-dialog-buttonpane {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
 }
 .json-editor-base .temp-mobile {
   display: none;
