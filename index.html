@@ -91,34 +91,23 @@
         <div class="left-side-btns">
           <button
             id="topAddBtnObj"
-            class="btn-solid custom-tooltip"
+            class="btn-solid icon-object custom-tooltip"
             data-tooltiptext="Add Object, text, number or boolean to top level"
           >
-            <div class="icon-object"></div>
           </button>
-          <button id="topAddBtnArray" class="btn-solid custom-tooltip" data-tooltiptext="Add array to top level">
-            <div class="icon-array"></div>
+          <button id="topAddBtnArray" class="btn-solid icon-array custom-tooltip" data-tooltiptext="Add array to top level">
           </button>
-          <button id="topCollapseAllBtn" class="btn-solid custom-tooltip" data-tooltiptext="Fold all" value="hide">
-            <div class="icon-fold"></div>
+          <button id="topCollapseAllBtn" class="btn-solid icon-fold custom-tooltip" data-tooltiptext="Fold all" value="hide">
           </button>
         </div>
         <div class="right-side-btns">
-          <button id="undoBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Undo last action" disabled>
-            <i class="bi bi-arrow-counterclockwise"></i>
+          <button id="undoBtn" class="btn-solid icon-undo custom-tooltip" data-tooltiptext="Undo last action" disabled>
           </button>
-          <button id="redoBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Undo last action" disabled>
-            <i class="bi bi-arrow-clockwise"></i>
+          <button id="redoBtn" class="btn-solid icon-redo custom-tooltip" data-tooltiptext="Undo last action" disabled>
           </button>
-          <button id="clipboardBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Clipboard is empty">
-            <div class="icon-clipboard"></div>
+          <button id="clipboardBtn" class="btn-solid icon-clipboard custom-tooltip" data-tooltiptext="Clipboard is empty">
           </button>
-          <button
-            id="topClearBtn"
-            class="btn fs-3 col-3 clear-button custom-tooltip"
-            data-tooltiptext="Remove all contents"
-          >
-            <i class="bi bi-x-octagon-fill"></i>
+          <button id="topClearBtn" class="btn-solid icon-clearAll clear-button custom-tooltip" data-tooltiptext="Remove all contents">
           </button>
         </div>
       </div>
@@ -214,9 +203,9 @@
         <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
-        {{#hasLabel}}
-        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
-        {{/hasLabel}}
+          {{#hasLabel}}
+          <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
+          {{/hasLabel}}
         <p class="col-1 my-auto text-center icon-object">:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
@@ -234,7 +223,7 @@
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip"
           data-tooltiptext="Paste from clipboard here"
         >
-          <i class="bi bi-copy"></i>
+        <i class="bi bi-copy"></i>
         </button>
         <div class="obj-container" id="{{key}}"></div>
       </div>

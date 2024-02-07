@@ -1,10 +1,8 @@
 *[class^="icon"] {
   display: inline-block;
   position: relative;
-  font-size: 1.5vw;
-  line-height: 1.5vw;
-  //   width: 100%; //24px;
-  //  height: 100%; //24px;
+  font-size: $icon-size;
+  line-height: $icon-size;
 }
 /**/
 *[class^="icon"]:before {
@@ -62,37 +60,54 @@
 }
 
 .icon-clearAll:before {
-  color: red;
+ // color: red;
  // content: "\26A0";
   content: "\1F6AB";
   
 }
 
-.icon-fold:before {
-  border: 1px solid;
+.icon-fold:before,.icon-unfold:before{
+ /* border: 1px solid;
   border-radius: 50%;
-  width: 1.5vw;
-  height: 1.5vw;
+  width: $icon-size;
+  height: $icon-size;
+  line-height: $icon-size*0.8;*/
+}
 
-  //content: "\21B0";
-  line-height: 1.3vw;
-  content: "\2B09";
+.icon-fold:before {
+ /* border: 1px solid;
+  border-radius: 50%;
+  width: $icon-size;
+  height: $icon-size;
+  line-height: $icon-size*0.8;*/
+  // content:"\2739"
+  // content: "\2B09";
+  content: "\274A";
 }
 
 .icon-unfold:before {
-  border: 1px solid;
+ /* border: 1px solid;
   border-radius: 50%;
-  width: 2vw;
-  height: 2vw;
+  width: $icon-size;
+  height: $icon-size;
   //background-color: red;
   //content: "\21B3";
-  line-height: 1.7vw;
-  content: "\2B0A";
+  line-height: 1.7vw;*/
+ // content: "\2B0A";
+  content:"\2726";
 }
 
 .icon-add:before {
-  content: "\0229E";
+ // color: green;
+  content: "\271A";
 }
+.icon-add {
+  color: green;
+}
+.icon-add:hover {
+  color: limegreen;
+}
+
 
 .icon-delete:before {
   color: red;

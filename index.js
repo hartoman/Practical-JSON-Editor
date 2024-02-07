@@ -77,9 +77,9 @@ function bindButtons() {
   // top Collapse-All button
   $("#topCollapseAllBtn").on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
-    let icon = $(this).children(".bi");
+   // let icon = $(this).children(".bi");
     //alternates between two icons
-    $(icon).toggleClass("bi-arrow-up-left-circle bi-arrow-down-right-circle-fill");
+    $(this).toggleClass("icon-unfold icon-fold");
 
     if ($(this).val() === "hide") {
       $(this).val("show");
@@ -174,9 +174,9 @@ function bindButtons() {
     let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
     let addbtn = $(this).parent().children(".add-button");
     let clearbtn = $(this).parent().children(".clear-button");
-    let icon = $(this).children(".bi");
+   // let icon = $(this).children(".bi");
     //alternates between two icons
-    $(icon).toggleClass("bi-arrow-up-left-circle bi-arrow-down-right-circle-fill");
+    $(this).toggleClass("icon-unfold icon-fold");
 
     if ($(this).val() === "hide") {
       $(this).val("show");
