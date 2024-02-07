@@ -1,22 +1,105 @@
-*[class^=icon]:after {
-  content: "";
+@charset "UTF-8";
+*[class^=icon] {
+  display: inline-block;
+  position: relative;
+  font-size: 1.5vw;
+  line-height: 1.5vw;
+}
+
+/**/
+*[class^=icon]:before {
   display: block;
-  background-size: contain;
-  background-repeat: no-repeat;
   position: absolute;
   transform: translate(-50%, -50%);
 }
 
-.icon-object {
-  background-image: url("../assets/curly-braces-array.svg");
+.icon-object:before {
+  content: "{❋}";
 }
 
-*[class^=icon] {
-  position: relative;
-}
-
-.icon-array:after {
+.icon-array:before {
   content: "[#]";
+}
+
+.icon-undo:before {
+  content: "⟲";
+}
+
+.icon-redo:before {
+  content: "⟳";
+}
+
+.icon-newfile:before {
+  content: "📄";
+}
+
+.icon-loadfile:before {
+  content: "📂";
+}
+
+.icon-savefile:before {
+  content: "💾";
+}
+
+.icon-clipboard:before {
+  content: "📋";
+}
+
+.icon-options:before {
+  content: "⚙";
+}
+
+.icon-info:before {
+  content: "ℹ";
+}
+
+.icon-copy:before {
+  content: "⎗";
+}
+
+.icon-paste:before {
+  content: "⎘";
+}
+
+.icon-clearAll:before {
+  color: red;
+  content: "🚫";
+}
+
+.icon-fold:before {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 1.5vw;
+  height: 1.5vw;
+  line-height: 1.3vw;
+  content: "⬉";
+}
+
+.icon-unfold:before {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 2vw;
+  height: 2vw;
+  line-height: 1.7vw;
+  content: "⬊";
+}
+
+.icon-add:before {
+  content: "⊞";
+}
+
+.icon-delete:before {
+  color: red;
+  content: "⨂";
+}
+
+/*TODO*/
+.icon-checkbox-checked:before {
+  content: "☐";
+}
+
+.icon-checkbox-unchecked:before {
+  content: "☒";
 }
 
 .json-editor-base {
@@ -30,10 +113,58 @@
   -moz-user-select: none;
   user-select: none;
 }
-.json-editor-base .container {
+.json-editor-base .interface-container {
   margin: 0 5% 0 5%;
   max-width: 90%;
-  padding: 0;
+  width: 100%;
+}
+.json-editor-base .interface-container .header {
+  margin-top: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.json-editor-base .interface-container .header .title-container {
+  width: 50%;
+}
+.json-editor-base .interface-container .header .corner-btns {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.json-editor-base .interface-container .file-btn-row {
+  display: flex;
+  flex-direction: row;
+}
+.json-editor-base .interface-container hr {
+  margin-bottom: 0;
+}
+.json-editor-base .interface-container .controls-btn-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.json-editor-base .interface-container .controls-btn-row .left-side-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  width: 66%;
+}
+.json-editor-base .interface-container .controls-btn-row .right-side-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  width: 34%;
+}
+.json-editor-base .main-container {
+  margin: 0 5% 0 5%;
+  max-width: 90%;
+  width: 100%;
 }
 .json-editor-base .obj-container,
 .json-editor-base .array-container {

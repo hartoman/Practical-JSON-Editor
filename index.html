@@ -45,84 +45,65 @@
 
   <body class="json-editor-base json-editor-light showTooltips">
     <!-- main screen start -->
-    <div class="container">
-      <div class="" style="margin-top: 2%">
-        <div class="row d-flex justify-content-between">
-          <div class="col-6">
-            <h1>Eazy Json Editor</h1>
-            <h6>Version 1.0.0</h6>
-          </div>
-          <div class="col-6 text-end">
-            <button id="optionsBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Options">
-              <i class="bi bi-gear"></i>
-            </button>
-            <a href="./README.md" target="_blank"
-              ><button id="helpBtn" class="btn-solid fs-1 custom-tooltip" data-tooltiptext="Info">
-                <i class="bi bi-question-diamond"></i></button
-            ></a>
-          </div>
+    <div class="interface-container">
+      <div class="header">
+        <div class="title-container">
+          <h1>Eazy Json Editor</h1>
+          <h6>Version 1.0.0</h6>
         </div>
-        <div class="row">
-          <button id="newBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Create new json">
-            <i class="bi bi-file-earmark-plus"></i>
+        <div class="corner-btns">
+          <button id="optionsBtn" class="btn-solid custom-tooltip" data-tooltiptext="Options">
+            <div class="icon-options"></div>
           </button>
-          <button
-            id="loadBtn"
-            class="btn-solid col-1 custom-tooltip"
-            data-tooltiptext="Load .json, .csv, .xls, .xlsx file"
-            onclick="document.getElementById('jsonFileInputBtn').click();"
-          >
-            <i class="bi bi-caret-down-square"></i>
-          </button>
-          <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
-          <button
-            id="saveBtn"
-            class="btn-solid col-1 custom-tooltip"
-            data-tooltiptext="Save .json file in 'Downloads'"
-            disabled
-          >
-            <i class="bi bi-floppy2"></i>
-            <p> Save</p>
-          </button>
-          <p class="col-2 my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">
-            filename:
-          </p>
-          <input
-            type="text"
-            id="fileNameInput"
-            class="col-2 text-end"
-            value="new.json"
-          />
+          <a href="./README.md" target="_blank"
+            ><button id="helpBtn" class="btn-solid custom-tooltip" data-tooltiptext="Info">
+              <div class="icon-info"></div></button
+          ></a>
         </div>
       </div>
+      <div class="file-btn-row">
+        <button id="newBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Create new json">
+          <div class="icon-newfile"></div>
+        </button>
+        <button
+          id="loadBtn"
+          class="btn-solid col-1 custom-tooltip"
+          data-tooltiptext="Load .json, .csv, .xls, .xlsx file"
+          onclick="document.getElementById('jsonFileInputBtn').click();"
+        >
+          <div class="icon-loadfile"></div>
+        </button>
+        <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
+        <button
+          id="saveBtn"
+          class="btn-solid col-1 custom-tooltip"
+          data-tooltiptext="Save .json file in 'Downloads'"
+          disabled
+        >
+          <div class="icon-savefile"></div>
+        </button>
+        <p class="col-2 my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
+        <input type="text" id="fileNameInput" class="col-2 text-end" value="new.json" />
+      </div>
       <hr />
-      <div class="container m-1">
-        <div class="row d-flex justify-content-between " style="margin-bottom: 10px">
-          <div class="col-8 row" >
-            <button
-              id="topAddBtnObj"
-              class="btn-solid col-1 custom-tooltip"
-              data-tooltiptext="Add Object, text, number or boolean to top level"
-            >
-              <i class="bi bi-braces-asterisk"></i>
-            </button>
-            <button
-              id="topAddBtnArray"
-              class="btn-solid col-1 d-flex justify-content-center custom-tooltip"
-              data-tooltiptext="Add array to top level"
-            >
+
+      <div class="controls-btn-row">
+        <div class="left-side-btns">
+          <button
+            id="topAddBtnObj"
+            class="btn-solid custom-tooltip"
+            data-tooltiptext="Add Object, text, number or boolean to top level"
+          >
+            <div class="icon-object"></div>
+          </button>
+          <button id="topAddBtnArray" class="btn-solid custom-tooltip" data-tooltiptext="Add array to top level">
             <div class="icon-array"></div>
-            </button>
-            <button
-              id="topCollapseAllBtn"
-              class="btn-solid col-1 custom-tooltip"
-              data-tooltiptext="Fold all"
-              value="hide"
-            >
-              <i class="bi bi-arrow-up-left-circle"></i>
-            </button>
-          </div>
-          <div class="col-4 row">
+          </button>
+          <button id="topCollapseAllBtn" class="btn-solid custom-tooltip" data-tooltiptext="Fold all" value="hide">
+            <div class="icon-fold"></div>
+          </button>
+        </div>
+        <div class="right-side-btns">
           <button id="undoBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Undo last action" disabled>
             <i class="bi bi-arrow-counterclockwise"></i>
           </button>
@@ -130,7 +111,7 @@
             <i class="bi bi-arrow-clockwise"></i>
           </button>
           <button id="clipboardBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Clipboard is empty">
-            <i class="bi bi-clipboard"></i>
+            <div class="icon-clipboard"></div>
           </button>
           <button
             id="topClearBtn"
@@ -140,10 +121,9 @@
             <i class="bi bi-x-octagon-fill"></i>
           </button>
         </div>
-          <div id="mainContainer" class="obj-container"></div>
-        </div>
       </div>
     </div>
+    <div id="mainContainer" class="main-container obj-container"></div>
     <!-- main screen end -->
 
     <!-- remove modal start: used by jquery-ui-->
@@ -191,11 +171,11 @@
     </div>
     <!-- add modal end-->
 
-        <!-- add modal start: used by jquery-ui-->
-        <div id="clipboardModal">
-          <pre id="clipboardContent"></pre>
-        </div>
-        <!-- add modal end-->
+    <!-- add modal start: used by jquery-ui-->
+    <div id="clipboardModal">
+      <pre id="clipboardContent"></pre>
+    </div>
+    <!-- add modal end-->
 
     <!-- options modal start-->
     <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
@@ -228,7 +208,6 @@
     </div>
     <!-- options modal end -->
 
-
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper">
@@ -238,7 +217,7 @@
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-        <p class="col-1 my-auto text-center"><i class="bi bi-braces-asterisk"></i>:</p>
+        <p class="col-1 my-auto text-center icon-object">:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
@@ -271,7 +250,7 @@
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-        <p class="col-1 my-auto text-center">[#]:</p>
+        <p class="col-1 my-auto text-center icon-array">:</p>
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>

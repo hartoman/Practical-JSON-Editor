@@ -1,3 +1,14 @@
+const fieldTemplates = {};
+
+export const initFieldTemplates = () => {
+  fieldTemplates.object = $("#object-template").html();
+  fieldTemplates.array = $("#array-template").html();
+  fieldTemplates.textInput = $("#textinput-template").html();
+  fieldTemplates.textArea = $("#textarea-template").html();
+  fieldTemplates.numberInput = $("#numberinput-template").html();
+  fieldTemplates.booleanField = $("#boolean-template").html();
+};
+
 export const createFields = (fieldName, selectedOption, holdingContainer) => {
   switch (selectedOption) {
     case "object":
@@ -24,7 +35,21 @@ export const createFields = (fieldName, selectedOption, holdingContainer) => {
 export const createObjectField = (fieldKey, parentContainer) => {
   let fieldinput = document.createElement("div");
   // Get the template element
-  let templateElement = $("#object-template").html();
+  let templateElement = fieldTemplates.object;
+  let elementValues = {
+    key: fieldKey,
+    hasLabel: function () {
+      return this.key !== "";
+    },
+  };
+  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+  return fieldinput;
+};
+
+export const createArrayField = (fieldKey, parentContainer) => {
+  let fieldinput = document.createElement("div");
+  // Get the template element
+  let templateElement = fieldTemplates.array;
   let elementValues = {
     key: fieldKey,
     hasLabel: function () {
@@ -38,7 +63,7 @@ export const createObjectField = (fieldKey, parentContainer) => {
 export const createTextInputField = (fieldKey, fieldValue = "", parentContainer) => {
   let fieldinput = document.createElement("div");
   // Get the template element
-  let templateElement = $("#textinput-template").html();
+  let templateElement = fieldTemplates.textInput;
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
@@ -53,7 +78,7 @@ export const createTextInputField = (fieldKey, fieldValue = "", parentContainer)
 export const createTextArea = (fieldKey, fieldValue = "", parentContainer) => {
   let fieldinput = document.createElement("div");
   // Get the template element
-  let templateElement = $("#textarea-template").html();
+  let templateElement = fieldTemplates.textArea;
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
@@ -68,7 +93,7 @@ export const createTextArea = (fieldKey, fieldValue = "", parentContainer) => {
 export const createNumberInputField = (fieldKey, fieldValue, parentContainer) => {
   let fieldinput = document.createElement("div");
   // Get the template element
-  let templateElement = $("#numberinput-template").html();
+  let templateElement = fieldTemplates.numberInput;
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
@@ -80,24 +105,10 @@ export const createNumberInputField = (fieldKey, fieldValue, parentContainer) =>
   return fieldinput;
 };
 
-export const createArrayField = (fieldKey, parentContainer) => {
-  let fieldinput = document.createElement("div");
-  // Get the template element
-  let templateElement = $("#array-template").html();
-  let elementValues = {
-    key: fieldKey,
-    hasLabel: function () {
-      return this.key !== "";
-    },
-  };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
-  return fieldinput;
-};
-
 export const createBooleanField = (fieldKey, fieldValue, parentContainer) => {
   let fieldinput = document.createElement("div");
   // Get the template element
-  let templateElement = $("#boolean-template").html();
+  let templateElement = fieldTemplates.booleanField;
   let elementValues = {
     key: fieldKey,
     value: fieldValue,
@@ -111,3 +122,4 @@ export const createBooleanField = (fieldKey, fieldValue, parentContainer) => {
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
 };
+

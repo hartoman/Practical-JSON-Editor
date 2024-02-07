@@ -1,26 +1,110 @@
-*[class^="icon"]:after {
-  content: "";
-  display: block;
-  background-size: contain;
-  background-repeat: no-repeat;
-  // width: 100%; //24px;
+*[class^="icon"] {
+  display: inline-block;
+  position: relative;
+  font-size: 1.5vw;
+  line-height: 1.5vw;
+  //   width: 100%; //24px;
   //  height: 100%; //24px;
+}
+/**/
+*[class^="icon"]:before {
+  display: block;
   position: absolute;
-  // top: 50%;
-  // left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.icon-object {
-  background-image: url("../assets/curly-braces-array.svg");
+.icon-object:before {
+  content: "{\274B}"; // hex ascii code for 8-point asterisk
 }
 
-*[class^="icon"] {
-  //font-family: 'Courier New', Courier, monospace;
-  position: relative;
-}
-
-.icon-array:after {
-  // font-family: 'Courier New', Courier, monospace;
+.icon-array:before {
   content: "[#]";
+}
+
+.icon-undo:before {
+  content: "\27F2";
+}
+
+.icon-redo:before {
+  content: "\27F3";
+}
+
+.icon-newfile:before {
+  content: "\1F4C4";
+}
+
+.icon-loadfile:before {
+  content: "\1F4C2";
+}
+
+.icon-savefile:before {
+  content: "\1F4BE";
+}
+
+.icon-clipboard:before {
+  content: "\1F4CB";
+}
+
+.icon-options:before {
+  content: "\2699";
+}
+
+.icon-info:before {
+  content: "\2139";
+}
+
+.icon-copy:before {
+  content: "\2397";
+}
+
+.icon-paste:before {
+  content: "\2398";
+}
+
+.icon-clearAll:before {
+  color: red;
+ // content: "\26A0";
+  content: "\1F6AB";
+  
+}
+
+.icon-fold:before {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 1.5vw;
+  height: 1.5vw;
+
+  //content: "\21B0";
+  line-height: 1.3vw;
+  content: "\2B09";
+}
+
+.icon-unfold:before {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 2vw;
+  height: 2vw;
+  //background-color: red;
+  //content: "\21B3";
+  line-height: 1.7vw;
+  content: "\2B0A";
+}
+
+.icon-add:before {
+  content: "\0229E";
+}
+
+.icon-delete:before {
+  color: red;
+  content: "\02A02";
+  //02297
+}
+
+/*TODO*/
+.icon-checkbox-checked:before {
+  content: "\2610";
+}
+
+.icon-checkbox-unchecked:before {
+  content: "\2612";
 }

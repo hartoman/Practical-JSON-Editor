@@ -1,11 +1,11 @@
-import * as modalRemove from './js/modals/modalRemove.js';
-import * as modalRename from './js/modals/modalRename.js';
-import * as modalAdd from './js/modals/modalAdd.js';
-import * as modalViewClipboard from './js/modals/modalViewClipboard.js';
-import * as utils from './js/functions/utils.js';
-import * as createField from './js/functions/createFieldFunctions.js'
-import * as jsonHandlers from './js/functions/jsonHandlers.js';
-import * as undoHandlers from './js/functions/undoHandlers.js';
+import * as modalRemove from "./js/modals/modalRemove.js";
+import * as modalRename from "./js/modals/modalRename.js";
+import * as modalAdd from "./js/modals/modalAdd.js";
+import * as modalClipboard from "./js/modals/modalClipboard.js";
+import * as utils from "./js/functions/utils.js";
+import * as createField from "./js/functions/createFieldFunctions.js";
+import * as jsonHandlers from "./js/functions/jsonHandlers.js";
+import * as undoHandlers from "./js/functions/undoHandlers.js";
 
 const selectors = {
   everything: "*",
@@ -36,6 +36,7 @@ $(document).ready(function () {
 function init() {
   bindButtons();
   //disableRightClickContextMenu();
+  createField.initFieldTemplates();
   toggleSaveBtn(document.getElementById("mainContainer"));
   bindModals();
 }
@@ -61,28 +62,15 @@ function bindButtons() {
     undoHandlers.undo();
   });
 
-    // top redo button
-    $("#redoBtn").on("click", function () {
-      undoHandlers.redo();
-  });
-
-  // top empty clipboard button
-  $(selectors.clipboardBtn).on("click", function () {
-    //   clonedElement = null;
-    let holdingContainer = $(clonedElement).children();
-    let jsonContent;
-    if (utils.isArray(holdingContainer)) {
-      jsonContent = jsonHandlers.fromArrayToJson(holdingContainer)
-    } else {
-      jsonContent = jsonHandlers.createJsonObj(holdingContainer)
-    }
-    let jsonStr = JSON.stringify(jsonContent,null,2)
-    modalViewClipboard.clipboardModal(jsonStr)
-    toggleClipboardBtn();
+  // top redo button
+  $("#redoBtn").on("click", function () {
+    undoHandlers.redo();
   });
 
   // top Clear button
   $("#topClearBtn").on("click", function () {
+    undoHandlers.unsetRedo();
+    undoHandlers.setUndo();
     $(selectors.mainContainer).empty();
   });
 
@@ -114,7 +102,7 @@ function bindButtons() {
 
   // top load file btn
   $(selectors.fileInputBtn).on("change", (e) => {
-   loadFile(e) 
+    loadFile(e);
   });
 
   // top save file btn
@@ -148,7 +136,7 @@ function bindButtons() {
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
     // TODO:
-   /* lastAction = jsonHandlers.createJsonObj($(selectors.mainContainer));*/
+    /* lastAction = jsonHandlers.createJsonObj($(selectors.mainContainer));*/
     let parentOfParent = $(this).parent();
     let targetContainer;
     // if we add from array
@@ -158,8 +146,10 @@ function bindButtons() {
       if (targetContainer.val() === "") {
         // if no items in the array, the value has not been set
         modalAdd.toggleAddModalArrayMode(true);
-        modalAdd.addModal(targetContainer)
+        modalAdd.addModal(targetContainer);
       } else {
+        undoHandlers.unsetRedo();
+        undoHandlers.setUndo();
         const arrayType = targetContainer.val();
         createField.createFields("", arrayType, holdingContainer);
       }
@@ -167,14 +157,13 @@ function bindButtons() {
       // add from object
       targetContainer = $(parentOfParent).children(".obj-container");
       modalAdd.toggleAddModalArrayMode(false);
-      modalAdd.addModal(targetContainer)
+      modalAdd.addModal(targetContainer);
       $(parentOfParent).children(".clear-button").prop("disabled", false);
     }
   });
 
   // delegation for all delete buttons
   $(selectors.mainContainer).on("click", ".del-button", function () {
-
     const parent = $(this).parent();
     modalRemove.removeModal(parent);
   });
@@ -206,63 +195,52 @@ function bindButtons() {
 
   // delegation for all clear buttons
   $(selectors.mainContainer).on("click", ".clear-button", function () {
+    undoHandlers.unsetRedo();
+    undoHandlers.setUndo();
+    let parentOfParent = $(this).parent();
+    let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
+    $(targetContainer).empty();
+    $(this).prop("disabled", true);
+    if ($(targetContainer).hasClass("array-container")) {
+      $(targetContainer).val("");
+    }
+  });
 
-      let parentOfParent = $(this).parent();
-      let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
-      $(targetContainer).empty();
-      $(this).prop("disabled", true);
-      if ($(targetContainer).hasClass("array-container")) {
-        $(targetContainer).val("");
-      }
-    
+  // top clipboard button
+  $(selectors.clipboardBtn).on("click", function () {
+    modalClipboard.clipboardModal();
+    toggleClipboardBtn();
   });
 
   // delegation for all copy buttons
   $(selectors.mainContainer).on("click", ".copy-button", function () {
     let sourceElement = $(this).parent();
-    clonedElement = $(sourceElement).clone(true);
+    //   clonedElement = $(sourceElement).clone(true);
+    modalClipboard.setClipboardContent(sourceElement);
+    //   modalClipboard.printClipboardContent()
     toggleClipboardBtn();
   });
 
   // delegation for all paste buttons
   $(selectors.mainContainer).on("click", ".paste-button", function () {
     let destinationParent = $(this).parent();
-    let destination = $(destinationParent).children(".obj-container, .array-container").first();
-
-    if (clonedElement) {
-      // deep clone of the global copied element, so that we bypass pass by reference
-      let tempElement = $(clonedElement).clone(true);
-
-      // named objects pasted in arrays lose their label
-      if ($(destinationParent).children(".array-container").length && $(tempElement).children("label").length) {
-        $(tempElement).children("label").remove();
-      }
-      // unnamed objects pasted as fields of parent object gain a label
-      else if ($(destinationParent).children(".obj-container").length && !$(tempElement).children("label").length) {
-        const deletebtn = $(tempElement).children("button").first();
-        deletebtn.after(
-          '<label class="col-1 my-auto custom-tooltip" data-tooltiptext="Right click to change field name">ENTER_NAME</label>'
-        );
-      }
-      $(destination).append(tempElement);
-    }
+    modalClipboard.pasteClipboardContent(destinationParent);
   });
 
   // delegation for clicking on labels to change text
   $(selectors.mainContainer).on("click", "label", function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     const parent = $(this).parent();
-    modalRename.renameModal(parent)
+    modalRename.renameModal(parent);
   });
 }
 
 function bindModals() {
   modalRemove.initRemoveModal();
   modalAdd.initAddModal();
-  modalRename.initRenameModal()
-  modalViewClipboard.initClipboardModal()
- }
-
+  modalRename.initRenameModal();
+  modalClipboard.initClipboardModal();
+}
 
 // TODO: A changes the display of the clipboard btn
 function toggleClipboardBtn() {
@@ -301,7 +279,6 @@ function toggleSaveBtn(targetNode) {
       if ($(selectors.mainContainer).children().children("label").length === 0) {
         //array of objects
         $("#topAddBtnObj").hide("fast");
-        $("#topAddBtnArray").removeClass("d-flex");
         $("#topAddBtnArray").hide("fast");
         $;
       } else {
@@ -317,7 +294,7 @@ function toggleSaveBtn(targetNode) {
 }
 
 function loadFile(e) {
- // lastAction = {};
+  // lastAction = {};
 
   const file = e.target.files[0];
   const reader = new FileReader();
@@ -368,7 +345,6 @@ function loadFile(e) {
     $(selectors.fileNameInput).val(file.name); // set filename to field
     $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
     let icon = $("#topCollapseAllBtn").children(".bi");
-    //  $(icon).toggleClass('bi-arrow-up-left-circle bi-arrow-down-right-circle-fill');
     $(icon).removeClass("bi-arrow-down-right-circle-fill");
     $(icon).addClass("bi-arrow-up-left-circle");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
