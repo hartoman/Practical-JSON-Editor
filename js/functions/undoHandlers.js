@@ -10,12 +10,12 @@ let undoAction = {}
 let redoAction = {}
 
 export const setUndo = () => {
-    undoAction = jsonHandlers.createJsonObj($(selectors.mainContainer));
+    undoAction = $(selectors.mainContainer).contents().not($(selectors.mainContainer)).clone(true);
     $(selectors.undoBtn).attr('disabled',false)
 }
 
 export const setRedo = () => {
-    redoAction = jsonHandlers.createJsonObj($(selectors.mainContainer));
+    redoAction = $(selectors.mainContainer).contents().not($(selectors.mainContainer)).clone(true);
     $(selectors.redoBtn).attr('disabled',false)
 }
 
@@ -30,28 +30,26 @@ export const unsetRedo = () => {
 }
 
 export const undo = () => {
-    
-    let topArray = $(selectors.mainContainer).children('.array-wrapper');
-    // if it is an array-object
-    let holdingContainer = ($(selectors.mainContainer).children().children("label").length === 0) ? topArray.children('.array-container') : $(selectors.mainContainer);
- 
+   
     if (Object.keys(undoAction).length) {
         setRedo();
-        $(holdingContainer).empty()
-        jsonHandlers.printLoadedJson(undoAction, holdingContainer);
+        $($(selectors.mainContainer)).html(undoAction);
         unsetUndo();
     }
 }
 
+
+function topObjIsSingleArray() {
+    const topArray = $(selectors.mainContainer).children('.array-wrapper');
+    let itIs = $(topArray).length===1 && $(topArray).children('label').length===0
+    console.log(itIs)
+    return itIs
+}
+
 export const redo = () => {
-    let topArray = $(selectors.mainContainer).children('.array-wrapper');
-    // if it is an array-object
-    let holdingContainer = ($(selectors.mainContainer).children().children("label").length === 0) ? topArray.children('.array-container') : $(selectors.mainContainer);
- 
     if (Object.keys(redoAction).length) {
         setUndo();
-        $(holdingContainer).empty();
-        jsonHandlers.printLoadedJson(redoAction, holdingContainer);
+        $($(selectors.mainContainer)).html(redoAction);
         unsetRedo();
     }
 }

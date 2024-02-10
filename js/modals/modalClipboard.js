@@ -45,6 +45,10 @@ export const setClipboardContent = (sourceElement) => {
   isAlreadyPrinted = false;
 };
 
+export const getClipboardContent = () => {
+  return clipboardContent;
+};
+
  const unsetClipboardContent = (sourceElement) => {
    clipboardContent = null;
    isAlreadyPrinted = false;

@@ -13,13 +13,17 @@
   }
 
   .interface-container {
-    margin: 0 5% 0 5%;
+    padding-top: 1%;
     max-width: 90%;
     width: 100%;
+    position: sticky;
+    top:0;
+    left:5%;
+    z-index: 2;
+    background-color: white; 
 
     .header {
-      
-      margin-top: 2%;
+    //  margin-top: 1%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -42,38 +46,53 @@
       flex-direction: row;
     }
 
-    hr{
-      margin-bottom: 0;
+    hr {
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
 
-    .controls-btn-row{
+    .hr-double{
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height:5px;
+      border-top:1px solid black;
+      border-bottom:2px solid black;
+    }
+
+    .controls-btn-row {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-bottom: 10px;
+      font-size: $icon-size;
 
-      .left-side-btns{
+      .left-side-btns {
         display: flex;
-      flex-direction: row;
-      justify-content: left;
-      align-items: center;
-        width: 66%;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
       }
 
-      .right-side-btns{
+      .right-side-btns {
         display: flex;
-      flex-direction: row;
-      justify-content: right;
-      align-items: center;
-        width: 34%;
+        flex-direction: row;
+        justify-content: right;
+        align-items: center;
       }
+
     }
   }
 
-  .main-container{
+  .main-container {
     margin: 0 5% 0 5%;
     max-width: 90%;
     width: 100%;
+position: relative;
+z-index: 1;
+
+
+    label {
+      cursor: pointer;
+    }
   }
 
   .obj-container,
@@ -106,7 +125,9 @@
   .hide-button,
   .add-button,
   .clear-button,
-  .del-button {
+  .del-button,
+  .icon-select-off,
+  .icon-select-on {
     text-align: center;
     width: fit-content;
     padding: 0;

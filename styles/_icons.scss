@@ -66,46 +66,23 @@
   
 }
 
-.icon-fold:before,.icon-unfold:before{
- /* border: 1px solid;
-  border-radius: 50%;
-  width: $icon-size;
-  height: $icon-size;
-  line-height: $icon-size*0.8;*/
-}
-
 .icon-fold:before {
- /* border: 1px solid;
-  border-radius: 50%;
-  width: $icon-size;
-  height: $icon-size;
-  line-height: $icon-size*0.8;*/
-  // content:"\2739"
-  // content: "\2B09";
-  content: "\274A";
+  content: "\2725";
 }
 
 .icon-unfold:before {
- /* border: 1px solid;
-  border-radius: 50%;
-  width: $icon-size;
-  height: $icon-size;
-  //background-color: red;
-  //content: "\21B3";
-  line-height: 1.7vw;*/
- // content: "\2B0A";
   content:"\2726";
 }
 
-.icon-add:before {
- // color: green;
-  content: "\271A";
-}
 .icon-add {
   color: green;
 }
 .icon-add:hover {
   color: limegreen;
+}
+.icon-add:before {
+ // color: green;
+  content: "\271A";
 }
 
 
@@ -123,3 +100,18 @@
 .icon-checkbox-unchecked:before {
   content: "\2612";
 }
+/* end todo */
+
+.icon-select-off:before {
+  content: "\2690";
+}
+
+.icon-select-on:before {
+  content: "\2691";
+}
+
+.icon-goto-selected:before{
+ // content:'\1F3AF'
+ content: "\2691";
+}
+

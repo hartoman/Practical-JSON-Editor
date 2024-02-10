@@ -6,6 +6,7 @@ import * as utils from "./js/functions/utils.js";
 import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
 import * as undoHandlers from "./js/functions/undoHandlers.js";
+import * as gotoHandler from "./js/functions/gotoHandler.js";
 
 const selectors = {
   everything: "*",
@@ -23,11 +24,12 @@ const selectors = {
   fileInputBtn: "#jsonFileInputBtn",
   fileNameInput: "#fileNameInput",
   toggleTooltipsCheckbox: "#show-tooltips-checkbox",
+  gotoSelected: "#gotoSelected"
 };
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
-let clonedElement = null;
+let selectedElement = null;
 
 $(document).ready(function () {
   init();
@@ -133,10 +135,18 @@ function bindButtons() {
     $("body").toggleClass("showTooltips");
   });
 
+  // top goto to selected
+  $(selectors.gotoSelected).on("click", function () {
+    gotoHandler.cycleSelected();
+  });
+
+    // delegation for all select-deselect buttons
+  $(selectors.mainContainer).on("click", ".select-element", function () {
+    $(this).toggleClass('icon-select-on icon-select-off');
+    });
+
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
-    // TODO:
-    /* lastAction = jsonHandlers.createJsonObj($(selectors.mainContainer));*/
     let parentOfParent = $(this).parent();
     let targetContainer;
     // if we add from array
@@ -165,6 +175,9 @@ function bindButtons() {
   // delegation for all delete buttons
   $(selectors.mainContainer).on("click", ".del-button", function () {
     const parent = $(this).parent();
+    if (parent === selectedElement) {
+      selectedElement = null;
+    }
     modalRemove.removeModal(parent);
   });
 
@@ -215,9 +228,7 @@ function bindButtons() {
   // delegation for all copy buttons
   $(selectors.mainContainer).on("click", ".copy-button", function () {
     let sourceElement = $(this).parent();
-    //   clonedElement = $(sourceElement).clone(true);
     modalClipboard.setClipboardContent(sourceElement);
-    //   modalClipboard.printClipboardContent()
     toggleClipboardBtn();
   });
 
@@ -242,19 +253,7 @@ function bindModals() {
   modalClipboard.initClipboardModal();
 }
 
-// TODO: A changes the display of the clipboard btn
-function toggleClipboardBtn() {
-  let icon = $(selectors.clipboardBtn).children(".bi");
-  if (clonedElement) {
-    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
-    $(icon).removeClass("bi-clipboard");
-    $(icon).addClass("bi-clipboard-check");
-  } else {
-    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
-    $(icon).addClass("bi-clipboard");
-    $(icon).removeClass("bi-clipboard-check");
-  }
-}
+
 
 function disableRightClickContextMenu() {
   // disables right-click from page
@@ -292,6 +291,27 @@ function toggleSaveBtn(targetNode) {
   // Start observing the target node for DOM changes
   observer.observe(targetNode, { childList: true, subtree: true });
 }
+
+
+
+
+// TODO: MOVE AWAY
+ 
+
+// TODO: A changes the display of the clipboard btn take it there
+function toggleClipboardBtn() {
+  let icon = $(selectors.clipboardBtn).children(".bi");
+  if (modalClipboard.getClipboardContent()) {
+    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
+    $(icon).removeClass("bi-clipboard");
+    $(icon).addClass("bi-clipboard-check");
+  } else {
+    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
+    $(icon).addClass("bi-clipboard");
+    $(icon).removeClass("bi-clipboard-check");
+  }
+}
+
 
 function loadFile(e) {
   // lastAction = {};

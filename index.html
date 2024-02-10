@@ -45,6 +45,7 @@
 
   <body class="json-editor-base json-editor-light showTooltips">
     <!-- main screen start -->
+
     <div class="interface-container">
       <div class="header">
         <div class="title-container">
@@ -93,25 +94,52 @@
             id="topAddBtnObj"
             class="btn-solid icon-object custom-tooltip"
             data-tooltiptext="Add Object, text, number or boolean to top level"
-          >
-          </button>
-          <button id="topAddBtnArray" class="btn-solid icon-array custom-tooltip" data-tooltiptext="Add array to top level">
-          </button>
-          <button id="topCollapseAllBtn" class="btn-solid icon-fold custom-tooltip" data-tooltiptext="Fold all" value="hide">
-          </button>
+          ></button>
+          <button
+            id="topAddBtnArray"
+            class="btn-solid icon-array custom-tooltip"
+            data-tooltiptext="Add array to top level"
+          ></button>
+          <button
+            id="topCollapseAllBtn"
+            class="btn-solid icon-fold custom-tooltip"
+            data-tooltiptext="Fold all"
+            value="hide"
+          ></button>
         </div>
         <div class="right-side-btns">
-          <button id="undoBtn" class="btn-solid icon-undo custom-tooltip" data-tooltiptext="Undo last action" disabled>
-          </button>
-          <button id="redoBtn" class="btn-solid icon-redo custom-tooltip" data-tooltiptext="Undo last action" disabled>
-          </button>
-          <button id="clipboardBtn" class="btn-solid icon-clipboard custom-tooltip" data-tooltiptext="Clipboard is empty">
-          </button>
-          <button id="topClearBtn" class="btn-solid icon-clearAll clear-button custom-tooltip" data-tooltiptext="Remove all contents">
-          </button>
-        </div>
+          <button
+            id="undoBtn"
+            class="btn-solid icon-undo custom-tooltip"
+            data-tooltiptext="Undo last action"
+            disabled
+          ></button>
+          <button
+            id="redoBtn"
+            class="btn-solid icon-redo custom-tooltip"
+            data-tooltiptext="Undo last action"
+            disabled
+          ></button>
+          <button
+            id="gotoSelected"
+            class="btn-solid icon-goto-selected custom-tooltip"
+            data-tooltiptext="Go to selected"
+          ></button>
+          <button
+            id="clipboardBtn"
+            class="btn-solid icon-clipboard custom-tooltip"
+            data-tooltiptext="Clipboard is empty"
+          ></button>
+          <button
+            id="topClearBtn"
+            class="btn-solid icon-clearAll clear-button custom-tooltip"
+            data-tooltiptext="Remove all contents"
+          ></button>
+          </div>
       </div>
+      <hr class="hr-double"/>
     </div>
+
     <div id="mainContainer" class="main-container obj-container"></div>
     <!-- main screen end -->
 
@@ -180,7 +208,7 @@
             </div>
             <div class="row justify-content-center">
               <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
-              <label class="col" for="confirm-msg-checkbox">PLACEHOLDER</label>
+              <label class="col" for="confirm-msg-checkbox">Fullscreen</label>
             </div>
             <div class="row justify-content-center">
               <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked />
@@ -200,31 +228,38 @@
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper">
-        <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
-        </button>
-          {{#hasLabel}}
-          <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
-          {{/hasLabel}}
+        <button class="btn my-auto mx-2 custom-tooltip select-element icon-select-off" data-tooltiptext="Select element"></button>
+
+        <button
+          class="btn my-auto mx-2 del-button custom-tooltip bi bi-x-circle"
+          data-tooltiptext="Delete element"
+        ></button>
+        {{#hasLabel}}
+        <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
+        {{/hasLabel}}
+
         <p class="col-1 my-auto text-center icon-object">:</p>
+
         <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
-        <button class="btn btn-sm col-1 my-auto add-button custom-tooltip" data-tooltiptext="Add field">
-          <i class="bi bi-plus-square"></i>
-        </button>
-        <button class="btn btn-sm col-1 my-auto clear-button custom-tooltip" data-tooltiptext="Clear contents">
-          <i class="bi bi-x-octagon-fill"></i>
-        </button>
-        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip" data-tooltiptext="Copy to clipboard">
-          <i class="bi bi-clipboard-plus"></i>
-        </button>
+
         <button
-          class="btn btn-sm col-1 my-auto paste-button custom-tooltip"
+          class="btn btn-sm col-1 my-auto add-button custom-tooltip bi bi-plus-square"
+          data-tooltiptext="Add field"
+        ></button>
+        <button
+          class="btn btn-sm col-1 my-auto clear-button custom-tooltip bi bi-x-octagon-fill"
+          data-tooltiptext="Clear contents"
+        ></button>
+        <button
+          class="btn btn-sm col-1 my-auto copy-button custom-tooltip bi bi-clipboard-plus"
+          data-tooltiptext="Copy to clipboard"
+        ></button>
+        <button
+          class="btn btn-sm col-1 my-auto paste-button custom-tooltip bi bi-copy"
           data-tooltiptext="Paste from clipboard here"
-        >
-        <i class="bi bi-copy"></i>
-        </button>
+        ></button>
         <div class="obj-container" id="{{key}}"></div>
       </div>
     </template>
@@ -233,6 +268,7 @@
     <!-- array template start -->
     <template id="array-template">
       <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper">
+        <button class="btn my-auto mx-2 custom-tooltip select-element icon-select-off" data-tooltiptext="Select element"></button>
         <button class="col-1 btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>

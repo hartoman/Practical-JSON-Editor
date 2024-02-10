@@ -65,36 +65,12 @@
   content: "🚫";
 }
 
-.icon-fold:before, .icon-unfold:before {
-  /* border: 1px solid;
-   border-radius: 50%;
-   width: $icon-size;
-   height: $icon-size;
-   line-height: $icon-size*0.8;*/
-}
-
 .icon-fold:before {
-  /* border: 1px solid;
-   border-radius: 50%;
-   width: $icon-size;
-   height: $icon-size;
-   line-height: $icon-size*0.8;*/
-  content: "❊";
+  content: "✥";
 }
 
 .icon-unfold:before {
-  /* border: 1px solid;
-   border-radius: 50%;
-   width: $icon-size;
-   height: $icon-size;
-   //background-color: red;
-   //content: "\21B3";
-   line-height: 1.7vw;*/
   content: "✦";
-}
-
-.icon-add:before {
-  content: "✚";
 }
 
 .icon-add {
@@ -103,6 +79,10 @@
 
 .icon-add:hover {
   color: limegreen;
+}
+
+.icon-add:before {
+  content: "✚";
 }
 
 .icon-delete:before {
@@ -119,6 +99,19 @@
   content: "☒";
 }
 
+/* end todo */
+.icon-select-off:before {
+  content: "⚐";
+}
+
+.icon-select-on:before {
+  content: "⚑";
+}
+
+.icon-goto-selected:before {
+  content: "⚑";
+}
+
 .json-editor-base {
   /* desktop version*/
   /*mobile version */
@@ -131,12 +124,16 @@
   user-select: none;
 }
 .json-editor-base .interface-container {
-  margin: 0 5% 0 5%;
+  padding-top: 1%;
   max-width: 90%;
   width: 100%;
+  position: sticky;
+  top: 0;
+  left: 5%;
+  z-index: 2;
+  background-color: white;
 }
 .json-editor-base .interface-container .header {
-  margin-top: 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -156,74 +153,58 @@
   flex-direction: row;
 }
 .json-editor-base .interface-container hr {
+  margin-top: 5px;
   margin-bottom: 5px;
+}
+.json-editor-base .interface-container .hr-double {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 5px;
+  border-top: 1px solid black;
+  border-bottom: 2px solid black;
 }
 .json-editor-base .interface-container .controls-btn-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 10px;
+  font-size: 1.5vw;
 }
 .json-editor-base .interface-container .controls-btn-row .left-side-btns {
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  width: 50%;
 }
 .json-editor-base .interface-container .controls-btn-row .right-side-btns {
   display: flex;
   flex-direction: row;
   justify-content: right;
   align-items: center;
-  width: 50%;
 }
 .json-editor-base .main-container {
   margin: 0 5% 0 5%;
   max-width: 90%;
   width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.json-editor-base .main-container label {
+  cursor: pointer;
 }
 .json-editor-base .obj-container,
 .json-editor-base .array-container {
   padding: 0 0 0 12px;
-  width: 100%;
 }
-.json-editor-base .obj-container .controls-row,
-.json-editor-base .array-container .controls-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: left;
-  width: 100%;
+.json-editor-base .obj-container .container,
+.json-editor-base .array-container .container {
+  max-width: 100%;
   margin: 0;
   padding: 0;
+}
+.json-editor-base .obj-container .row,
+.json-editor-base .array-container .row {
   padding-right: 0;
   margin-right: 0;
-}
-.json-editor-base .obj-container .controls-row label, .json-editor-base .obj-container .controls-row p,
-.json-editor-base .array-container .controls-row label,
-.json-editor-base .array-container .controls-row p {
-  text-align: center;
-  margin-left: 1.5vw;
-}
-.json-editor-base .obj-container .controls-row .copy-button,
-.json-editor-base .obj-container .controls-row .paste-button,
-.json-editor-base .obj-container .controls-row .hide-button,
-.json-editor-base .obj-container .controls-row .add-button,
-.json-editor-base .obj-container .controls-row .clear-button,
-.json-editor-base .obj-container .controls-row .del-button,
-.json-editor-base .array-container .controls-row .copy-button,
-.json-editor-base .array-container .controls-row .paste-button,
-.json-editor-base .array-container .controls-row .hide-button,
-.json-editor-base .array-container .controls-row .add-button,
-.json-editor-base .array-container .controls-row .clear-button,
-.json-editor-base .array-container .controls-row .del-button {
-  text-align: center;
-  padding: 0;
-  margin: 0 0 0 3%;
-  border: none;
-  background-color: transparent;
-  font-size: 1.5vw;
 }
 .json-editor-base input[type=checkbox] {
   -webkit-appearance: none;
@@ -236,6 +217,23 @@
   width: 1rem;
   outline-offset: -4px;
 }
+.json-editor-base .copy-button,
+.json-editor-base .paste-button,
+.json-editor-base .hide-button,
+.json-editor-base .add-button,
+.json-editor-base .clear-button,
+.json-editor-base .del-button,
+.json-editor-base .icon-select-off,
+.json-editor-base .icon-select-on {
+  text-align: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0;
+  margin: 0 0 0 3%;
+  height: -moz-min-content;
+  height: min-content;
+  border: none;
+}
 .json-editor-base h1,
 .json-editor-base label,
 .json-editor-base p,
@@ -245,15 +243,20 @@
 .json-editor-base input {
   font-family: courier;
 }
+.json-editor-base .row {
+  margin-left: 0px;
+}
+.json-editor-base .btn {
+  border: none;
+}
 .json-editor-base .btn-solid {
-  font-size: 1.5vw;
   width: 3vw;
   height: 3vw;
-  margin: 0 10px 0 0;
+  margin-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* */
 }
 .json-editor-base .btn-solid p,
 .json-editor-base .btn-solid .bi::before {
@@ -380,6 +383,7 @@
   color: black;
 }
 .json-editor-light .hide-button:hover,
+.json-editor-light .add-button:hover,
 .json-editor-light .copy-button:hover, .json-editor-light .paste-button:hover {
   color: red;
 }
