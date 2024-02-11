@@ -1,6 +1,10 @@
 import * as utils from "../functions/utils.js";
 import * as jsonHandlers from "../functions/jsonHandlers.js";
 
+const selectors = {
+  topClipboardBtn: "#clipboardBtn",
+}
+
 let clipboardContent = null;
 let isAlreadyPrinted = false;
 
@@ -43,6 +47,7 @@ export const clipboardModal = () => {
 export const setClipboardContent = (sourceElement) => {
   clipboardContent = $(sourceElement).clone(true);
   isAlreadyPrinted = false;
+  toggleClipboardBtn()
 };
 
 export const getClipboardContent = () => {
@@ -53,6 +58,7 @@ export const getClipboardContent = () => {
    clipboardContent = null;
    isAlreadyPrinted = false;
    printClipboardContent()
+   toggleClipboardBtn()
 };
   
 export const pasteClipboardContent = (destinationParent) => {
@@ -105,4 +111,13 @@ const printClipboardContent = () => {
 
 
 
+}
+
+// changes the display of the clipboard btn 
+function toggleClipboardBtn() {
+  if (getClipboardContent()) {
+    $(selectors.topClipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
+  } else {
+    $(selectors.topClipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
+  }
 }

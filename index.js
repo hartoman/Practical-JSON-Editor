@@ -2,6 +2,7 @@ import * as modalRemove from "./js/modals/modalRemove.js";
 import * as modalRename from "./js/modals/modalRename.js";
 import * as modalAdd from "./js/modals/modalAdd.js";
 import * as modalClipboard from "./js/modals/modalClipboard.js";
+import * as modalOptions from "./js/modals/modalOptions.js";
 import * as utils from "./js/functions/utils.js";
 import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
@@ -10,22 +11,26 @@ import * as gotoHandler from "./js/functions/gotoHandler.js";
 
 const selectors = {
   everything: "*",
+  mainContainer: "#mainContainer",
+  // buttons inside objects
   addBtn: ".add-button",
   clearBtn: ".clear-button",
-  clipboardBtn: "#clipboardBtn",
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
-  mainContainer: "#mainContainer",
-  saveBtn: "#saveBtn",
-  optionsBtn: "#optionsBtn",
-  optionsModal: "#optionsModal",
-  darkmodeCheckbox: "#darkmode-checkbox",
-  optionModalOK: "#optionModalOK",
-  fileInputBtn: "#jsonFileInputBtn",
-  fileNameInput: "#fileNameInput",
-  toggleTooltipsCheckbox: "#show-tooltips-checkbox",
-  gotoSelected: "#gotoSelected"
-};
+  // top row buttons
+  topAddBtnObj: "#topAddBtnObj",
+  topAddBtnArray:"#topAddBtnArray",
+  topClipboardBtn: "#clipboardBtn",
+  topFileInputBtn: "#jsonFileInputBtn",
+  fileNameInput: "#fileNameInput",  // is directly referenced by topFileInputBtn
+  topGotoSelectedBtn: "#gotoSelected",
+  topOptionsBtn: "#optionsBtn",
+  topSaveBtn: "#saveBtn",
+  topUndoBtn: "#undoBtn",
+  topRedoBtn: '#redoBtn',
+  topClearAllBtn: '#topClearBtn',
+  topFoldUnfoldBtn:'#topCollapseAllBtn',
+ };
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
@@ -45,42 +50,37 @@ function init() {
 
 function bindButtons() {
   // top Add Obj button
-  $("#topAddBtnObj").on("click", function () {
+  $(selectors.topAddBtnObj).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
-    //toggleModalArrayMode(false);
-    //$(selectors.addBtnModal).show();
-
     modalAdd.addModal(holdingContainer);
   });
 
   // top Add Array button
-  $("#topAddBtnArray").on("click", function () {
+  $(selectors.topAddBtnArray).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
     createField.createArrayField("", holdingContainer);
   });
 
   // top undo button
-  $("#undoBtn").on("click", function () {
+  $(selectors.topUndoBtn).on("click", function () {
     undoHandlers.undo();
   });
 
   // top redo button
-  $("#redoBtn").on("click", function () {
+  $(selectors.topRedoBtn).on("click", function () {
     undoHandlers.redo();
   });
 
   // top Clear button
-  $("#topClearBtn").on("click", function () {
+  $(selectors.topClearAllBtn).on("click", function () {
     undoHandlers.unsetRedo();
     undoHandlers.setUndo();
     $(selectors.mainContainer).empty();
   });
 
   // top Collapse-All button
-  $("#topCollapseAllBtn").on("click", function () {
+  $(selectors.topFoldUnfoldBtn).on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
-   // let icon = $(this).children(".bi");
-    //alternates between two icons
     $(this).toggleClass("icon-unfold icon-fold");
 
     if ($(this).val() === "hide") {
@@ -103,41 +103,31 @@ function bindButtons() {
   });
 
   // top load file btn
-  $(selectors.fileInputBtn).on("change", (e) => {
+  $(selectors.topFileInputBtn).on("change", (e) => {
     loadFile(e);
   });
 
   // top save file btn
-  $(selectors.saveBtn).on("click", function () {
+  $(selectors.topSaveBtn).on("click", function () {
     let obj = {};
     obj = jsonHandlers.createJsonObj($(selectors.mainContainer));
     jsonHandlers.saveJson(obj);
   });
 
-  // TODO: MAKE THE NEW REMOVE THE OLD
   // top open options-modal
-  $(selectors.optionsBtn).on("click", function () {
-    $(selectors.optionsModal).show();
-  });
-
-  // close options-modal modal btn
-  $(selectors.optionModalOK).on("click", function () {
-    $(selectors.optionsModal).hide();
-  });
-
-  // button that switches between dark mode and normal
-  $(selectors.darkmodeCheckbox).on("change", function () {
-    $("body").toggleClass("json-editor-dark");
-  });
-
-  // button that toggles tooltips
-  $(selectors.toggleTooltipsCheckbox).on("change", function () {
-    $("body").toggleClass("showTooltips");
+  $(selectors.topOptionsBtn).on("click", function () {
+    modalOptions.optionsModal()
   });
 
   // top goto to selected
-  $(selectors.gotoSelected).on("click", function () {
+  $(selectors.topGotoSelectedBtn).on("click", function () {
     gotoHandler.cycleSelected();
+  });
+
+
+  // top clipboard button
+  $(selectors.topClipboardBtn).on("click", function () {
+    modalClipboard.clipboardModal();
   });
 
     // delegation for all select-deselect buttons
@@ -219,17 +209,10 @@ function bindButtons() {
     }
   });
 
-  // top clipboard button
-  $(selectors.clipboardBtn).on("click", function () {
-    modalClipboard.clipboardModal();
-    toggleClipboardBtn();
-  });
-
   // delegation for all copy buttons
   $(selectors.mainContainer).on("click", ".copy-button", function () {
     let sourceElement = $(this).parent();
     modalClipboard.setClipboardContent(sourceElement);
-    toggleClipboardBtn();
   });
 
   // delegation for all paste buttons
@@ -251,6 +234,7 @@ function bindModals() {
   modalAdd.initAddModal();
   modalRename.initRenameModal();
   modalClipboard.initClipboardModal();
+  modalOptions.initOptionsModal();
 }
 
 
@@ -271,21 +255,21 @@ function toggleSaveBtn(targetNode) {
     // Handle DOM changes here
     // Check if the div has no children
     if ($(selectors.mainContainer).children().length === 0) {
-      $("#topAddBtnObj").show("fast");
-      $("#topAddBtnArray").show("fast");
-      $(selectors.saveBtn).prop("disabled", true);
+      $(selectors.topAddBtnObj).show("fast");
+      $(selectors.topAddBtnArray).show("fast");
+      $(selectors.topSaveBtn).prop("disabled", true);
     } else {
       if ($(selectors.mainContainer).children().children("label").length === 0) {
         //array of objects
-        $("#topAddBtnObj").hide("fast");
-        $("#topAddBtnArray").hide("fast");
+        $(selectors.topAddBtnObj).hide("fast");
+        $(selectors.topAddBtnArray).hide("fast");
         $;
       } else {
         // object
-        $("#topAddBtnObj").show("fast");
-        $("#topAddBtnArray").hide("fast");
+        $(selectors.topAddBtnObj).show("fast");
+        $(selectors.topAddBtnArray).hide("fast");
       }
-      $(selectors.saveBtn).prop("disabled", false);
+      $(selectors.topSaveBtn).prop("disabled", false);
     }
   });
   // Start observing the target node for DOM changes
@@ -293,24 +277,7 @@ function toggleSaveBtn(targetNode) {
 }
 
 
-
-
 // TODO: MOVE AWAY
- 
-
-// TODO: A changes the display of the clipboard btn take it there
-function toggleClipboardBtn() {
-  let icon = $(selectors.clipboardBtn).children(".bi");
-  if (modalClipboard.getClipboardContent()) {
-    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is full, click to empty");
-    $(icon).removeClass("bi-clipboard");
-    $(icon).addClass("bi-clipboard-check");
-  } else {
-    $(selectors.clipboardBtn).attr("data-tooltiptext", "Clipboard is empty");
-    $(icon).addClass("bi-clipboard");
-    $(icon).removeClass("bi-clipboard-check");
-  }
-}
 
 
 function loadFile(e) {
@@ -341,7 +308,7 @@ function loadFile(e) {
       // if contents are array
       if (Array.isArray(jsonContent)) {
         createField.createArrayField("", holdingContainer);
-        holdingContainer = $(holdingContainer).find(".array-container");
+        holdingContainer = $(holdingContainer).find(".array-container")[0];
       }
       // display contents
       jsonHandlers.printLoadedJson(jsonContent, holdingContainer);
@@ -357,16 +324,15 @@ function loadFile(e) {
     reader.readAsArrayBuffer(file);
   }
   // clears the file input
-  $(selectors.fileInputBtn).val("");
+  $(selectors.topFileInputBtn).val("");
 
   // prepares the fields when loading a file
   function prepareFields(file) {
     $(selectors.mainContainer).empty(); // remove contents of main
     $(selectors.fileNameInput).val(file.name); // set filename to field
-    $("#topCollapseAllBtn").val("hide"); // set collapse-all btn
-    let icon = $("#topCollapseAllBtn").children(".bi");
-    $(icon).removeClass("bi-arrow-down-right-circle-fill");
-    $(icon).addClass("bi-arrow-up-left-circle");
+    $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
+    $(selectors.topFoldUnfoldBtn).removeClass("icon-unfold");
+    $(selectors.topFoldUnfoldBtn).addClass("icon-fold");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
 }

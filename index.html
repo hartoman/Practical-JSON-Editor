@@ -135,9 +135,9 @@
             class="btn-solid icon-clearAll clear-button custom-tooltip"
             data-tooltiptext="Remove all contents"
           ></button>
-          </div>
+        </div>
       </div>
-      <hr class="hr-double"/>
+      <hr class="hr-double" />
     </div>
 
     <div id="mainContainer" class="main-container obj-container"></div>
@@ -194,7 +194,26 @@
     </div>
     <!-- add modal end-->
 
-    <!-- options modal start-->
+    <!-- options modal start: used by jquery-ui-->
+    <div id="optionsModal">
+      <div>
+        <div class="row justify-content-center">
+          <input id="darkmode-checkbox" name="darkmode-checkbox" class="col-2" type="checkbox" />
+          <label class="col" for="darkmode-checkbox">Dark Mode</label>
+        </div>
+        <div class="row justify-content-center">
+          <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
+          <label class="col" for="confirm-msg-checkbox">Fullscreen</label>
+        </div>
+        <div class="row justify-content-center">
+          <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked />
+          <label class="col" for="show-tooltips-checkbox">Show Tooltips</label>
+        </div>
+      </div>
+    </div>
+    <!-- options modal end -->
+
+    <!-- options modal start
     <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content" style="width: 60%">
@@ -223,12 +242,15 @@
         </div>
       </div>
     </div>
-    <!-- options modal end -->
+   options modal end -->
 
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper">
-        <button class="btn my-auto mx-2 custom-tooltip select-element icon-select-off" data-tooltiptext="Select element"></button>
+        <button
+          class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
+          data-tooltiptext="Select element"
+        ></button>
 
         <button
           class="btn my-auto mx-2 del-button custom-tooltip bi bi-x-circle"
@@ -268,7 +290,10 @@
     <!-- array template start -->
     <template id="array-template">
       <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper">
-        <button class="btn my-auto mx-2 custom-tooltip select-element icon-select-off" data-tooltiptext="Select element"></button>
+        <button
+          class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
+          data-tooltiptext="Select element"
+        ></button>
         <button class="col-1 btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
           <i class="bi bi-x-circle"></i>
         </button>
