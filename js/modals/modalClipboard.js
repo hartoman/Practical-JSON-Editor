@@ -72,7 +72,8 @@ export const pasteClipboardContent = (destinationParent) => {
     if ($(destinationParent).children(".array-container").length && $(tempElement).children("label").length) {
       $(tempElement).children("label").remove();
     }
-    // unnamed objects pasted as fields of parent object gain a label
+      // unnamed objects pasted as fields of parent object gain a label
+    // TODO change the generated label destination
     else if ($(destinationParent).children(".obj-container").length && !$(tempElement).children("label").length) {
       const deletebtn = $(tempElement).children("button").first();
       deletebtn.after(

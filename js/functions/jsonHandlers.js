@@ -1,4 +1,5 @@
 import * as createField from "./createFieldFunctions.js";
+import * as lazy from "./lazyLoadHandler.js";
 
 const selectors = {
   fileInputBtn: "#jsonFileInputBtn",
@@ -84,8 +85,9 @@ export const fromArrayToJson = (arrayContainer) => {
   return returnedArray;
 };
 
+/*
 // creates fields for the loaded json file
-export const printLoadedJson = (json, parentContainer) => {
+export const printLoadedJsonRecursive = (json, parentContainer) => {
   for (let key in json) {
     if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
       if (Array.isArray(json[key])) {
@@ -127,6 +129,7 @@ export const printLoadedJson = (json, parentContainer) => {
     }
   });
 };
+*/
 
 // creates json from object and downloads it
 export const saveJson = (obj) => {
@@ -146,3 +149,75 @@ export const saveJson = (obj) => {
 export const getFileType = (filename) => {
   return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
 };
+
+export const printLoadedJson = (json, x) => {
+
+  const fragment = new DocumentFragment();
+  createFragment(fragment)
+  $(x).append(fragment)
+  lazy.lazyLoad();
+  $("label").each(function () {
+    if (!isNaN($(this).text())) {
+   /*   const indexnum = $(this).text()
+      console.log(indexnum)
+      const parent = $(this).parent()
+      const indexpar = $(parent).children('.indexnum')
+      $(indexpar).text(indexnum)*/
+   //   $(this).text("");
+      $(this).remove();
+    }
+  });
+
+  function createFragment(parentContainer) {
+    let stack = [];
+    let current = { json, parentContainer };
+    stack.push(current);
+  
+    while (stack.length > 0) {
+      current = stack.pop();
+      json = current.json;
+      parentContainer = current.parentContainer;
+      for (let key in json) {
+        if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
+          if (Array.isArray(json[key])) {
+            $(parentContainer).val("array");
+            createField.createArrayField(key, parentContainer);
+            let arrayContainer = $(parentContainer).find(`#${key}`);
+            stack.push({
+              json: json[key],
+              parentContainer: arrayContainer,
+            });
+          } else {
+            $(parentContainer).val("object");
+            createField.createObjectField(key, parentContainer);
+            let arrayContainer = $(parentContainer).find(`#${key}`);
+            stack.push({
+              json: json[key],
+              parentContainer: arrayContainer,
+            });
+          }
+        } else {
+          if (typeof json[key] === "string") {
+            if (json[key].length <= 20) {
+              $(parentContainer).val("text");
+              createField.createTextInputField(key, json[key], parentContainer);
+            } else {
+              $(parentContainer).val("textarea");
+              createField.createTextArea(key, json[key], parentContainer);
+            }
+          } else if (typeof json[key] === "number") {
+            $(parentContainer).val("number");
+            createField.createNumberInputField(key, json[key], parentContainer);
+          }
+          if (typeof json[key] === "boolean") {
+            $(parentContainer).val("boolean");
+            createField.createBooleanField(key, json[key], parentContainer);
+          }
+        }
+      }
+    }
+//was here
+  }
+};
+
+

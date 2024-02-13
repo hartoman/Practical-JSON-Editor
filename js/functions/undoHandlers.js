@@ -38,13 +38,14 @@ export const undo = () => {
     }
 }
 
-
+/*
 function topObjIsSingleArray() {
     const topArray = $(selectors.mainContainer).children('.array-wrapper');
     let itIs = $(topArray).length===1 && $(topArray).children('label').length===0
     console.log(itIs)
     return itIs
 }
+*/
 
 export const redo = () => {
     if (Object.keys(redoAction).length) {

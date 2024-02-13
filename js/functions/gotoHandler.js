@@ -12,7 +12,7 @@ export const cycleSelected=()=> {
     }
     
     $(selectors.selectedElements).get(currentIndex).scrollIntoView({
-        behavior: 'smooth',
+        behavior: 'instant',
         block: 'center'
       });
   }

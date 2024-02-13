@@ -123,6 +123,9 @@
   -moz-user-select: none;
   user-select: none;
 }
+.json-editor-base .start-invisible {
+  display: none !important;
+}
 .json-editor-base .interface-container {
   padding-top: 1%;
   max-width: 90%;
@@ -233,6 +236,12 @@
   height: -moz-min-content;
   height: min-content;
   border: none;
+}
+.json-editor-base .copy-button,
+.json-editor-base .paste-button,
+.json-editor-base .add-button,
+.json-editor-base .clear-button {
+  display: none;
 }
 .json-editor-base h1,
 .json-editor-base label,

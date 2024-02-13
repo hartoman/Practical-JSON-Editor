@@ -8,6 +8,7 @@ import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
 import * as undoHandlers from "./js/functions/undoHandlers.js";
 import * as gotoHandler from "./js/functions/gotoHandler.js";
+import * as lazy from "./js/functions/lazyLoadHandler.js";
 
 const selectors = {
   everything: "*",
@@ -35,6 +36,7 @@ const selectors = {
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
 let selectedElement = null;
+let foldAllTriggered = false;
 
 $(document).ready(function () {
   init();
@@ -49,6 +51,11 @@ function init() {
 }
 
 function bindButtons() {
+     
+  $(document).on('scroll', function () {
+    lazy.lazyLoad();
+  })
+  
   // top Add Obj button
   $(selectors.topAddBtnObj).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
@@ -86,11 +93,14 @@ function bindButtons() {
     if ($(this).val() === "hide") {
       $(this).val("show");
       $(this).attr("data-tooltiptext", "Unfold all");
+      foldAllTriggered = true;
       $(targets).map(function () {
         if ($(this).val() === "hide") {
           $(this).trigger("click");
         }
       });
+      foldAllTriggered = false;
+      lazy.lazyLoad()
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Fold all");
@@ -175,24 +185,26 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".hide-button", function () {
     let parentOfParent = $(this).parent();
     let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
-    let addbtn = $(this).parent().children(".add-button");
-    let clearbtn = $(this).parent().children(".clear-button");
-   // let icon = $(this).children(".bi");
+    let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button, .del-button");
+
     //alternates between two icons
     $(this).toggleClass("icon-unfold icon-fold");
 
     if ($(this).val() === "hide") {
       $(this).val("show");
-      $(this).attr("data-tooltiptext", "Unfold contents");
-      targetContainer.hide("fast");
-      addbtn.hide("fast");
-      clearbtn.hide("fast");
+      $(this).attr("data-tooltiptext", "Fold contents");
+      targetContainer.removeClass('d-none')
+      if (!foldAllTriggered) {
+        lazy.lazyLoad()
+      }
+      buttons.show("fast");
     } else {
       $(this).val("hide");
-      $(this).attr("data-tooltiptext", "Fold contents");
-      targetContainer.show("fast");
-      addbtn.show("fast");
-      clearbtn.show("fast");
+      $(this).attr("data-tooltiptext", "Unfold contents");
+      targetContainer.addClass('d-none')
+      buttons.hide("fast");
+    //  clearbtn.hide("fast");
+
     }
   });
 
@@ -312,6 +324,7 @@ function loadFile(e) {
       }
       // display contents
       jsonHandlers.printLoadedJson(jsonContent, holdingContainer);
+     // jsonHandlers.lazyLoad()
     } catch (error) {
       alert("Not a valid .json or spreadsheet file");
       $(selectors.fileNameInput).val("");

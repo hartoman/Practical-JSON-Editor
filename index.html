@@ -103,8 +103,8 @@
           <button
             id="topCollapseAllBtn"
             class="btn-solid icon-fold custom-tooltip"
-            data-tooltiptext="Fold all"
-            value="hide"
+            data-tooltiptext="Unfold all"
+            value="show"
           ></button>
         </div>
         <div class="right-side-btns">
@@ -246,7 +246,7 @@
 
     <!-- object template start -->
     <template id="object-template">
-      <div class="container row d-flex obj-wrapper">
+      <div class="container row d-flex obj-wrapper start-invisible">
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Select element"
@@ -262,7 +262,7 @@
 
         <p class="col-1 my-auto text-center icon-object">:</p>
 
-        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
+        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Unfold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
 
@@ -282,14 +282,14 @@
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip bi bi-copy"
           data-tooltiptext="Paste from clipboard here"
         ></button>
-        <div class="obj-container" id="{{key}}"></div>
+        <div class="obj-container d-none" id="{{key}}"></div>
       </div>
     </template>
     <!-- object template end -->
 
     <!-- array template start -->
     <template id="array-template">
-      <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper">
+      <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper start-invisible">
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Select element"
@@ -301,7 +301,7 @@
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center icon-array">:</p>
-        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Fold contents" value="hide">
+        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Unfold contents" value="hide">
           <i class="bi bi-arrow-up-left-circle"></i>
         </button>
         <button
@@ -322,7 +322,7 @@
         >
           <i class="bi bi-copy"></i>
         </button>
-        <div class="array-container" value="" id="{{key}}"></div>
+        <div class="array-container d-none" value="" id="{{key}}"></div>
       </div>
     </template>
     <!--array template end -->
