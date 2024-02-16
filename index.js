@@ -3,6 +3,7 @@ import * as modalRename from "./js/modals/modalRename.js";
 import * as modalAdd from "./js/modals/modalAdd.js";
 import * as modalClipboard from "./js/modals/modalClipboard.js";
 import * as modalOptions from "./js/modals/modalOptions.js";
+import * as modalSearch from "./js/modals/modalSearch.js";
 import * as utils from "./js/functions/utils.js";
 import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
@@ -27,6 +28,7 @@ const selectors = {
   topGotoSelectedBtn: "#gotoSelected",
   topOptionsBtn: "#optionsBtn",
   topSaveBtn: "#saveBtn",
+  topSearchBtn:"#searchBtn",
   topUndoBtn: "#undoBtn",
   topRedoBtn: '#redoBtn',
   topClearAllBtn: '#topClearBtn',
@@ -66,6 +68,7 @@ function bindButtons() {
   $(selectors.topAddBtnArray).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
     createField.createArrayField("", holdingContainer);
+    lazy.lazyLoad()
   });
 
   // top undo button
@@ -112,6 +115,11 @@ function bindButtons() {
     }
   });
 
+  // 
+  $(selectors.topSearchBtn).on("click", function () {
+    modalSearch.searchModal()
+   })
+  
   // top load file btn
   $(selectors.topFileInputBtn).on("change", (e) => {
     loadFile(e);
@@ -162,6 +170,7 @@ function bindButtons() {
         undoHandlers.setUndo();
         const arrayType = targetContainer.val();
         createField.createFields("", arrayType, holdingContainer);
+        lazy.lazyLoad()
       }
     } else {
       // add from object
@@ -247,6 +256,7 @@ function bindModals() {
   modalRename.initRenameModal();
   modalClipboard.initClipboardModal();
   modalOptions.initOptionsModal();
+  modalSearch.initSearchModal();
 }
 
 

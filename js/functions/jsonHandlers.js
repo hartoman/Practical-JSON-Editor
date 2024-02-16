@@ -158,12 +158,6 @@ export const printLoadedJson = (json, x) => {
   lazy.lazyLoad();
   $("label").each(function () {
     if (!isNaN($(this).text())) {
-   /*   const indexnum = $(this).text()
-      console.log(indexnum)
-      const parent = $(this).parent()
-      const indexpar = $(parent).children('.indexnum')
-      $(indexpar).text(indexnum)*/
-   //   $(this).text("");
       $(this).remove();
     }
   });

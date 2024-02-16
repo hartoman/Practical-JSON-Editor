@@ -112,6 +112,10 @@
   content: "⚑";
 }
 
+.icon-search:before {
+  content: "🔍";
+}
+
 .json-editor-base {
   /* desktop version*/
   /*mobile version */
@@ -196,7 +200,7 @@
 }
 .json-editor-base .obj-container,
 .json-editor-base .array-container {
-  padding: 0 0 0 12px;
+  padding: 0 0 0 3vw;
 }
 .json-editor-base .obj-container .container,
 .json-editor-base .array-container .container {

@@ -2,11 +2,12 @@ import * as utils from "../functions/utils.js";
 import * as undoHandlers from "../functions/undoHandlers.js";
 import * as createField from "../functions/createFieldFunctions.js";
 import * as allInArray from "../functions/modifyAllInArray.js";
+import * as lazy from "../functions/lazyLoadHandler.js";
 
 const selectors = {
   addModalNameTag: "#addModalNameTag",
   addModalNameInput: "#addModalNameInput",
-  addModalDuplicateNameWarning: ".duplicate-warning-label",
+  addModalDuplicateNameWarning: "#addModal .duplicate-warning-label",
   addModalSelection: "#modalSelection",
 };
 
@@ -45,6 +46,7 @@ export const initAddModal = () => {
           createField.createFields(fieldName, selectedOption, targetContainer);
           $(selectors.addModalNameInput).val("");
           $(this).dialog("close");
+          lazy.lazyLoad();
         },
       },
       {

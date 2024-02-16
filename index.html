@@ -121,6 +121,11 @@
             disabled
           ></button>
           <button
+          id="searchBtn"
+          class="btn-solid icon-search custom-tooltip"
+          data-tooltiptext="Search for value"
+        ></button>
+          <button
             id="gotoSelected"
             class="btn-solid icon-goto-selected custom-tooltip"
             data-tooltiptext="Go to selected"
@@ -147,7 +152,7 @@
     <div id="removeModal"></div>
     <!-- remove modal end-->
 
-    <!-- remove modal start: used by jquery-ui-->
+    <!-- rename modal start: used by jquery-ui-->
     <div id="renameModal">
       <div class="row justify-content-center col-11 mx-auto">
         <div id="test"></div>
@@ -159,7 +164,21 @@
         A field with this name already exists!
       </div>
     </div>
-    <!-- remove modal end-->
+    <!-- rename modal end-->
+
+        <!-- search modal start: used by jquery-ui-->
+        <div id="searchModal">
+          <div class="row justify-content-center col-11 mx-auto">
+            <div id="test"></div>
+            <div class="col-5" id="addModalNameTag">Value:</div>
+            <div class="col-1"></div>
+            <input id="searchModalNameInput" class="col-5" type="text" autocomplete="off" />
+          </div>
+          <div class="row justify-content-start my-auto duplicate-warning-label col-10 mx-auto" style="visibility: hidden">
+            Value not found
+          </div>
+        </div>
+        <!-- search modal end-->
 
     <!-- add modal start: used by jquery-ui-->
     <div id="addModal">
@@ -188,11 +207,11 @@
     </div>
     <!-- add modal end-->
 
-    <!-- add modal start: used by jquery-ui-->
+    <!-- clipboard modal start: used by jquery-ui-->
     <div id="clipboardModal">
       <pre id="clipboardContent"></pre>
     </div>
-    <!-- add modal end-->
+    <!-- clipboard modal end-->
 
     <!-- options modal start: used by jquery-ui-->
     <div id="optionsModal">
@@ -247,6 +266,7 @@
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper start-invisible">
+        <p class="indexnum"></p>
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Select element"

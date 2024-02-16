@@ -1,5 +1,5 @@
-// how many screens away should the last check be
-const THRESHOLD = 3;
+// how many screens away should the furthest check be
+const THRESHOLD = 2;
 
 export const lazyLoad = () => {
     makeFirstChildVisible()
@@ -7,13 +7,13 @@ export const lazyLoad = () => {
    }
    
    function makeFirstChildVisible() {
-     const firstNode = $('.start-invisible:first-child')
-     $(firstNode).removeClass('start-invisible')
+   const firstNode = $('.start-invisible:first-child')
+  $(firstNode).removeClass('start-invisible')
    }
    
    function maketheRestVisible() {
      const allOthers = $('.start-invisible:not(:first-child)')
-     $(allOthers).each( function() {
+          $(allOthers).each( function() {
        const previous = $(this).prev();
        if (isInViewport(previous)) {
          $(this).removeClass('start-invisible')
@@ -24,14 +24,14 @@ export const lazyLoad = () => {
          } else {
            $(this).addClass('start-invisible')
          }
-       } 
-   })
+              } 
+          })
    
    }
    
 
    
-   function isInViewport(element) {
+   export const isInViewport=(element)=> {
      
      var elementTop = $(element).offset().top;
      var elementBottom = elementTop + $(element).outerHeight();
