@@ -3,12 +3,11 @@ import * as modalRename from "./js/modals/modalRename.js";
 import * as modalAdd from "./js/modals/modalAdd.js";
 import * as modalClipboard from "./js/modals/modalClipboard.js";
 import * as modalOptions from "./js/modals/modalOptions.js";
-import * as modalSearch from "./js/modals/modalSearch.js";
-import * as utils from "./js/functions/utils.js";
 import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
 import * as undoHandlers from "./js/functions/undoHandlers.js";
 import * as gotoHandler from "./js/functions/gotoHandler.js";
+import * as searchHandler from "./js/functions/searchHandler.js";
 import * as lazy from "./js/functions/lazyLoadHandler.js";
 
 const selectors = {
@@ -21,19 +20,21 @@ const selectors = {
   hideBtn: ".hide-btn",
   // top row buttons
   topAddBtnObj: "#topAddBtnObj",
-  topAddBtnArray:"#topAddBtnArray",
+  topAddBtnArray: "#topAddBtnArray",
   topClipboardBtn: "#clipboardBtn",
   topFileInputBtn: "#jsonFileInputBtn",
-  fileNameInput: "#fileNameInput",  // is directly referenced by topFileInputBtn
+  fileNameInput: "#fileNameInput", // is directly referenced by topFileInputBtn
   topGotoSelectedBtn: "#gotoSelected",
+  topGotoTop:"#gotoTop",
   topOptionsBtn: "#optionsBtn",
   topSaveBtn: "#saveBtn",
-  topSearchBtn:"#searchBtn",
+  topSearchBtn: "#searchBtn",
   topUndoBtn: "#undoBtn",
-  topRedoBtn: '#redoBtn',
-  topClearAllBtn: '#topClearBtn',
-  topFoldUnfoldBtn:'#topCollapseAllBtn',
- };
+  topRedoBtn: "#redoBtn",
+  topClearAllBtn: "#topClearBtn",
+  topFoldUnfoldBtn: "#topCollapseAllBtn",
+
+};
 
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
@@ -53,11 +54,10 @@ function init() {
 }
 
 function bindButtons() {
-     
-  $(document).on('scroll', function () {
+  $(document).on("scroll", function () {
     lazy.lazyLoad();
-  })
-  
+  });
+
   // top Add Obj button
   $(selectors.topAddBtnObj).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
@@ -68,7 +68,7 @@ function bindButtons() {
   $(selectors.topAddBtnArray).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
     createField.createArrayField("", holdingContainer);
-    lazy.lazyLoad()
+    lazy.lazyLoad();
   });
 
   // top undo button
@@ -103,7 +103,7 @@ function bindButtons() {
         }
       });
       foldAllTriggered = false;
-      lazy.lazyLoad()
+      lazy.lazyLoad();
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Fold all");
@@ -115,14 +115,22 @@ function bindButtons() {
     }
   });
 
-  // 
+  $(selectors.topGotoTop).on("click", function () {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  });
+
+  //top search button
   $(selectors.topSearchBtn).on("click", function () {
-    modalSearch.searchModal()
-   })
-  
+    searchHandler.cycleFound()
+  });
+
   // top load file btn
   $(selectors.topFileInputBtn).on("change", (e) => {
     loadFile(e);
+    undoHandlers.unsetRedo();
+    undoHandlers.unsetRedo();
+    searchHandler.resetSearch();
+    lazy.lazyLoad();
   });
 
   // top save file btn
@@ -134,7 +142,7 @@ function bindButtons() {
 
   // top open options-modal
   $(selectors.topOptionsBtn).on("click", function () {
-    modalOptions.optionsModal()
+    modalOptions.optionsModal();
   });
 
   // top goto to selected
@@ -142,16 +150,15 @@ function bindButtons() {
     gotoHandler.cycleSelected();
   });
 
-
   // top clipboard button
   $(selectors.topClipboardBtn).on("click", function () {
     modalClipboard.clipboardModal();
   });
 
-    // delegation for all select-deselect buttons
+  // delegation for all select-deselect buttons
   $(selectors.mainContainer).on("click", ".select-element", function () {
-    $(this).toggleClass('icon-select-on icon-select-off');
-    });
+    $(this).toggleClass("icon-select-on icon-select-off");
+  });
 
   // delegation for all add buttons
   $(selectors.mainContainer).on("click", ".add-button", function () {
@@ -170,7 +177,7 @@ function bindButtons() {
         undoHandlers.setUndo();
         const arrayType = targetContainer.val();
         createField.createFields("", arrayType, holdingContainer);
-        lazy.lazyLoad()
+        lazy.lazyLoad();
       }
     } else {
       // add from object
@@ -190,7 +197,7 @@ function bindButtons() {
     modalRemove.removeModal(parent);
   });
 
-  // delegation for all hide buttons
+  // delegation for all fold buttons
   $(selectors.mainContainer).on("click", ".hide-button", function () {
     let parentOfParent = $(this).parent();
     let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
@@ -202,18 +209,17 @@ function bindButtons() {
     if ($(this).val() === "hide") {
       $(this).val("show");
       $(this).attr("data-tooltiptext", "Fold contents");
-      targetContainer.removeClass('d-none')
+      targetContainer.removeClass("d-none");
       if (!foldAllTriggered) {
-        lazy.lazyLoad()
+        lazy.lazyLoad();
       }
       buttons.show("fast");
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Unfold contents");
-      targetContainer.addClass('d-none')
+      targetContainer.addClass("d-none");
       buttons.hide("fast");
-    //  clearbtn.hide("fast");
-
+      //  clearbtn.hide("fast");
     }
   });
 
@@ -256,10 +262,7 @@ function bindModals() {
   modalRename.initRenameModal();
   modalClipboard.initClipboardModal();
   modalOptions.initOptionsModal();
-  modalSearch.initSearchModal();
 }
-
-
 
 function disableRightClickContextMenu() {
   // disables right-click from page
@@ -298,13 +301,9 @@ function toggleSaveBtn(targetNode) {
   observer.observe(targetNode, { childList: true, subtree: true });
 }
 
-
 // TODO: MOVE AWAY
 
-
 function loadFile(e) {
-  // lastAction = {};
-
   const file = e.target.files[0];
   const reader = new FileReader();
   const filename = file.name;
@@ -334,7 +333,6 @@ function loadFile(e) {
       }
       // display contents
       jsonHandlers.printLoadedJson(jsonContent, holdingContainer);
-     // jsonHandlers.lazyLoad()
     } catch (error) {
       alert("Not a valid .json or spreadsheet file");
       $(selectors.fileNameInput).val("");

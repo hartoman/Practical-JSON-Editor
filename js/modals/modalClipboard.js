@@ -18,6 +18,7 @@ export const initClipboardModal = () => {
       parent: {},
       open: function () {
         $(".ui-widget-overlay").css({ opacity: ".7" });
+        $('body').css('overflow', 'hidden');
       },
       buttons: [
         {
@@ -31,6 +32,7 @@ export const initClipboardModal = () => {
           text: "Close",
           class: "btn-solid",
           click: function () {
+            $('body').css('overflow', 'auto');  //TODO: SET THIS IN ALL MODALS
             $(this).dialog("close");
           },
         },

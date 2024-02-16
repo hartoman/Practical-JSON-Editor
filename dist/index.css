@@ -116,19 +116,13 @@
   content: "🔍";
 }
 
+.icon-goto-top:before {
+  content: "↟";
+}
+
 .json-editor-base {
   /* desktop version*/
   /*mobile version */
-}
-.json-editor-base * {
-  box-sizing: border-box;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.json-editor-base .start-invisible {
-  display: none !important;
 }
 .json-editor-base .interface-container {
   padding-top: 1%;
@@ -158,6 +152,7 @@
 .json-editor-base .interface-container .file-btn-row {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 .json-editor-base .interface-container hr {
   margin-top: 5px;
@@ -551,4 +546,16 @@ If you only add custom-tooltip to an element, it will be always on*/
   border-radius: 5%;
   top: 90%;
   left: 70%;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.start-invisible {
+  display: none !important;
 }/*# sourceMappingURL=index.css.map */
