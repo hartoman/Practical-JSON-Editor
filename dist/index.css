@@ -236,12 +236,6 @@
   height: min-content;
   border: none;
 }
-.json-editor-base .copy-button,
-.json-editor-base .paste-button,
-.json-editor-base .add-button,
-.json-editor-base .clear-button {
-  display: none;
-}
 .json-editor-base h1,
 .json-editor-base label,
 .json-editor-base p,
@@ -558,4 +552,8 @@ If you only add custom-tooltip to an element, it will be always on*/
 
 .start-invisible {
   display: none !important;
+}
+
+.folded {
+  display: none;
 }/*# sourceMappingURL=index.css.map */

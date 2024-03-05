@@ -91,9 +91,9 @@ function bindButtons() {
   // top Collapse-All button
   $(selectors.topFoldUnfoldBtn).on("click", function () {
     let targets = $(selectors.mainContainer).find(".hide-button");
-    $(this).toggleClass("icon-unfold icon-fold");
+   // $(this).toggleClass("icon-unfold icon-fold");
 
-    if ($(this).val() === "hide") {
+ /*   if ($(this).val() === "hide") {
       $(this).val("show");
       $(this).attr("data-tooltiptext", "Unfold all");
       foldAllTriggered = true;
@@ -105,14 +105,14 @@ function bindButtons() {
       foldAllTriggered = false;
       lazy.lazyLoad();
     } else {
-      $(this).val("hide");
+      $(this).val("hide");*/
       $(this).attr("data-tooltiptext", "Fold all");
       $(targets).map(function () {
         if ($(this).val() != "hide") {
           $(this).trigger("click");
         }
       });
-    }
+    //}
   });
 
   $(selectors.topGotoTop).on("click", function () {
@@ -201,7 +201,7 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".hide-button", function () {
     let parentOfParent = $(this).parent();
     let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
-    let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button, .del-button");
+   // let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button, .del-button");
 
     //alternates between two icons
     $(this).toggleClass("icon-unfold icon-fold");
@@ -213,12 +213,12 @@ function bindButtons() {
       if (!foldAllTriggered) {
         lazy.lazyLoad();
       }
-      buttons.show("fast");
+   //   buttons.show("fast");
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Unfold contents");
       targetContainer.addClass("d-none");
-      buttons.hide("fast");
+   //   buttons.hide("fast");
       //  clearbtn.hide("fast");
     }
   });
@@ -242,10 +242,10 @@ function bindButtons() {
     modalClipboard.setClipboardContent(sourceElement);
   });
 
-  // delegation for all paste buttons
+  // delegation for all paste full object buttons
   $(selectors.mainContainer).on("click", ".paste-button", function () {
     let destinationParent = $(this).parent();
-    modalClipboard.pasteClipboardContent(destinationParent);
+    modalClipboard.pasteClipboardFullObject(destinationParent);
   });
 
   // delegation for clicking on labels to change text
@@ -351,9 +351,9 @@ function loadFile(e) {
   function prepareFields(file) {
     $(selectors.mainContainer).empty(); // remove contents of main
     $(selectors.fileNameInput).val(file.name); // set filename to field
-    $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
-    $(selectors.topFoldUnfoldBtn).removeClass("icon-unfold");
-    $(selectors.topFoldUnfoldBtn).addClass("icon-fold");
+ //   $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
+//    $(selectors.topFoldUnfoldBtn).removeClass("icon-unfold");
+//    $(selectors.topFoldUnfoldBtn).addClass("icon-fold");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
 }

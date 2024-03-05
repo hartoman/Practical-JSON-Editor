@@ -63,7 +63,7 @@ export const getClipboardContent = () => {
    toggleClipboardBtn()
 };
   
-export const pasteClipboardContent = (destinationParent) => {
+export const pasteClipboardFullObject = (destinationParent) => {
   let destination = $(destinationParent).children(".obj-container, .array-container").first();
 
   if (clipboardContent) {
@@ -85,10 +85,31 @@ export const pasteClipboardContent = (destinationParent) => {
     $(destination).append(tempElement);
   }
 };
- /* 
-export const printClipboardContent = () => {
-  console.log(clipboardContent);
-};*/
+ 
+
+export const pasteClipboardContentsOnly= () => {
+  let destination = $(destinationParent).children(".obj-container, .array-container").first();
+
+  if (clipboardContent) {
+    // deep clone of the global copied element, so that we bypass pass by reference
+    let objCont = $(clipboardContent).children('.obj-container, .array-container')
+    let tempElement = $(objCont).contents().not($(objCont)).clone(true);
+
+    // named objects pasted in arrays lose their label
+    if ($(destinationParent).children(".array-container").length && $(tempElement).children("label").length) {
+      $(tempElement).children("label").remove();
+    }
+      // unnamed objects pasted as fields of parent object gain a label
+    // TODO change the generated label destination
+    else if ($(destinationParent).children(".obj-container").length && !$(tempElement).children("label").length) {
+      const deletebtn = $(tempElement).children("button").first();
+      deletebtn.after(
+        '<label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">ENTER_NAME</label>'
+      );
+    }
+    $(destination).append(tempElement);
+  }
+};
   
 const printClipboardContent = () => {
 

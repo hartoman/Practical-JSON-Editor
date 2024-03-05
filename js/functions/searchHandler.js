@@ -44,11 +44,16 @@ export const cycleFound = () => {
 
     const cur = $(instances).get(currentIndex);
     const allAncestors = $(cur).parents();
-    const parentObjectWrapper = $(cur).parents()[2];
-    const previousSiblingsofParent = $(parentObjectWrapper).prevAll();
-
+  //  const parentObjectWrapper = $(cur).parents()[2];
+  //  const previousSiblingsofParent = $(parentObjectWrapper).prevAll();
     $(allAncestors).removeClass("d-none start-invisible");
-    $(previousSiblingsofParent).removeClass("start-invisible");
+ //   $(previousSiblingsofParent).removeClass("start-invisible");
+    
+
+    let firstNode = $(".start-invisible").first();
+    let sel = $(firstNode).nextUntil($(cur), '.start-invisible')
+    $(sel).removeClass('start-invisible')
+
     cur.scrollIntoView({
       behavior: "smooth",
       block: "center",
