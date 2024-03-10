@@ -35,11 +35,12 @@
 
   input[type="checkbox"] {
     outline: 2px solid white;
-    background-color: black;
+    border: 2px solid white;
   }
 
   input[type="checkbox"]:checked {
-    background-color: red;
+  //  background-color: red;
+  color: white;
   }
 
   .clear-button {

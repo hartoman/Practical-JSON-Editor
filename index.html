@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta content="text/html" charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eazy Json Editor</title>
     <meta name="description" content="Simple and intuitive interface for easy json editing" />
@@ -43,7 +43,7 @@
     <script src="index.js" type="module"></script>
   </head>
 
-  <body class="json-editor-base json-editor-light showTooltips">
+  <body class="json-editor-base json-editor-light">
     <!-- main screen start -->
 
     <div class="interface-container">
@@ -86,8 +86,8 @@
         </button>
       </div>
       <div class = "d-flex justify-items-left">
-        <p class="col-2 my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
-        <input type="text" id="fileNameInput" class="col-2 text-end" value="new.json" />
+        <p class="my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
+        <input type="text" id="fileNameInput" class="" value="new_json_file.json.json" />
       </div>
       <div class = "d-flex justify-items-left">
         <button
@@ -124,7 +124,7 @@
           <button
           id="gotoTop"
           class="btn-solid icon-goto-top custom-tooltip"
-          data-tooltiptext="Go to top of page"
+          data-tooltiptext="Go to top"
         ></button>
           <button
           id="gotoSelected"
@@ -222,11 +222,7 @@
           <label class="col" for="darkmode-checkbox">Dark Mode</label>
         </div>
         <div class="row justify-content-center">
-          <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
-          <label class="col" for="confirm-msg-checkbox">Fullscreen</label>
-        </div>
-        <div class="row justify-content-center">
-          <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked />
+          <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" />
           <label class="col" for="show-tooltips-checkbox">Show Tooltips</label>
         </div>
       </div>
@@ -274,33 +270,29 @@
         ></button>
 
         <button
-          class="btn my-auto mx-2 del-button custom-tooltip bi bi-x-circle"
+          class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
           data-tooltiptext="Delete element"
         ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-
         <p class="col-1 my-auto text-center icon-object">:</p>
-
-        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Unfold contents" value="hide">
-          <i class="bi bi-arrow-up-left-circle"></i>
+        <button class="btn col-1 hide-button custom-tooltip icon-fold" data-tooltiptext="Unfold contents" value="hide">
         </button>
-
         <button
-          class="btn btn-sm col-1 my-auto add-button custom-tooltip bi bi-plus-square"
+          class="btn btn-sm col-1 my-auto add-button custom-tooltip icon-add"
           data-tooltiptext="Add field"
         ></button>
         <button
-          class="btn btn-sm col-1 my-auto clear-button custom-tooltip bi bi-x-octagon-fill"
+          class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll"
           data-tooltiptext="Clear contents"
         ></button>
         <button
-          class="btn btn-sm col-1 my-auto copy-button custom-tooltip bi bi-clipboard-plus"
+          class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy"
           data-tooltiptext="Copy to clipboard"
         ></button>
         <button
-          class="btn btn-sm col-1 my-auto paste-button custom-tooltip bi bi-copy"
+          class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
           data-tooltiptext="Paste from clipboard here"
         ></button>
         <div class="obj-container d-none" id="{{key}}"></div>
@@ -315,33 +307,27 @@
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Select element"
         ></button>
-        <button class="col-1 btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
+        <button class="col-1 btn my-auto mx-2 del-button custom-tooltip icon-delete" data-tooltiptext="Delete row">
         </button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center icon-array">:</p>
-        <button class="btn col-1 hide-button custom-tooltip" data-tooltiptext="Unfold contents" value="hide">
-          <i class="bi bi-arrow-up-left-circle"></i>
+        <button class="btn col-1 hide-button custom-tooltip icon-fold" data-tooltiptext="Unfold contents" value="hide">
         </button>
         <button
-          class="col-1 my-auto btn btn-sm add-button custom-tooltip"
+          class="col-1 my-auto btn btn-sm add-button custom-tooltip icon-add"
           data-tooltiptext="Add to array (once set cannot be changed)"
         >
-          <i class="bi bi-plus-square"></i>
         </button>
-        <button class="btn btn-sm col-1 my-auto clear-button custom-tooltip" data-tooltiptext="Clear contents">
-          <i class="bi bi-x-octagon-fill"></i>
+        <button class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll" data-tooltiptext="Clear contents">
         </button>
-        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip" data-tooltiptext="Copy to clipboard">
-          <i class="bi bi-clipboard-plus"></i>
+        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy" data-tooltiptext="Copy to clipboard">
         </button>
         <button
-          class="btn btn-sm col-1 my-auto paste-button custom-tooltip"
+          class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
           data-tooltiptext="Paste from clipboard here"
         >
-          <i class="bi bi-copy"></i>
         </button>
         <div class="array-container d-none" value="" id="{{key}}"></div>
       </div>

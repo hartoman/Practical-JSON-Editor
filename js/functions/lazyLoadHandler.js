@@ -18,9 +18,7 @@ function makeAllVisible() {
     if (isInViewport(previous)) {
       $(this).removeClass("start-invisible");
     }
-    else {
-      $(this).addClass("start-invisible");
-    }
+
     /*  TODO: try to break loop for optimization
     else {
       return false; 

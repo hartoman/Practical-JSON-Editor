@@ -27,6 +27,7 @@ const selectors = {
   topGotoSelectedBtn: "#gotoSelected",
   topGotoTop:"#gotoTop",
   topOptionsBtn: "#optionsBtn",
+  topNewBtn:"#newBtn",
   topSaveBtn: "#saveBtn",
   topSearchBtn: "#searchBtn",
   topUndoBtn: "#undoBtn",
@@ -46,6 +47,7 @@ $(document).ready(function () {
 });
 
 function init() {
+  modalOptions.loadSettings()
   bindButtons();
   //disableRightClickContextMenu();
   createField.initFieldTemplates();
@@ -56,6 +58,20 @@ function init() {
 function bindButtons() {
   $(document).on("scroll", function () {
     lazy.lazyLoad();
+  });
+
+  // top New File button
+  $(selectors.topNewBtn).on("click", function () {
+
+   if( confirm('Unsaved changes will be lost. Proceed? \nThe clipboard content will still be available')){
+    holdingContainer = $(selectors.mainContainer);
+    undoHandlers.unsetRedo();
+    undoHandlers.unsetRedo();
+    searchHandler.resetSearch();
+    gotoHandler.resetGoto();
+    $(selectors.mainContainer).empty();
+    $(selectors.fileNameInput).val("new_json_file.json");
+    }
   });
 
   // top Add Obj button
@@ -130,7 +146,9 @@ function bindButtons() {
     undoHandlers.unsetRedo();
     undoHandlers.unsetRedo();
     searchHandler.resetSearch();
+    gotoHandler.resetGoto();
     lazy.lazyLoad();
+
   });
 
   // top save file btn

@@ -23,3 +23,19 @@ export const isObjectInsideArray=(holdingContainer)=> {
     return false;
   }
 }
+
+
+export const saveObjectToStorage=(obj,key)=> {
+  const jsonString = JSON.stringify(obj);
+  localStorage.setItem(key, jsonString);
+}
+
+export const loadObjectFromStorage=(key)=> {
+  const storedString = localStorage.getItem(key);
+  const obj = JSON.parse(storedString);
+  return obj;
+}
+
+export const clearLocalStorage=()=> {
+  localStorage.clear()
+}

@@ -30,6 +30,7 @@ export const initAddModal = () => {
         id: "addOne",
         disabled:true,
         class: "btn-solid",
+        autofocus:true,
         click: function () {
           undoHandlers.unsetRedo();
           undoHandlers.setUndo();

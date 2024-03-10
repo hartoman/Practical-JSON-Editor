@@ -89,7 +89,7 @@
     padding: 0 0 0 3vw;
     .container {
       max-width: 100%;
-      margin: 0;
+      margin: 0 0 2px;
       padding: 0;
     }
 
@@ -107,6 +107,15 @@
     height: 1rem;
     width: 1rem;
     outline-offset: -4px;
+    position: relative;
+  }
+
+  input[type="checkbox"]:checked::before{
+    content: "\2715";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .copy-button,
@@ -139,7 +148,8 @@
   textarea,
   .modal,
   input {
-    font-family: courier;
+    font-family: "courier new",monospace;
+     //font-family: "Symbola";
   }
 
   .row {

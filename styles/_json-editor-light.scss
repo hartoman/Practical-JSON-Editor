@@ -3,7 +3,7 @@
  
     input,
     textarea {
-      border: 1px solid transparent;
+      border: 1px solid gray; // transparent;
       background-color: transparent;
     }
   
@@ -30,7 +30,7 @@
   
     input[type="checkbox"] {
 
-      background-color: #fafafa;
+      background-color: transparent;
       border: 2px solid black;
       outline: 1px solid black;
   
@@ -40,8 +40,8 @@
     }
   
     input[type="checkbox"]:checked {
-      background-color: red; 
-      outline: 2px solid white;
+  //    background-color: red; 
+   //   outline: 2px solid black;
       &:hover {
         border: 2px solid red;
       }

@@ -54,15 +54,19 @@
 }
 
 .icon-copy:before {
-  content: "⎗";
+  content: "⧉";
 }
 
 .icon-paste:before {
-  content: "⎘";
+  content: "◆";
+}
+
+.icon-delete:before {
+  content: "✕";
 }
 
 .icon-clearAll:before {
-  content: "🚫";
+  content: "⊗";
 }
 
 .icon-fold:before {
@@ -73,21 +77,8 @@
   content: "✦";
 }
 
-.icon-add {
-  color: green;
-}
-
-.icon-add:hover {
-  color: limegreen;
-}
-
 .icon-add:before {
   content: "✚";
-}
-
-.icon-delete:before {
-  color: red;
-  content: "⨂";
 }
 
 /*TODO*/
@@ -101,15 +92,15 @@
 
 /* end todo */
 .icon-select-off:before {
-  content: "⚐";
+  content: "☆";
 }
 
 .icon-select-on:before {
-  content: "⚑";
+  content: "★";
 }
 
 .icon-goto-selected:before {
-  content: "⚑";
+  content: "★";
 }
 
 .icon-search:before {
@@ -200,7 +191,7 @@
 .json-editor-base .obj-container .container,
 .json-editor-base .array-container .container {
   max-width: 100%;
-  margin: 0;
+  margin: 0 0 2px;
   padding: 0;
 }
 .json-editor-base .obj-container .row,
@@ -218,6 +209,14 @@
   height: 1rem;
   width: 1rem;
   outline-offset: -4px;
+  position: relative;
+}
+.json-editor-base input[type=checkbox]:checked::before {
+  content: "✕";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .json-editor-base .copy-button,
 .json-editor-base .paste-button,
@@ -243,7 +242,7 @@
 .json-editor-base textarea,
 .json-editor-base .modal,
 .json-editor-base input {
-  font-family: courier;
+  font-family: "courier new", monospace;
 }
 .json-editor-base .row {
   margin-left: 0px;
@@ -340,7 +339,7 @@
 }
 .json-editor-light input,
 .json-editor-light textarea {
-  border: 1px solid transparent;
+  border: 1px solid gray;
   background-color: transparent;
 }
 .json-editor-light input:hover,
@@ -358,16 +357,12 @@
   background-color: rgba(211, 211, 211, 0.3);
 }
 .json-editor-light input[type=checkbox] {
-  background-color: #fafafa;
+  background-color: transparent;
   border: 2px solid black;
   outline: 1px solid black;
 }
 .json-editor-light input[type=checkbox]:hover {
   border: 2px solid red;
-}
-.json-editor-light input[type=checkbox]:checked {
-  background-color: red;
-  outline: 2px solid white;
 }
 .json-editor-light input[type=checkbox]:checked:hover {
   border: 2px solid red;
@@ -452,10 +447,10 @@
 }
 .json-editor-dark input[type=checkbox] {
   outline: 2px solid white;
-  background-color: black;
+  border: 2px solid white;
 }
 .json-editor-dark input[type=checkbox]:checked {
-  background-color: red;
+  color: white;
 }
 .json-editor-dark .clear-button {
   color: red;
@@ -552,8 +547,4 @@ If you only add custom-tooltip to an element, it will be always on*/
 
 .start-invisible {
   display: none !important;
-}
-
-.folded {
-  display: none;
 }/*# sourceMappingURL=index.css.map */
