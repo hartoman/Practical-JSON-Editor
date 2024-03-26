@@ -148,12 +148,12 @@ function labelExists(newLabel) {
 
 export const  toggleAddModalArrayMode= (isForArrayField) =>{
   if (isForArrayField) {
-    $(selectors.addBtnModal).find(".modal-title").text("Set Array Type");
-    $(selectors.addModalNameTag).hide();
-    $(selectors.addModalNameInput).hide();
+   // $(selectors.addBtnModal).find(".modal-title").text("Set Array Type");
+ //   $(selectors.addModalNameTag).hide();
+ //   $(selectors.addModalNameInput).hide();
     $(selectors.addModalCreateBtn).prop("disabled", false);
   } else {
-    $(selectors.addBtnModal).find(".modal-title").text("Add Object Field");
+ //   $(selectors.addBtnModal).find(".modal-title").text("Add Object Field");
     $(selectors.addModalNameTag).show();
     $(selectors.addModalNameInput).show();
     $(selectors.addModalCreateBtn).prop("disabled", true);

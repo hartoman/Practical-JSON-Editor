@@ -95,7 +95,7 @@
         class="btn-solid icon-search custom-tooltip"
         data-tooltiptext="Search for value"
       ></button>
-        <input id="searchInput" class="col-5" type="text" autocomplete="off" />
+        <input id="searchInput" class="" type="text" autocomplete="off" />
         <p id="foundNumber">Found: XXX times</p>
       </div>
       </div>
@@ -112,6 +112,11 @@
             id="topAddBtnArray"
             class="btn-solid icon-array custom-tooltip"
             data-tooltiptext="Add array to top level"
+          ></button>
+          <button
+            id="topPasteBtn"
+            class="btn-solid icon-paste custom-tooltip"
+            data-tooltiptext="Paste from clipboard"
           ></button>
           <button
             id="topCollapseAllBtn"
@@ -289,7 +294,7 @@
         ></button>
         <button
           class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy"
-          data-tooltiptext="Copy to clipboard"
+          data-tooltiptext="Copy contents to clipboard"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
@@ -317,12 +322,12 @@
         </button>
         <button
           class="col-1 my-auto btn btn-sm add-button custom-tooltip icon-add"
-          data-tooltiptext="Add to array (once set cannot be changed)"
+          data-tooltiptext="Add to array"
         >
         </button>
         <button class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll" data-tooltiptext="Clear contents">
         </button>
-        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy" data-tooltiptext="Copy to clipboard">
+        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy" data-tooltiptext="Copy contents to clipboard">
         </button>
         <button
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"

@@ -2,6 +2,10 @@
   background-color: black;
   color: white;
 
+  .inteface-container{
+    background-color: black;
+  }
+
   .obj-wrapper:hover,
   .array-wrapper:hover {
     background-color: rgba(211, 211, 211, 0.1);
@@ -18,6 +22,12 @@
   textarea:hover {
     color: black;
   }
+
+  select{
+    background-color: black;
+    color:white;
+  }
+
 
   .btn-solid {
     color: white;
@@ -104,23 +114,64 @@
 
   // TODO: WRITE THE CSS MAINLY IN BASE BUT ALSO HERE
   .ui-dialog {
+    .col-1 {
+      width: unset;
+      height: unset;
+    }
+
+    .btn-solid {
+      //  padding: 0;
+      width: unset;
+      height: unset;
+
+      p,
+      .bi::before {
+        font-size: unset;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    border: 2px solid darkgray;
+    background-color: darkgray;
+
+
+    
+    .ui-dialog-titlebar{
+      background-color: black;
+      color:white;
+      border: 2px solid darkgray;
+
+      .ui-dialog-title{
+        
+
+        .ui-dialog-titlebar-close{
+          background-color: black;
+        }
+      }
+
+    }
+
+    .ui-widget-content{
+      background-color: black;
+      color:white;
+    }
+    
     .ui-dialog-buttonpane {
-   //   background-color: black;
-      display: flex;
-      flex-direction: column;
-      align-content: stretch;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      text-align: center;
+         background-color: black;
+
 
       .ui-dialog-buttonset {
         .ui-button {
-        //  color: red;
+            color: black;
+            background-color: gray;
+            border: 2px solid darkgray
         }
+        .ui-button:hover {
+          border: 2px solid white;
+      }
       }
     }
   }
-
   
 }

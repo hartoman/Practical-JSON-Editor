@@ -87,7 +87,7 @@ export const pasteClipboardFullObject = (destinationParent) => {
 };
  
 
-export const pasteClipboardContentsOnly= () => {
+export const pasteClipboardContentsOnly= (destinationParent) => {
   let destination = $(destinationParent).children(".obj-container, .array-container").first();
 
   if (clipboardContent) {
@@ -102,7 +102,7 @@ export const pasteClipboardContentsOnly= () => {
       // unnamed objects pasted as fields of parent object gain a label
     // TODO change the generated label destination
     else if ($(destinationParent).children(".obj-container").length && !$(tempElement).children("label").length) {
-      const deletebtn = $(tempElement).children("button").first();
+      const deletebtn = $(tempElement).children(".del-button");
       deletebtn.after(
         '<label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">ENTER_NAME</label>'
       );

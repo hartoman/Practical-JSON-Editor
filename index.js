@@ -27,7 +27,8 @@ const selectors = {
   topGotoSelectedBtn: "#gotoSelected",
   topGotoTop:"#gotoTop",
   topOptionsBtn: "#optionsBtn",
-  topNewBtn:"#newBtn",
+  topNewBtn: "#newBtn",
+  topPasteBtn:"#topPasteBtn",
   topSaveBtn: "#saveBtn",
   topSearchBtn: "#searchBtn",
   topUndoBtn: "#undoBtn",
@@ -84,7 +85,13 @@ function bindButtons() {
   $(selectors.topAddBtnArray).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
     createField.createArrayField("", holdingContainer);
-    lazy.lazyLoad();
+    lazy.lazyLoad()
+  });
+
+  $(selectors.topPasteBtn).on("click", function () {
+    const holdingContainerParent = $(selectors.mainContainer).parent();
+    modalClipboard.pasteClipboardContentsOnly(holdingContainerParent);
+    lazy.lazyLoad()
   });
 
   // top undo button
@@ -185,25 +192,18 @@ function bindButtons() {
     // if we add from array
     if ($(parentOfParent).children(".array-container").length) {
       targetContainer = $(parentOfParent).children(".array-container");
-      holdingContainer = targetContainer;
-      if (targetContainer.val() === "") {
-        // if no items in the array, the value has not been set
         modalAdd.toggleAddModalArrayMode(true);
-        modalAdd.addModal(targetContainer);
-      } else {
-        undoHandlers.unsetRedo();
-        undoHandlers.setUndo();
-        const arrayType = targetContainer.val();
-        createField.createFields("", arrayType, holdingContainer);
-        lazy.lazyLoad();
-      }
-    } else {
+    }
+    else {
       // add from object
       targetContainer = $(parentOfParent).children(".obj-container");
       modalAdd.toggleAddModalArrayMode(false);
-      modalAdd.addModal(targetContainer);
-      $(parentOfParent).children(".clear-button").prop("disabled", false);
     }
+    holdingContainer = targetContainer;
+    modalAdd.addModal(targetContainer);
+    $(parentOfParent).children(".clear-button").prop("disabled", false);
+    lazy.lazyLoad();
+
   });
 
   // delegation for all delete buttons
@@ -219,7 +219,7 @@ function bindButtons() {
   $(selectors.mainContainer).on("click", ".hide-button", function () {
     let parentOfParent = $(this).parent();
     let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
-   // let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button, .del-button");
+    let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button");
 
     //alternates between two icons
     $(this).toggleClass("icon-unfold icon-fold");
@@ -231,12 +231,12 @@ function bindButtons() {
       if (!foldAllTriggered) {
         lazy.lazyLoad();
       }
-   //   buttons.show("fast");
+      buttons.show();
     } else {
       $(this).val("hide");
       $(this).attr("data-tooltiptext", "Unfold contents");
       targetContainer.addClass("d-none");
-   //   buttons.hide("fast");
+      buttons.hide();
       //  clearbtn.hide("fast");
     }
   });
@@ -263,7 +263,7 @@ function bindButtons() {
   // delegation for all paste full object buttons
   $(selectors.mainContainer).on("click", ".paste-button", function () {
     let destinationParent = $(this).parent();
-    modalClipboard.pasteClipboardFullObject(destinationParent);
+    modalClipboard.pasteClipboardContentsOnly(destinationParent);
   });
 
   // delegation for clicking on labels to change text
@@ -300,17 +300,19 @@ function toggleSaveBtn(targetNode) {
     if ($(selectors.mainContainer).children().length === 0) {
       $(selectors.topAddBtnObj).show("fast");
       $(selectors.topAddBtnArray).show("fast");
+      $(selectors.topPasteBtn).show("fast");
       $(selectors.topSaveBtn).prop("disabled", true);
     } else {
       if ($(selectors.mainContainer).children().children("label").length === 0) {
         //array of objects
         $(selectors.topAddBtnObj).hide("fast");
         $(selectors.topAddBtnArray).hide("fast");
-        $;
+        $(selectors.topPasteBtn).hide("fast");
       } else {
         // object
         $(selectors.topAddBtnObj).show("fast");
         $(selectors.topAddBtnArray).hide("fast");
+        $(selectors.topPasteBtn).show("fast");
       }
       $(selectors.topSaveBtn).prop("disabled", false);
     }

@@ -1,5 +1,7 @@
 .json-editor-light {
     background-color: $background-light; 
+
+
  
     input,
     textarea {
@@ -79,38 +81,56 @@
       }
     }
   
-    .modal {
-      background-color: rgba(255, 255, 255, 0.7);
+ 
+    .ui-dialog {
+      .col-1 {
+        width: unset;
+        height: unset;
+      }
   
-      .modal-content {
-        border: 2px solid gray;
-        background-color: lightgray;
+      .btn-solid {
+        //  padding: 0;
+        width: unset;
+        height: unset;
   
-        .modal-header {
-          background-color: darkgray;
+        p,
+        .bi::before {
+          font-size: unset;
+          padding: 0;
+          margin: 0;
+        }
+      }
   
-          .btn-close {
-            color: red; 
-          }
-       }
+      .ui-dialog-titlebar{
   
-        .modal-body {
-          input[type="text"],select {
-            border: 1px solid black;
-            background-color: white;
-          }
+        .ui-dialog-title{
+          .ui-dialog-titlebar-close{
   
-          .duplicate-warning-label {
-            color: red;
           }
         }
   
-        .modal-footer {
-          border-color: gray;
+      }
+  
+      .ui-widget-content{
+  
+      }
+      
+      .ui-dialog-buttonpane {
+        //   background-color: black;
+        display: flex;
+        flex-direction: column;
+        align-content: stretch;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        text-align: center;
+  
+        .ui-dialog-buttonset {
+          .ui-button {
+            //  color: red;
+          }
         }
       }
     }
-
-
     
   }
