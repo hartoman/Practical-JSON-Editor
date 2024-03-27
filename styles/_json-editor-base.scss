@@ -2,11 +2,10 @@
   /* desktop version*/
   width: 100%;
   overflow-y: scroll;
-  padding-right: 20px; 
+  padding-right: 20px;
   box-sizing: content-box;
 
   .interface-container {
-    
     padding-top: 1%;
     max-width: 90%;
     width: 100%;
@@ -35,10 +34,24 @@
       }
     }
 
+    .found-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
     .file-btn-row {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
 
     hr {
@@ -114,10 +127,10 @@
     position: relative;
   }
 
-  input[type="checkbox"]:checked::before{
+  input[type="checkbox"]:checked::before {
     content: "\2715";
     position: absolute;
-    top: 55%; 
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
@@ -136,21 +149,21 @@
     margin: 0 0 0 3%;
     height: min-content;
     border: none;
-//    display: none;
+    //    display: none;
   }
 
   .copy-button,
   .paste-button,
   .add-button,
-  .clear-button{
+  .clear-button {
     display: none;
   }
 
   .copy-button,
   .paste-button,
   .add-button,
-  .clear-button { 
-  //  display: none;
+  .clear-button {
+    //  display: none;
   }
 
   h1,
@@ -160,8 +173,8 @@
   textarea,
   .modal,
   input {
-    font-family: "courier new",monospace;
-     //font-family: "Symbola";
+    font-family: "courier new", monospace;
+    //font-family: "Symbola";
   }
 
   .row {
@@ -222,7 +235,6 @@
 
   // TODO: WRITE THE CSS MAINLY IN BASE BUT ALSO HERE
   .ui-dialog {
-
     position: fixed;
 
     .col-1 {
@@ -243,18 +255,14 @@
       }
     }
 
-    .ui-dialog-titlebar{
-
-      .ui-dialog-title{
-        .ui-dialog-titlebar-close{
-
+    .ui-dialog-titlebar {
+      .ui-dialog-title {
+        .ui-dialog-titlebar-close {
         }
       }
-
     }
 
-    .ui-widget-content{
-
+    .ui-widget-content {
     }
 
     .ui-dialog-buttonpane {

@@ -142,10 +142,22 @@
   justify-content: flex-end;
   align-items: flex-start;
 }
+.json-editor-base .interface-container .found-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .json-editor-base .interface-container .file-btn-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+}
+.json-editor-base .interface-container .search-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .json-editor-base .interface-container hr {
   margin-top: 5px;

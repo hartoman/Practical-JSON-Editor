@@ -50,7 +50,6 @@
       <div class="header">
         <div class="title-container">
           <h1>Eazy Json Editor</h1>
-          <h6>Version 1.0.0</h6>
         </div>
         <div class="corner-btns">
           <button id="optionsBtn" class="btn-solid custom-tooltip" data-tooltiptext="Options">
@@ -62,42 +61,45 @@
           ></a>
         </div>
       </div>
-      <div class="file-btn-row">
-        <div class = "d-flex">
-        <button id="newBtn" class="btn-solid col-1 custom-tooltip" data-tooltiptext="Create new json">
-          <div class="icon-newfile"></div>
-        </button>
-        <button
-          id="loadBtn"
-          class="btn-solid col-1 custom-tooltip"
-          data-tooltiptext="Load .json, .csv, .xls, .xlsx file"
-          onclick="document.getElementById('jsonFileInputBtn').click();"
-        >
-          <div class="icon-loadfile"></div>
-        </button>
-        <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
-        <button
-          id="saveBtn"
-          class="btn-solid col-1 custom-tooltip"
-          data-tooltiptext="Save .json file in 'Downloads'"
-          disabled
-        >
-          <div class="icon-savefile"></div>
-        </button>
-      </div>
-      <div class = "d-flex justify-items-left">
-        <p class="my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
-        <input type="text" id="fileNameInput" class="" value="new_json_file.json.json" />
-      </div>
-      <div class = "d-flex justify-items-left">
-        <button
-        id="searchBtn"
-        class="btn-solid icon-search custom-tooltip"
-        data-tooltiptext="Search for value"
-      ></button>
-        <input id="searchInput" class="" type="text" autocomplete="off" />
+      <div class="found-row">
+        <h6>Version 1.0.0</h6>
         <p id="foundNumber">Found: XXX times</p>
       </div>
+      <div class="file-btn-row">
+        <div class="d-flex">
+          <button id="newBtn" class="btn-solid custom-tooltip" data-tooltiptext="Create new json">
+            <div class="icon-newfile"></div>
+          </button>
+          <button
+            id="loadBtn"
+            class="btn-solid custom-tooltip"
+            data-tooltiptext="Load .json, .csv, .xls, .xlsx file"
+            onclick="document.getElementById('jsonFileInputBtn').click();"
+          >
+            <div class="icon-loadfile"></div>
+          </button>
+          <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
+          <button
+            id="saveBtn"
+            class="btn-solid custom-tooltip"
+            data-tooltiptext="Save .json file in 'Downloads'"
+            disabled
+          >
+            <div class="icon-savefile"></div>
+          </button>
+        </div>
+        <div class="d-flex justify-items-left">
+          <p class="my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
+          <input type="text" id="fileNameInput" class="" value="new_json_file.json.json" />
+        </div>
+        <div class="search-container">
+          <button
+            id="searchBtn"
+            class="btn-solid icon-search custom-tooltip"
+            data-tooltiptext="Search for value"
+          ></button>
+          <input id="searchInput" class="" type="text" autocomplete="off" />
+        </div>
       </div>
       <hr />
 
@@ -126,16 +128,12 @@
           ></button>
         </div>
         <div class="right-side-btns">
+          <button id="gotoTop" class="btn-solid icon-goto-top custom-tooltip" data-tooltiptext="Go to top"></button>
           <button
-          id="gotoTop"
-          class="btn-solid icon-goto-top custom-tooltip"
-          data-tooltiptext="Go to top"
-        ></button>
-          <button
-          id="gotoSelected"
-          class="btn-solid icon-goto-selected custom-tooltip"
-          data-tooltiptext="Go to selected"
-        ></button>
+            id="gotoSelected"
+            class="btn-solid icon-goto-selected custom-tooltip"
+            data-tooltiptext="Go to tagged element"
+          ></button>
           <button
             id="undoBtn"
             class="btn-solid icon-undo custom-tooltip"
@@ -148,7 +146,6 @@
             data-tooltiptext="Undo last action"
             disabled
           ></button>
-
 
           <button
             id="clipboardBtn"
@@ -268,22 +265,24 @@
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper start-invisible">
-
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
-          data-tooltiptext="Select element"
+          data-tooltiptext="Tag element"
         ></button>
 
         <button
           class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
-          data-tooltiptext="Delete element"
+          data-tooltiptext="Delete"
         ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center icon-object">:</p>
-        <button class="btn col-1 hide-button custom-tooltip icon-fold" data-tooltiptext="Unfold contents" value="hide">
-        </button>
+        <button
+          class="btn col-1 hide-button custom-tooltip icon-fold"
+          data-tooltiptext="Expand"
+          value="hide"
+        ></button>
         <button
           class="btn btn-sm col-1 my-auto add-button custom-tooltip icon-add"
           data-tooltiptext="Add field"
@@ -310,30 +309,37 @@
       <div class="container border-bottom border-1 row d-flex obj-wrapper array-wrapper start-invisible">
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
-          data-tooltiptext="Select element"
+          data-tooltiptext="Tag element"
         ></button>
-        <button class="col-1 btn my-auto mx-2 del-button custom-tooltip icon-delete" data-tooltiptext="Delete row">
-        </button>
+        <button
+          class="col-1 btn my-auto mx-2 del-button custom-tooltip icon-delete"
+          data-tooltiptext="Delete row"
+        ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
         <p class="col-1 my-auto text-center icon-array">:</p>
-        <button class="btn col-1 hide-button custom-tooltip icon-fold" data-tooltiptext="Unfold contents" value="hide">
-        </button>
+        <button
+          class="btn col-1 hide-button custom-tooltip icon-fold"
+          data-tooltiptext="Expand"
+          value="hide"
+        ></button>
         <button
           class="col-1 my-auto btn btn-sm add-button custom-tooltip icon-add"
           data-tooltiptext="Add to array"
-        >
-        </button>
-        <button class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll" data-tooltiptext="Clear contents">
-        </button>
-        <button class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy" data-tooltiptext="Copy contents to clipboard">
-        </button>
+        ></button>
+        <button
+          class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll"
+          data-tooltiptext="Clear contents"
+        ></button>
+        <button
+          class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy"
+          data-tooltiptext="Copy contents to clipboard"
+        ></button>
         <button
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
           data-tooltiptext="Paste from clipboard here"
-        >
-        </button>
+        ></button>
         <div class="array-container d-none" value="" id="{{key}}"></div>
       </div>
     </template>
