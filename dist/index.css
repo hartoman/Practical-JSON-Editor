@@ -111,6 +111,10 @@
 
 .json-editor-base {
   /* desktop version*/
+  width: 100%;
+  overflow-y: scroll;
+  padding-right: 20px;
+  box-sizing: content-box;
   /*mobile version */
 }
 .json-editor-base .interface-container {
@@ -121,6 +125,7 @@
   top: 0;
   left: 5%;
   z-index: 2;
+  background: inherit;
 }
 .json-editor-base .interface-container .header {
   display: flex;
@@ -286,6 +291,9 @@
   margin: 5%;
   visibility: hidden;
 }
+.json-editor-base .ui-dialog {
+  position: fixed;
+}
 .json-editor-base .ui-dialog .col-1 {
   width: unset;
   height: unset;
@@ -338,7 +346,11 @@
 }
 
 .json-editor-light {
-  background-color: rgba(211, 211, 211, 0.1);
+  background-color: white;
+  color: black;
+}
+.json-editor-light .inteface-container {
+  background-color: white;
 }
 .json-editor-light input,
 .json-editor-light textarea {
@@ -423,7 +435,7 @@
   color: white;
 }
 .json-editor-dark .inteface-container {
-  background-color: black;
+  background-color: red;
 }
 .json-editor-dark .obj-wrapper:hover,
 .json-editor-dark .array-wrapper:hover {
@@ -546,6 +558,7 @@
   border: 2px solid darkgray;
 }
 .json-editor-dark .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button:hover {
+  background-color: lightgray;
   border: 2px solid white;
 }
 

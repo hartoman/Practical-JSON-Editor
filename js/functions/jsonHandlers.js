@@ -85,7 +85,7 @@ export const fromArrayToJson = (arrayContainer) => {
   return returnedArray;
 };
 
-
+/*
 // creates fields for the loaded json file
 export const printLoadedJson = (json, parentContainer) => {
 
@@ -135,7 +135,7 @@ export const printLoadedJson = (json, parentContainer) => {
     }
   }
 };
-
+*/
 
 // creates json from object and downloads it
 export const saveJson = (obj) => {
@@ -156,7 +156,7 @@ export const getFileType = (filename) => {
   return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
 };
 
-/*   iterative version creates bug: it does not correctly set the value of parent array depending on the type of children, so that further adding does not work properly 
+//   iterative version creates bug: it does not correctly set the value of parent array depending on the type of children, so that further adding does not work properly 
 export const printLoadedJson = (json, x) => {
 
   const fragment = new DocumentFragment();
@@ -200,18 +200,18 @@ export const printLoadedJson = (json, x) => {
         } else {
           if (typeof json[key] === "string") {
             if (json[key].length <= 20) {
-              $(parentContainer).val("text");
+       //       $(parentContainer).val("text");
               createField.createTextInputField(key, json[key], parentContainer);
             } else {
-              $(parentContainer).val("textarea");
+         //     $(parentContainer).val("textarea");
               createField.createTextArea(key, json[key], parentContainer);
             }
           } else if (typeof json[key] === "number") {
-            $(parentContainer).val("number");
+       //     $(parentContainer).val("number");
             createField.createNumberInputField(key, json[key], parentContainer);
           }
           if (typeof json[key] === "boolean") {
-            $(parentContainer).val("boolean");
+       //     $(parentContainer).val("boolean");
             createField.createBooleanField(key, json[key], parentContainer);
           }
         }
@@ -220,5 +220,5 @@ export const printLoadedJson = (json, x) => {
 //was here
   }
 };
-*/
+//*/
 

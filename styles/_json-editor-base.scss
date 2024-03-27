@@ -1,8 +1,12 @@
 .json-editor-base {
   /* desktop version*/
-
+  width: 100%;
+  overflow-y: scroll;
+  padding-right: 20px; 
+  box-sizing: content-box;
 
   .interface-container {
+    
     padding-top: 1%;
     max-width: 90%;
     width: 100%;
@@ -10,7 +14,7 @@
     top: 0;
     left: 5%;
     z-index: 2;
- //   background-color: white;
+    background: inherit;
 
     .header {
       //  margin-top: 1%;
@@ -218,6 +222,9 @@
 
   // TODO: WRITE THE CSS MAINLY IN BASE BUT ALSO HERE
   .ui-dialog {
+
+    position: fixed;
+
     .col-1 {
       width: unset;
       height: unset;

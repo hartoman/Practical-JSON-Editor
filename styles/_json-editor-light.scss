@@ -1,7 +1,10 @@
 .json-editor-light {
-    background-color: $background-light; 
+  background-color: white;
+  color: black;
 
-
+    .inteface-container{
+      background-color: white;
+    }
  
     input,
     textarea {
