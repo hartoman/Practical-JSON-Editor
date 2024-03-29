@@ -1,5 +1,4 @@
-import * as createField from './createFieldFunctions.js'
-import * as jsonHandlers from './jsonHandlers.js';
+import * as lazy from './lazyLoadHandler.js';
 
 const selectors = {
   fileInputBtn: "#jsonFileInputBtn",
@@ -38,4 +37,26 @@ export const loadObjectFromStorage=(key)=> {
 
 export const clearLocalStorage=()=> {
   localStorage.clear()
+}
+
+export const toggleFold=(element)=> {
+  const targetContainer = $(element).children(".obj-container, .array-container");
+  const buttons = $(element).children(".add-button, .clear-button, .copy-button, .paste-button");
+  const foldbun = $(element).children(".icon-unfold, .icon-fold");
+
+  //alternates between two icons
+  $(foldbun).toggleClass("icon-unfold icon-fold");
+
+  if ($(foldbun).val() === "hide") {
+    $(foldbun).val("show");
+    $(foldbun).attr("data-tooltiptext", "Fold");
+    targetContainer.removeClass("d-none");
+    lazy.lazyLoad();
+    buttons.show();
+  } else {
+    $(foldbun).val("hide");
+    $(foldbun).attr("data-tooltiptext", "Expand");
+    targetContainer.addClass("d-none");
+    buttons.hide();
+  }
 }

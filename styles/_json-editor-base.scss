@@ -47,6 +47,10 @@
       align-items: center;
     }
 
+    .foundNumberLabel-invisible {
+      visibility: hidden;
+    }
+
     .search-container {
       display: flex;
       flex-direction: row;

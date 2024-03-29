@@ -6,6 +6,7 @@ import * as modalOptions from "./js/modals/modalOptions.js";
 import * as createField from "./js/functions/createFieldFunctions.js";
 import * as jsonHandlers from "./js/functions/jsonHandlers.js";
 import * as undoHandlers from "./js/functions/undoHandlers.js";
+import * as utils from "./js/functions/utils.js";
 import * as gotoHandler from "./js/functions/gotoHandler.js";
 import * as searchHandler from "./js/functions/searchHandler.js";
 import * as lazy from "./js/functions/lazyLoadHandler.js";
@@ -18,6 +19,7 @@ const selectors = {
   clearBtn: ".clear-button",
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
+  foldBtn:".hide-button",
   // top row buttons
   topAddBtnObj: "#topAddBtnObj",
   topAddBtnArray: "#topAddBtnArray",
@@ -41,7 +43,6 @@ const selectors = {
 // keeps track of the div that contains the add button
 let holdingContainer = $(selectors.mainContainer);
 let selectedElement = null;
-let foldAllTriggered = false;
 
 $(document).ready(function () {
   init();
@@ -66,7 +67,7 @@ function bindButtons() {
 
    if( confirm('Unsaved changes will be lost. Proceed? \nThe clipboard content will still be available')){
     holdingContainer = $(selectors.mainContainer);
-    undoHandlers.unsetRedo();
+    undoHandlers.unsetUndo();
     undoHandlers.unsetRedo();
     searchHandler.resetSearch();
     gotoHandler.resetGoto();
@@ -113,29 +114,23 @@ function bindButtons() {
 
   // top Collapse-All button
   $(selectors.topFoldUnfoldBtn).on("click", function () {
-    let targets = $(selectors.mainContainer).find(".hide-button");
-   // $(this).toggleClass("icon-unfold icon-fold");
+    let targets; 
+     $(this).toggleClass("icon-unfold icon-fold");
 
- /*   if ($(this).val() === "hide") {
+    if ($(this).val() === "hide") {
       $(this).val("show");
-      $(this).attr("data-tooltiptext", "Unfold all");
-      foldAllTriggered = true;
-      $(targets).map(function () {
-        if ($(this).val() === "hide") {
-          $(this).trigger("click");
-        }
-      });
-      foldAllTriggered = false;
-      lazy.lazyLoad();
+      $(this).attr("data-tooltiptext", "Expand all");
+      targets = $(selectors.mainContainer).find(".icon-unfold");
+
     } else {
-      $(this).val("hide");*/
+      $(this).val("hide");
       $(this).attr("data-tooltiptext", "Fold all");
-      $(targets).map(function () {
-        if ($(this).val() != "hide") {
-          $(this).trigger("click");
-        }
-      });
-    //}
+      targets = $(selectors.mainContainer).find(".icon-fold");
+    }
+    const parents = $(targets).parent()
+    utils.toggleFold(parents)
+
+    lazy.lazyLoad();
   });
 
   $(selectors.topGotoTop).on("click", function () {
@@ -150,7 +145,7 @@ function bindButtons() {
   // top load file btn
   $(selectors.topFileInputBtn).on("change", (e) => {
     loadFile(e);
-    undoHandlers.unsetRedo();
+    undoHandlers.unsetUndo();
     undoHandlers.unsetRedo();
     searchHandler.resetSearch();
     gotoHandler.resetGoto();
@@ -217,28 +212,8 @@ function bindButtons() {
 
   // delegation for all fold buttons
   $(selectors.mainContainer).on("click", ".hide-button", function () {
-    let parentOfParent = $(this).parent();
-    let targetContainer = $(parentOfParent).children(".obj-container, .array-container");
-    let buttons = $(this).parent().children(".add-button, .clear-button, .copy-button, .paste-button");
-
-    //alternates between two icons
-    $(this).toggleClass("icon-unfold icon-fold");
-
-    if ($(this).val() === "hide") {
-      $(this).val("show");
-      $(this).attr("data-tooltiptext", "Fold contents");
-      targetContainer.removeClass("d-none");
-      if (!foldAllTriggered) {
-        lazy.lazyLoad();
-      }
-      buttons.show();
-    } else {
-      $(this).val("hide");
-      $(this).attr("data-tooltiptext", "Unfold contents");
-      targetContainer.addClass("d-none");
-      buttons.hide();
-      //  clearbtn.hide("fast");
-    }
+    const parentOfParent = $(this).parent();
+    utils.toggleFold(parentOfParent); 
   });
 
   // delegation for all clear buttons
