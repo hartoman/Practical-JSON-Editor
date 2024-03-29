@@ -1,139 +1,150 @@
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
+
 .json-editor-light {
   background-color: white;
   color: black;
 
-    .inteface-container{
-      background-color: white;
-    }
- 
-    input,
-    textarea {
-      border: 1px solid gray; // transparent;
-      background-color: transparent;
-    }
-  
-    input:hover,
-    textarea:hover {
-      border: 1px solid black;
-      background-color: white;
-      color: black;
-    }
-  
-    textarea {
-      border-left: 1px solid lightgray;
-      border-bottom: 1px solid lightgray;
-    }
-  
-  
- //   .obj-container:hover,
- //   .array-container:hover, 
-    .obj-wrapper:hover,
-    .array-wrapper:hover { 
-      //  border: 1px dotted lightgray;
-      background-color: rgba(211, 211, 211, 0.3);
-    }
-  
-    input[type="checkbox"] {
-
-      background-color: transparent;
-      border: 2px solid black;
-      outline: 1px solid black;
-  
-      &:hover {
-        border: 2px solid red;
-      }
-    }
-  
-    input[type="checkbox"]:checked {
-  //    background-color: red; 
-   //   outline: 2px solid black;
-      &:hover {
-        border: 2px solid red;
-      }
-    }
-   
-    .clear-button {
-      color: red;
-    }
-  
-    .clear-button:hover {
-      color: black;
-    }
-  
-    .del-button {
-      color: red;
-    }
-  
-    .del-button:hover {
-      color: black;
-    }
-  
-    .hide-button:hover,
-    .add-button:hover,
-    .copy-button:hover,.paste-button:hover {
-      color: red;
-    }
-    
-    .btn-solid {
-      border: 1px solid darkgray;
-      background-color: lightgray;
-      box-shadow: 1px 1px 1px black;
-  
-      &:hover {
-        background-color: gray;
-      }
-    }
-  
- 
-    .ui-dialog {
-      .col-1 {
-        width: unset;
-        height: unset;
-      }
-  
-      .btn-solid {
-        //  padding: 0;
-        width: unset;
-        height: unset;
-  
-        p,
-        .bi::before {
-          font-size: unset;
-          padding: 0;
-          margin: 0;
-        }
-      }
-  
-      .ui-dialog-titlebar{
-  
-        .ui-dialog-title{
-          .ui-dialog-titlebar-close{
-  
-          }
-        }
-  
-      }
-  
-      .ui-widget-content{
-  
-      }
-      
-      .ui-dialog-buttonpane {
-        //   background-color: black;
-        display: flex;
-        flex-direction: column;
-        align-content: stretch;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        text-align: center;
-  
-        .ui-dialog-buttonset {
-          .ui-button {
-            //  color: red;
-          }
-        }
-      }
-    }
-    
+  .inteface-container {
+    background-color: white;
   }
+
+  input,
+  textarea {
+    border: 1px solid gray; 
+    background-color: transparent;
+  }
+
+  input:hover,
+  textarea:hover {
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+  }
+
+  textarea {
+    border-left: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+  }
+
+  //   .obj-container:hover,
+  //   .array-container:hover,
+  .obj-wrapper:hover,
+  .array-wrapper:hover {
+    //  border: 1px dotted lightgray;
+    background-color: rgba(211, 211, 211, 0.3);
+  }
+
+  input[type="checkbox"] {
+    background-color: transparent;
+    border: 2px solid black;
+    outline: 1px solid black;
+
+    &:hover {
+      border: 2px solid red;
+    }
+  }
+
+  input[type="checkbox"]:checked {
+    //    background-color: red;
+    //   outline: 2px solid black;
+    &:hover {
+      border: 2px solid red;
+    }
+  }
+
+  .clear-button {
+    color: red;
+  }
+
+  .clear-button:hover {
+    color: black;
+  }
+
+  .del-button {
+    color: red;
+  }
+
+  .del-button:hover {
+    color: black;
+  }
+
+  .hide-button:hover,
+  .add-button:hover,
+  .copy-button:hover,
+  .paste-button:hover {
+    color: red;
+  }
+
+  .btn-solid {
+    border: 1px solid darkgray;
+    background-color: lightgray;
+    box-shadow: 1px 1px 1px black;
+
+    &:hover {
+      background-color: gray;
+    }
+  }
+
+  .ui-dialog {
+    .col-1 {
+      width: unset;
+      height: unset;
+    }
+
+    .btn-solid {
+      //  padding: 0;
+      width: unset;
+      height: unset;
+
+      p,
+      .bi::before {
+        font-size: unset;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    .ui-dialog-titlebar {
+      .ui-dialog-title {
+        .ui-dialog-titlebar-close {
+        }
+      }
+    }
+
+    .ui-widget-content {
+    }
+
+    .ui-dialog-buttonpane {
+      //   background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-content: stretch;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      text-align: center;
+
+      .ui-dialog-buttonset {
+        .ui-button {
+          //  color: red;
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,38 @@
 @charset "UTF-8";
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 *[class^=icon] {
   display: inline-block;
   position: relative;
@@ -109,6 +143,23 @@
   content: "↟";
 }
 
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 .json-editor-base {
   /* desktop version*/
   width: 100%;
@@ -288,23 +339,13 @@
   padding: 0;
   margin: 0;
 }
-.json-editor-base .modal .modal-content .bi::before {
-  font-weight: 1000 !important;
+.json-editor-base .clipboardModal {
+  max-height: 70vh;
 }
-.json-editor-base .modal .modal-content .modal-header .btn-close {
-  background: unset;
-  display: inline;
-  font-weight: 600;
-  padding: unset;
-  margin: unset;
-}
-.json-editor-base .modal .modal-content .modal-body input[type=text],
-.json-editor-base .modal .modal-content .modal-body select {
-  margin: 0 0 5%;
-}
-.json-editor-base .modal .modal-content .modal-body .duplicate-warning-label {
-  margin: 5%;
-  visibility: hidden;
+.json-editor-base .clipboardModal pre {
+  width: 100%;
+  height: 100%;
+  max-height: 70vh;
 }
 .json-editor-base .ui-dialog {
   position: fixed;
@@ -360,6 +401,23 @@
   }
 }
 
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 .json-editor-light {
   background-color: white;
   color: black;
@@ -411,7 +469,8 @@
 }
 .json-editor-light .hide-button:hover,
 .json-editor-light .add-button:hover,
-.json-editor-light .copy-button:hover, .json-editor-light .paste-button:hover {
+.json-editor-light .copy-button:hover,
+.json-editor-light .paste-button:hover {
   color: red;
 }
 .json-editor-light .btn-solid {
@@ -445,6 +504,23 @@
   flex-wrap: wrap;
   text-align: center;
 }
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 .json-editor-dark {
   background-color: black;
   color: white;
@@ -577,6 +653,23 @@
   border: 2px solid white;
 }
 
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 /* customize the tooltip with the following variables: */
 /* to be able to show/hide tooltips: add/remove showTooltips class to the body of the document
 If you only add custom-tooltip to an element, it will be always on*/
@@ -607,6 +700,23 @@ If you only add custom-tooltip to an element, it will be always on*/
   left: 70%;
 }
 
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
 * {
   box-sizing: border-box;
   -webkit-touch-callout: none;

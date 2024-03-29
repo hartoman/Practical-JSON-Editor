@@ -1,12 +1,30 @@
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
+
 /* customize the tooltip with the following variables: */
-$tooltip-top:90%;
-$tooltip-left:70%;
+$tooltip-top: 90%;
+$tooltip-left: 70%;
 $tooltip-text-font: "Courier New", Courier, monospace;
 $tooltip-font-size: 0.75rem;
 $tooltip-text-color: black;
 $tooltip-background-color: lightgray;
 $tooltip-border: 2px solid black;
-$tooltip-border-radius:5%;
+$tooltip-border-radius: 5%;
 $tooltip-padding: 2% 4% 2% 4%;
 
 /* to be able to show/hide tooltips: add/remove showTooltips class to the body of the document
@@ -33,8 +51,8 @@ If you only add custom-tooltip to an element, it will be always on*/
       border: $tooltip-border;
       padding: $tooltip-padding;
       border-radius: $tooltip-border-radius;
-      top:$tooltip-top;
-      left:$tooltip-left;
+      top: $tooltip-top;
+      left: $tooltip-left;
     }
   }
 }

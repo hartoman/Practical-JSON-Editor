@@ -1,10 +1,26 @@
+/*
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+*/
+
 // how many screens away should the furthest check be
 const THRESHOLD = 2;
 let parent = null;
 
 export const lazyLoad = () => {
-  //  const startingPoint = $("#mainContainer");
-//  makeGroupVisible(parent);
     makeAllVisible()
 };
 
@@ -27,31 +43,6 @@ function makeAllVisible() {
   });
 }
 
-
-/*
-export const makeGroupVisible = () => {
-  const groupedNodes = $(parent).children(".start-invisible");
-  let numtimes = 0;
-  const firstNode = $(groupedNodes).first();
-  $(firstNode).removeClass("start-invisible");
-  numtimes++
-  const siblings = $(groupedNodes).slice(1);
-
-  $(siblings).each(function () {
-    const previous = $(this).prev();
-    if (isInViewport(previous)) {
-      $(this).removeClass("start-invisible");
-      if (!isInViewport($(this))) {
-        $(this).addClass("start-invisible");
-      }
-    } else {
-      return false;
-    }
-    numtimes++;
-  });
-  console.log(`siblings:${numtimes}`);
-};
-*/
 export const isInViewport = (element) => {
   var elementTop = $(element).offset().top;
   var elementBottom = elementTop + $(element).outerHeight();
@@ -60,11 +51,9 @@ export const isInViewport = (element) => {
 
   if (elementTop < viewportBottom * THRESHOLD && elementBottom > viewportTop) {
     // Element is at least partially within the viewport
-    // console.log('Element is in viewport');
     return true;
   } else {
     // Element is not within the viewport
-    //  console.log('Element is not in viewport');
     return false;
   }
 };

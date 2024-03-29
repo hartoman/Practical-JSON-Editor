@@ -1,3 +1,20 @@
+<!--
+Copyright © 2024 Christos Chartomatsidis. 
+
+This file is part of Practical JSON Editor.
+ 
+"Practical JSON Editor" is free software: you can redistribute it and/or modify
+it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
+along with this program. If not, see <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 
+
+You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -211,7 +228,7 @@
     <!-- add modal end-->
 
     <!-- clipboard modal start: used by jquery-ui-->
-    <div id="clipboardModal">
+    <div id="clipboardModal" class="clipboardModal">
       <pre id="clipboardContent"></pre>
     </div>
     <!-- clipboard modal end-->
@@ -231,48 +248,18 @@
     </div>
     <!-- options modal end -->
 
-    <!-- options modal start
-    <div id="optionsModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width: 60%">
-          <div class="modal-header">
-            <h5 class="modal-title">Options</h5>
-          </div>
-          <div class="modal-body">
-            <div class="row justify-content-center">
-              <input id="darkmode-checkbox" name="darkmode-checkbox" class="col-2" type="checkbox" />
-              <label class="col" for="darkmode-checkbox">Dark Mode</label>
-            </div>
-            <div class="row justify-content-center">
-              <input id="confirm-msg-checkbox" name="confirm-msg-checkbox" class="col-2" type="checkbox" />
-              <label class="col" for="confirm-msg-checkbox">Fullscreen</label>
-            </div>
-            <div class="row justify-content-center">
-              <input id="show-tooltips-checkbox" name="show-tooltips-checkbox" class="col-2" type="checkbox" checked />
-              <label class="col" for="show-tooltips-checkbox">Show Tooltips</label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="optionModalOK" class="btn btn-solid">
-              <i class="bi bi-check-lg" style="color: limegreen"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-   options modal end -->
-
     <!-- object template start -->
     <template id="object-template">
       <div class="container row d-flex obj-wrapper start-invisible">
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Tag element"
+          tabindex="-1"
         ></button>
-
         <button
           class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
           data-tooltiptext="Delete"
+          tabindex="-1"
         ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
@@ -282,18 +269,22 @@
           class="btn col-1 hide-button custom-tooltip icon-expand"
           data-tooltiptext="Expand"
           value="fold"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto add-button custom-tooltip icon-add"
           data-tooltiptext="Add field"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll"
           data-tooltiptext="Clear contents"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy"
           data-tooltiptext="Copy contents to clipboard"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
@@ -310,10 +301,12 @@
         <button
           class="btn my-auto mx-2 custom-tooltip select-element icon-select-off"
           data-tooltiptext="Tag element"
+          tabindex="-1"
         ></button>
         <button
           class="col-1 btn my-auto mx-2 del-button custom-tooltip icon-delete"
-          data-tooltiptext="Delete row"
+          data-tooltiptext="Delete"
+          tabindex="-1"
         ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
@@ -323,22 +316,27 @@
           class="btn col-1 hide-button custom-tooltip icon-expand"
           data-tooltiptext="Expand"
           value="fold"
+          tabindex="-1"
         ></button>
         <button
           class="col-1 my-auto btn btn-sm add-button custom-tooltip icon-add"
           data-tooltiptext="Add to array"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto clear-button custom-tooltip icon-clearAll"
           data-tooltiptext="Clear contents"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto copy-button custom-tooltip icon-copy"
           data-tooltiptext="Copy contents to clipboard"
+          tabindex="-1"
         ></button>
         <button
           class="btn btn-sm col-1 my-auto paste-button custom-tooltip icon-paste"
           data-tooltiptext="Paste from clipboard here"
+          tabindex="-1"
         ></button>
         <div class="array-container d-none" value="" id="{{key}}"></div>
       </div>
@@ -348,9 +346,11 @@
     <!-- text input template start -->
     <template id="textinput-template">
       <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
-        </button>
+        <button
+          class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
+          data-tooltiptext="Delete"
+          tabindex="-1"
+        ></button>
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
@@ -363,9 +363,11 @@
     <!-- textarea template start -->
     <template id="textarea-template">
       <div class="container row d-flex">
-        <button class="col-1 btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
-        </button>
+        <button
+          class="col-1 btn my-auto mx-2 del-button custom-tooltip icon-delete"
+          data-tooltiptext="Delete"
+          tabindex="-1"
+        ></button>
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
@@ -378,9 +380,11 @@
     <!-- number template start -->
     <template id="numberinput-template">
       <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
-        </button>
+        <button
+          class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
+          data-tooltiptext="Delete"
+          tabindex="-1"
+        ></button>
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
@@ -393,9 +397,11 @@
     <!--boolean template start-->
     <template id="boolean-template">
       <div class="container d-flex">
-        <button class="btn my-auto mx-2 del-button custom-tooltip" data-tooltiptext="Delete row">
-          <i class="bi bi-x-circle"></i>
-        </button>
+        <button
+          class="btn my-auto mx-2 del-button custom-tooltip icon-delete"
+          data-tooltiptext="Delete"
+          tabindex="-1"
+        ></button>
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
