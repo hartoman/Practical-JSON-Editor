@@ -115,21 +115,20 @@ function bindButtons() {
   // top Collapse-All button
   $(selectors.topFoldUnfoldBtn).on("click", function () {
     let targets; 
-     $(this).toggleClass("icon-unfold icon-fold");
+     $(this).toggleClass("icon-fold icon-expand");
 
-    if ($(this).val() === "hide") {
-      $(this).val("show");
+    if ($(this).val() === "fold") {
+      $(this).val("expand");
       $(this).attr("data-tooltiptext", "Expand all");
-      targets = $(selectors.mainContainer).find(".icon-unfold");
+      targets = $(selectors.mainContainer).find(".icon-fold");
 
     } else {
-      $(this).val("hide");
+      $(this).val("fold");
       $(this).attr("data-tooltiptext", "Fold all");
-      targets = $(selectors.mainContainer).find(".icon-fold");
+      targets = $(selectors.mainContainer).find(".icon-expand");
     }
     const parents = $(targets).parent()
     utils.toggleFold(parents)
-
     lazy.lazyLoad();
   });
 
@@ -347,8 +346,8 @@ function loadFile(e) {
     $(selectors.mainContainer).empty(); // remove contents of main
     $(selectors.fileNameInput).val(file.name); // set filename to field
  //   $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
-//    $(selectors.topFoldUnfoldBtn).removeClass("icon-unfold");
-//    $(selectors.topFoldUnfoldBtn).addClass("icon-fold");
+//    $(selectors.topFoldUnfoldBtn).removeClass("icon-fold");
+//    $(selectors.topFoldUnfoldBtn).addClass("icon-expand");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
 }

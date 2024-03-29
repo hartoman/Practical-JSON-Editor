@@ -69,11 +69,11 @@
   content: "⊗";
 }
 
-.icon-fold:before {
+.icon-expand:before {
   content: "✥";
 }
 
-.icon-unfold:before {
+.icon-fold:before {
   content: "✦";
 }
 

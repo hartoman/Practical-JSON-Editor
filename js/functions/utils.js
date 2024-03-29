@@ -42,19 +42,19 @@ export const clearLocalStorage=()=> {
 export const toggleFold=(element)=> {
   const targetContainer = $(element).children(".obj-container, .array-container");
   const buttons = $(element).children(".add-button, .clear-button, .copy-button, .paste-button");
-  const foldbun = $(element).children(".icon-unfold, .icon-fold");
+  const foldbun = $(element).children(".icon-fold, .icon-expand");
 
   //alternates between two icons
-  $(foldbun).toggleClass("icon-unfold icon-fold");
+  $(foldbun).toggleClass("icon-fold icon-expand");
 
-  if ($(foldbun).val() === "hide") {
-    $(foldbun).val("show");
+  if ($(foldbun).val() === "fold") {
+    $(foldbun).val("expand");
     $(foldbun).attr("data-tooltiptext", "Fold");
     targetContainer.removeClass("d-none");
     lazy.lazyLoad();
     buttons.show();
   } else {
-    $(foldbun).val("hide");
+    $(foldbun).val("fold");
     $(foldbun).attr("data-tooltiptext", "Expand");
     targetContainer.addClass("d-none");
     buttons.hide();
