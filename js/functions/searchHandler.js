@@ -36,7 +36,6 @@ $(selectors.searchInput).on("input", function () {
     $("#search").button("disable");
   } else {
     const searchValue = $(selectors.searchInput).val();
-
     let regex = new RegExp(`.*(${searchValue}).*`);
 
     // Use the filter method to select inputs containing the regex pattern
@@ -96,3 +95,8 @@ export const resetSearch = () => {
 };
 
 
+$(selectors.searchInput).on("keydown", function (e) {
+  if (e.keyCode === 13 && numOccurences) {
+    cycleFound();
+  }
+})
