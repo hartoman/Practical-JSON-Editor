@@ -79,6 +79,22 @@ export const toggleFold=(element)=> {
   }
 }
 
+export const onlyUnfold=(element)=> {
+  const targetContainer = $(element).children(".obj-container, .array-container");
+  const buttons = $(element).children(".add-button, .clear-button, .copy-button, .paste-button");
+  const foldbun = $(element).children(".icon-expand");
+
+  if ($(foldbun).val() === "fold") {
+    $(foldbun).addClass("icon-fold");
+    $(foldbun).removeClass("icon-expand");
+    $(foldbun).val("expand");
+    $(foldbun).attr("data-tooltiptext", "Fold");
+    targetContainer.removeClass("d-none");
+    lazy.lazyLoad();
+    buttons.show();
+  }
+}
+
 export const setTopFoldBtnToFolded=()=>{
   $(selectors.topFoldUnfoldBtn).addClass("icon-fold");
   $(selectors.topFoldUnfoldBtn).removeClass("icon-expand");

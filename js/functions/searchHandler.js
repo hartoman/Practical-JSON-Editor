@@ -60,7 +60,7 @@ $(selectors.searchInput).on("input", function () {
 });
 
 export const cycleFound = () => {
-  const instances = foundIn;
+  const instances = foundIn || 0;
   
   if (instances.length > 0) {
     if (currentIndex >= $(instances).length) {
@@ -70,7 +70,7 @@ export const cycleFound = () => {
     const cur = $(instances).get(currentIndex);
     const allAncestors = $(cur).parents();
     $(allAncestors).removeClass("start-invisible");
-    utils.toggleFold(allAncestors)
+    utils.onlyUnfold(allAncestors)
 
     let firstNode = $(".start-invisible").first();
     let sel = $(firstNode).nextUntil($(cur), ".start-invisible");

@@ -32,7 +32,7 @@ export const cycleSelected = () => {
   const cur = $(selectors.selectedElements).get(currentIndex);
   const allAncestors = $(cur).parents();
   $(allAncestors).removeClass("start-invisible");
-  utils.toggleFold(allAncestors);
+  utils.onlyUnfold(allAncestors)
 
   let firstNode = $(".start-invisible").first();
   let sel = $(firstNode).nextUntil($(cur), ".start-invisible");
