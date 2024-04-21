@@ -363,9 +363,9 @@ function loadFile(e) {
   function prepareFields(file) {
     $(selectors.mainContainer).empty(); // remove contents of main
     $(selectors.fileNameInput).val(file.name); // set filename to field
- //   $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
-//    $(selectors.topFoldUnfoldBtn).removeClass("icon-fold");
-//    $(selectors.topFoldUnfoldBtn).addClass("icon-expand");
+    $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
+    $(selectors.topFoldUnfoldBtn).removeClass("icon-fold");
+    $(selectors.topFoldUnfoldBtn).addClass("icon-expand");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
 }

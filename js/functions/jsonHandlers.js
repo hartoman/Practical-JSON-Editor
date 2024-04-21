@@ -48,11 +48,18 @@ export const createJsonObj = (holdingContainer) => {
         value = false;
       }
     }
+
+    const isNull = $(inputs[i]).val() === "";
+
     if (inputs[i].type === "text" || inputs[i].type === "textarea") {
-      value = $(inputs[i]).val();
+      if (isNull) {
+        value = null;
+      } else value = $(inputs[i]).val();
     }
     if (inputs[i].type === "number") {
-      value = Number($(inputs[i]).val());
+      if (isNull) {
+        value = null;
+      } else value = Number($(inputs[i]).val());
     }
     if (inputs[i].classList.contains("obj-container")) {
       holdingContainer = inputs[i];
@@ -95,7 +102,10 @@ export const fromArrayToJson = (arrayContainer) => {
         value = false;
       }
     } else {
-      value = $(inputs[i]).val(); // text, textarea, number
+      const isNull = $(inputs[i]).val() === "";
+      if (isNull) {
+        value = null;
+      } else value = $(inputs[i]).val(); // text, textarea, number
     }
     returnedArray.push(value);
   }
@@ -173,12 +183,11 @@ export const getFileType = (filename) => {
   return filename.substring(filename.lastIndexOf(".") + 1, filename.length) || filename;
 };
 
-//   iterative version creates bug: it does not correctly set the value of parent array depending on the type of children, so that further adding does not work properly 
+//   iterative version creates bug: it does not correctly set the value of parent array depending on the type of children, so that further adding does not work properly
 export const printLoadedJson = (json, x) => {
-
   const fragment = new DocumentFragment();
-  createFragment(fragment)
-  $(x).append(fragment)
+  createFragment(fragment);
+  $(x).append(fragment);
   lazy.lazyLoad();
   $("label").each(function () {
     if (!isNaN($(this).text())) {
@@ -190,13 +199,14 @@ export const printLoadedJson = (json, x) => {
     let stack = [];
     let current = { json, parentContainer };
     stack.push(current);
-  
+
     while (stack.length > 0) {
       current = stack.pop();
       json = current.json;
       parentContainer = current.parentContainer;
       for (let key in json) {
-        if (Array.isArray(json[key]) || (typeof json[key] === "object" && json[key] != null)) {
+        const isNull = json[key] === null;
+        if (Array.isArray(json[key]) || (typeof json[key] === "object" && !isNull)) {
           if (Array.isArray(json[key])) {
             $(parentContainer).val("array");
             createField.createArrayField(key, parentContainer);
@@ -215,27 +225,27 @@ export const printLoadedJson = (json, x) => {
             });
           }
         } else {
-          if (typeof json[key] === "string") {
-            if (json[key].length <= 20) {
-       //       $(parentContainer).val("text");
+          if (typeof json[key] === "string" || isNull) {
+            if (isNull || json[key].length <= 20) {
+              if (isNull) {
+                json[key] = "";
+              }
               createField.createTextInputField(key, json[key], parentContainer);
             } else {
-         //     $(parentContainer).val("textarea");
               createField.createTextArea(key, json[key], parentContainer);
             }
           } else if (typeof json[key] === "number") {
-       //     $(parentContainer).val("number");
+            //     $(parentContainer).val("number");
             createField.createNumberInputField(key, json[key], parentContainer);
           }
           if (typeof json[key] === "boolean") {
-       //     $(parentContainer).val("boolean");
+            //     $(parentContainer).val("boolean");
             createField.createBooleanField(key, json[key], parentContainer);
           }
         }
       }
     }
-//was here
+    //was here
   }
 };
 //*/
-
