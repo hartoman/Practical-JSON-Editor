@@ -366,6 +366,7 @@ function loadFile(e) {
     $(selectors.topFoldUnfoldBtn).val("hide"); // set collapse-all btn
     $(selectors.topFoldUnfoldBtn).removeClass("icon-fold");
     $(selectors.topFoldUnfoldBtn).addClass("icon-expand");
+    $(selectors.topFoldUnfoldBtn).attr("data-tooltiptext", "Expand all");
     holdingContainer = $(selectors.mainContainer); // set holdingcontainer
   }
 }
