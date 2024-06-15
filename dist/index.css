@@ -428,6 +428,9 @@ If you remix, transform, or build upon the material, you must distribute your co
   background-color: white;
   color: black;
 }
+.json-editor-light .highlight {
+  box-shadow: 0 0 25px black;
+}
 .json-editor-light .inteface-container {
   background-color: white;
 }
@@ -530,6 +533,9 @@ If you remix, transform, or build upon the material, you must distribute your co
 .json-editor-dark {
   background-color: black;
   color: white;
+}
+.json-editor-dark .highlight {
+  box-shadow: 0 0 25px white;
 }
 .json-editor-dark .inteface-container {
   background-color: red;

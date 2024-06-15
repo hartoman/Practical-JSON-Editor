@@ -20,6 +20,7 @@ import * as utils from "../functions/utils.js";
 const selectors = {
   searchInput: "#searchInput",
   timesFoundText: "#foundNumber",
+  topSearchBtn: "#searchBtn",
 };
 
 let currentIndex = 0;
@@ -34,6 +35,7 @@ $(selectors.searchInput).on("input", function () {
     //$(selectors.timesFoundText).css("visibility", "hidden");
     $(selectors.timesFoundText).addClass('foundNumberLabel-invisible')
     $("#search").button("disable");
+    foundIn=null
   } else {
     const searchValue = $(selectors.searchInput).val();
     let regex = new RegExp(`.*(${searchValue}).*`);
@@ -59,6 +61,14 @@ $(selectors.searchInput).on("input", function () {
   }
 });
 
+$(selectors.searchInput).on("focusout", function () {
+$('.highlight').removeClass('highlight')
+});
+
+$(selectors.topSearchBtn).on("focusout", function () {
+  $('.highlight').removeClass('highlight')
+  });
+
 export const cycleFound = () => {
   const instances = foundIn || 0;
   
@@ -80,7 +90,9 @@ export const cycleFound = () => {
       behavior: "smooth",
       block: "center",
     });
-    $(cur).select();
+    // $(cur).focus();
+    $('.highlight').toggleClass('highlight')
+    $(cur).toggleClass('highlight')
     utils.setTopFoldBtnToFolded();
     currentIndex++;
     $(selectors.timesFoundText).text(`${currentIndex} / ${numOccurences}`);
@@ -96,7 +108,8 @@ export const resetSearch = () => {
 
 
 $(selectors.searchInput).on("keydown", function (e) {
-  if (e.keyCode === 13 && numOccurences) {
+  $(selectors.topSearchBtn).trigger('click')
+  /*if (e.keyCode === 13 && numOccurences) {
     cycleFound();
-  }
+  }*/
 })

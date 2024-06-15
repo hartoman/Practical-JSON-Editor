@@ -264,6 +264,11 @@ function bindButtons() {
     const parent = $(this).parent();
     modalRename.renameModal(parent);
   });
+
+  $('.highlight').on('focusout', (e) => {
+    alert('ehi')
+    $('.highlight').removeClass('highlight');
+  })
 }
 
 function bindModals() {
