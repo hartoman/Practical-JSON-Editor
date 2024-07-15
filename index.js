@@ -266,7 +266,6 @@ function bindButtons() {
   });
 
   $('.highlight').on('focusout', (e) => {
-    alert('ehi')
     $('.highlight').removeClass('highlight');
   })
 }
