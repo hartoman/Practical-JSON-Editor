@@ -50,17 +50,26 @@ export const createJsonObj = (holdingContainer) => {
     }
 
     const isNull = $(inputs[i]).val() === "";
+    const isNumber = !isNaN(parseInt($(inputs[i]).val())) && !isNaN($(inputs[i]).val());
 
     if (inputs[i].type === "text" || inputs[i].type === "textarea") {
+      console.log($(inputs[i]).val());
+      console.log(parseInt($(inputs[i]).val()));
       if (isNull) {
         value = null;
-      } else value = $(inputs[i]).val();
+      } else if (isNumber) {
+        value = Number($(inputs[i]).val());
+      } else {
+        value = $(inputs[i]).val();
+      }
+
+      // TODO REMOVE THE INPUT NUMBER
     }
-    if (inputs[i].type === "number") {
+    /*  if (inputs[i].type === "number") {
       if (isNull) {
         value = null;
       } else value = Number($(inputs[i]).val());
-    }
+    }*/
     if (inputs[i].classList.contains("obj-container")) {
       holdingContainer = inputs[i];
       value = createJsonObj(inputs[i]);
@@ -103,9 +112,15 @@ export const fromArrayToJson = (arrayContainer) => {
       }
     } else {
       const isNull = $(inputs[i]).val() === "";
+      const isNumber = !isNaN(parseInt($(inputs[i]).val())) && !isNaN($(inputs[i]).val());
       if (isNull) {
         value = null;
-      } else value = $(inputs[i]).val(); // text, textarea, number
+      } else if (isNumber) {
+        value = Number($(inputs[i]).val());
+      } //number
+      else {
+        value = $(inputs[i]).val();
+      } // text, textarea
     }
     returnedArray.push(value);
   }
@@ -225,8 +240,8 @@ export const printLoadedJson = (json, x) => {
             });
           }
         } else {
-          if (typeof json[key] === "string" || isNull) {
-            if (isNull || json[key].length <= 20) {
+          if (typeof json[key] === "string" || typeof json[key] === "number"|| isNull) {
+            if (typeof json[key] === "number"||isNull || json[key].length <= 20) {
               if (isNull) {
                 json[key] = "";
               }
@@ -234,10 +249,10 @@ export const printLoadedJson = (json, x) => {
             } else {
               createField.createTextArea(key, json[key], parentContainer);
             }
-          } else if (typeof json[key] === "number") {
+          } /*else if (typeof json[key] === "number") {
             //     $(parentContainer).val("number");
             createField.createNumberInputField(key, json[key], parentContainer);
-          }
+          }*/
           if (typeof json[key] === "boolean") {
             //     $(parentContainer).val("boolean");
             createField.createBooleanField(key, json[key], parentContainer);

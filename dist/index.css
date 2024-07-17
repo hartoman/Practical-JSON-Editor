@@ -251,7 +251,7 @@ If you remix, transform, or build upon the material, you must distribute your co
 }
 .json-editor-base .main-container label {
   cursor: pointer;
-  width: 10vw;
+  width: auto;
   overflow: hidden;
 }
 .json-editor-base .obj-container,

@@ -22,7 +22,7 @@ export const initFieldTemplates = () => {
   fieldTemplates.array = $("#array-template").html();
   fieldTemplates.textInput = $("#textinput-template").html();
   fieldTemplates.textArea = $("#textarea-template").html();
-  fieldTemplates.numberInput = $("#numberinput-template").html();
+ // fieldTemplates.numberInput = $("#numberinput-template").html();
   fieldTemplates.booleanField = $("#boolean-template").html();
 };
 
@@ -37,9 +37,9 @@ export const createFields = (fieldName, selectedOption, holdingContainer) => {
     case "textarea":
       createTextArea(fieldName, "", holdingContainer);
       break;
-    case "number":
+   /* case "number":
       createNumberInputField(fieldName, "", holdingContainer);
-      break;
+      break;*/
     case "boolean":
       createBooleanField(fieldName, false, holdingContainer);
       break;

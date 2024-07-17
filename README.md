@@ -17,7 +17,11 @@ along with this program. If not, see
 > - You must distribute under the same license as the original, **even if modified**.
 
 ## RELEASE NOTES
-Release version 1.0.0
+Release version 1.0.1:
+
+> - Text and Numbers are now both using the text input field, which is then parsed based on content, to string, number or null.
+> - Minor bugfixes
+> - changed fieldnames width from fixed to dynamic, so as to display the entire name
 
 ## DESCRIPTION
 Practical JSON Editor is a personal project created for fun and learning. Its purpose is to make an easy to use tool for myself and others who wish to create and edit .json files.  
