@@ -35,13 +35,18 @@ $(selectors.searchInput).on("input", function () {
     //$(selectors.timesFoundText).css("visibility", "hidden");
     $(selectors.timesFoundText).addClass('foundNumberLabel-invisible')
     $("#search").button("disable");
-    foundIn=null
+    foundIn = null;
   } else {
     const searchValue = $(selectors.searchInput).val();
-    let regex = new RegExp(`.*(${searchValue}).*`);
+
+    // this version check that the search value can be anywhere within the fields, the "i" arg is for NOT case-sensitive
+    // let regex = new RegExp(`.*(${searchValue}).*`,"i");
+
+    // this version check that the fields only BEGIN with the search value
+     let regex = new RegExp(`^(${searchValue}).*`,"i");
 
     // Use the filter method to select inputs containing the regex pattern
-    const possibleInputs = $("#mainContainer").find("input[type=text],input[type=number],textarea");
+    const possibleInputs = $("#mainContainer").find("input[type=text],textarea");
 
     foundIn = $(possibleInputs).filter(function () {
       return regex.test($(this).val());
@@ -52,6 +57,7 @@ $(selectors.searchInput).on("input", function () {
     if (!numOccurences) {
       // value not found
       $("#search").button("disable");
+      $('.highlight').removeClass('highlight')
     } else {
       // not empty and value found
       $("#search").button("enable");
@@ -59,6 +65,9 @@ $(selectors.searchInput).on("input", function () {
     $(selectors.timesFoundText).removeClass('foundNumberLabel-invisible')
     $(selectors.timesFoundText).text(`Found ${numOccurences} times`);
   }
+  if ($(selectors.searchInput).val().length ) {
+    $(selectors.topSearchBtn).trigger('click')
+  } 
 });
 
 $(selectors.searchInput).on("focusout", function () {
@@ -105,11 +114,3 @@ export const resetSearch = () => {
   $(selectors.timesFoundText).addClass('foundNumberLabel-invisible');
   $(selectors.timesFoundText).text(`Found 0 times`);
 };
-
-
-$(selectors.searchInput).on("keydown", function (e) {
-  $(selectors.topSearchBtn).trigger('click')
-  /*if (e.keyCode === 13 && numOccurences) {
-    cycleFound();
-  }*/
-})
