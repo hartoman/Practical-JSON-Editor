@@ -6,8 +6,7 @@
 
 > "Practical JSON Editor" is free software: you can redistribute it and/or modify it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
 >
-> You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License
-along with this program. If not, see  
+> You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License along with this program. If not, see  
 <https://creativecommons.org/licenses/by-sa/4.0/>.
 >
 > - This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. 

@@ -182,11 +182,11 @@ If you remix, transform, or build upon the material, you must distribute your co
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 .json-editor-base .interface-container .btn-wrapper label {
   display: block;
-  font-size: 10px;
+  font-size: 0.75rem;
   margin: 0;
   padding: 0;
 }
