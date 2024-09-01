@@ -55,7 +55,9 @@ const selectors = {
   topRedoBtn: "#redoBtn",
   topClearAllBtn: "#topClearBtn",
   topFoldUnfoldBtn: "#topCollapseAllBtn",
-
+  topAddBtnObjWrapper: "#topAddBtnObjWrapper",
+  topAddBtnArrayWrapper: "#topAddBtnArrayWrapper",
+  topPasteBtnWrapper:"#topPasteBtnWrapper",
 };
 
 // keeps track of the div that contains the add button
@@ -294,21 +296,21 @@ function toggleSaveBtn(targetNode) {
     // Handle DOM changes here
     // Check if the div has no children
     if ($(selectors.mainContainer).children().length === 0) {
-      $(selectors.topAddBtnObj).show("fast");
-      $(selectors.topAddBtnArray).show("fast");
-      $(selectors.topPasteBtn).show("fast");
+      $(selectors.topAddBtnObjWrapper).show("fast");
+      $(selectors.topAddBtnArrayWrapper).show("fast");
+      $(selectors.topPasteBtnWrapper).show("fast");
       $(selectors.topSaveBtn).prop("disabled", true);
     } else {
       if ($(selectors.mainContainer).children().children("label").length === 0) {
         //array of objects
-        $(selectors.topAddBtnObj).hide("fast");
-        $(selectors.topAddBtnArray).hide("fast");
-        $(selectors.topPasteBtn).hide("fast");
+        $(selectors.topAddBtnObjWrapper).hide("fast");
+        $(selectors.topAddBtnArrayWrapper).hide("fast");
+        $(selectors.topPasteBtnWrapper).hide("fast");
       } else {
         // object
-        $(selectors.topAddBtnObj).show("fast");
-        $(selectors.topAddBtnArray).hide("fast");
-        $(selectors.topPasteBtn).show("fast");
+        $(selectors.topAddBtnObjWrapper).show("fast");
+        $(selectors.topAddBtnArrayWrapper).hide("fast");
+        $(selectors.topPasteBtnWrapper).show("fast");
       }
       $(selectors.topSaveBtn).prop("disabled", false);
     }
@@ -316,8 +318,6 @@ function toggleSaveBtn(targetNode) {
   // Start observing the target node for DOM changes
   observer.observe(targetNode, { childList: true, subtree: true });
 }
-
-// TODO: MOVE AWAY
 
 function loadFile(e) {
   const file = e.target.files[0];

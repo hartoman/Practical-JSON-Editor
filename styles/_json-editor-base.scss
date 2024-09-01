@@ -33,6 +33,20 @@ If you remix, transform, or build upon the material, you must distribute your co
     z-index: 2;
     background: inherit;
 
+    .btn-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 1rem;
+
+      label{
+        display: block;
+        font-size: 0.75rem;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
     .header {
       //  margin-top: 1%;
       display: flex;
@@ -56,6 +70,8 @@ If you remix, transform, or build upon the material, you must distribute your co
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
+
     }
 
     .file-btn-row {
@@ -183,13 +199,6 @@ If you remix, transform, or build upon the material, you must distribute your co
     display: none;
   }
 
-  .copy-button,
-  .paste-button,
-  .add-button,
-  .clear-button {
-    //  display: none;
-  }
-
   h1,
   label,
   p,
@@ -213,7 +222,7 @@ If you remix, transform, or build upon the material, you must distribute your co
     //  padding: 0;
     width: 3vw;
     height: 3vw;
-    margin-right: 10px;
+    margin-right: 0;//10px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -69,13 +69,19 @@ If you remix, transform, or build upon the material, you must distribute your co
           <h1>Practical Json Editor</h1>
         </div>
         <div class="corner-btns">
+          <div class="btn-wrapper">
           <button id="optionsBtn" class="btn-solid custom-tooltip" data-tooltiptext="Options">
             <div class="icon-options"></div>
           </button>
-          <a href="./README.md" target="_blank"
+          <label for="optionsBtn">Options</label>
+        </div>
+        <div class="btn-wrapper">
+          <a href="./about.html" target="_blank"
             ><button id="helpBtn" class="btn-solid custom-tooltip" data-tooltiptext="Info">
               <div class="icon-info"></div></button
           ></a>
+          <label for="">About</label>
+        </div>
         </div>
       </div>
       <div class="found-row">
@@ -84,9 +90,13 @@ If you remix, transform, or build upon the material, you must distribute your co
       </div>
       <div class="file-btn-row">
         <div class="d-flex">
+          <div class="btn-wrapper">
           <button id="newBtn" class="btn-solid custom-tooltip" data-tooltiptext="Create new json">
             <div class="icon-newfile"></div>
           </button>
+          <label for="newBtn">New</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="loadBtn"
             class="btn-solid custom-tooltip"
@@ -95,7 +105,11 @@ If you remix, transform, or build upon the material, you must distribute your co
           >
             <div class="icon-loadfile"></div>
           </button>
+          
           <input type="file" id="jsonFileInputBtn" class="d-none" accept=".json,.xls,.xlsx,.csv" />
+          <label for="loadBtn">Load</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="saveBtn"
             class="btn-solid custom-tooltip"
@@ -104,9 +118,11 @@ If you remix, transform, or build upon the material, you must distribute your co
           >
             <div class="icon-savefile"></div>
           </button>
+          <label for="saveBtn">Save</label>
+        </div>
         </div>
         <div class="d-flex justify-items-left">
-          <p class="my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">filename:</p>
+          <p class="my-auto text-end custom-tooltip" data-tooltiptext="Click on the filename to edit">File name:</p>
           <input type="text" id="fileNameInput" class="" value="new.json" />
         </div>
         <div class="search-container">
@@ -115,65 +131,94 @@ If you remix, transform, or build upon the material, you must distribute your co
             class="btn-solid icon-search custom-tooltip"
             data-tooltiptext="Search for value"
           ></button>
-          <input id="searchInput" class="" type="text" autocomplete="off" />
+          <input id="searchInput" class="" type="text" autocomplete="off" placeholder="Search for value..."/>
         </div>
       </div>
       <hr />
 
       <div class="controls-btn-row">
         <div class="left-side-btns">
+          <div class="btn-wrapper" id="topAddBtnObjWrapper">
           <button
             id="topAddBtnObj"
             class="btn-solid icon-object custom-tooltip"
             data-tooltiptext="Add Object, text, number or boolean to top level"
           ></button>
+          <label for="">Field</label>
+          </div>
+          <div class="btn-wrapper" id="topAddBtnArrayWrapper">
           <button
             id="topAddBtnArray"
             class="btn-solid icon-array custom-tooltip"
             data-tooltiptext="Add array to top level"
           ></button>
+          <label for="">Array</label>
+        </div>
+          <div class="btn-wrapper" id="topPasteBtnWrapper">
           <button
             id="topPasteBtn"
             class="btn-solid icon-paste custom-tooltip"
             data-tooltiptext="Paste from clipboard"
           ></button>
+          <label for="">Paste</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="topCollapseAllBtn"
             class="btn-solid icon-expand custom-tooltip"
             data-tooltiptext="Expand all"
             value="expand"
           ></button>
+          <label for="">Expand</label>
+        </div>
         </div>
         <div class="right-side-btns">
+          <div class="btn-wrapper">
           <button id="gotoTop" class="btn-solid icon-goto-top custom-tooltip" data-tooltiptext="Go to top"></button>
+          <label for="">Top</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="gotoSelected"
             class="btn-solid icon-goto-selected custom-tooltip"
             data-tooltiptext="Go to tagged element"
           ></button>
+          <label for="">Tag</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="undoBtn"
             class="btn-solid icon-undo custom-tooltip"
             data-tooltiptext="Undo last action"
             disabled
           ></button>
+          <label for="">Undo</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="redoBtn"
             class="btn-solid icon-redo custom-tooltip"
             data-tooltiptext="Undo last action"
             disabled
           ></button>
-
+          <label for="">Redo</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="clipboardBtn"
             class="btn-solid icon-clipboard custom-tooltip"
             data-tooltiptext="Clipboard is empty"
           ></button>
+          <label for="">Clipboard</label>
+        </div>
+          <div class="btn-wrapper">
           <button
             id="topClearBtn"
             class="btn-solid icon-clearAll clear-button custom-tooltip"
             data-tooltiptext="Remove all contents"
           ></button>
+          <label for="">Clear</label>
+        </div>
         </div>
       </div>
       <hr class="hr-double" />
