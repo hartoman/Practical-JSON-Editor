@@ -154,6 +154,8 @@ If you remix, transform, or build upon the material, you must distribute your co
       padding-right: 0;
       margin-right: 0;
     }
+
+
   }
 
   input[type="checkbox"] {
@@ -182,7 +184,8 @@ If you remix, transform, or build upon the material, you must distribute your co
   .clear-button,
   .del-button,
   .icon-select-off,
-  .icon-select-on {
+  .icon-select-on,
+  .icon-addbefore {
     text-align: center;
     width: fit-content;
     padding: 0;
@@ -199,9 +202,10 @@ If you remix, transform, or build upon the material, you must distribute your co
     display: none;
   }
 
-  h1,
+  h1,h2,h3,h5,
   label,
   p,
+  li,
   select,
   textarea,
   .modal,
@@ -216,7 +220,8 @@ If you remix, transform, or build upon the material, you must distribute your co
 
   .btn {
     border: none;
-  }
+    
+    }
 
   .btn-solid {
     //  padding: 0;
@@ -299,6 +304,8 @@ If you remix, transform, or build upon the material, you must distribute your co
     }
   }
 
+
+
   /*mobile version */
   .temp-mobile {
     display: none;
@@ -327,5 +334,39 @@ If you remix, transform, or build upon the material, you must distribute your co
         text-align: center;
       }
     }
+  }
+}
+
+
+.about-page{
+
+  padding:2rem;
+ // font-family: "courier new", monospace;
+ margin-right: 2rem;
+
+  .buttons-explained{
+
+    .buttons-line{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .btn-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex:1;
+        gap:5%;
+
+        label{
+          font-weight: 600;
+        }
+      }
+
+      p{
+        flex:5;
+      }
+    }
+
   }
 }

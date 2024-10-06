@@ -16,6 +16,11 @@
 > - You must distribute under the same license as the original, **even if modified**.
 
 ## RELEASE NOTES
+
+Release version 1.0.2:
+> - Implemented the 'Add Before' functionality, which allows insertion of elements before the target, especially useful in arrays.
+> - Added 'about' page with extensive explanations of the capabilities of the editor.
+
 Release version 1.0.1:
 
 > - Text and Numbers are now both using the text input field, which is then parsed based on content, to string, number or null.
@@ -32,7 +37,7 @@ This app works only on the client side, so no information is collected, everythi
 There are no cookies, and the only the selected visual options are saved in your local storage.
 
 ## HOW TO USE
-Here are explained the functions of all the buttons, grouped by function and location.
+The buttons, grouped by function and location, explained:
 ### Top-Right Corner
 - ⚙ Options : Opens options dialog.  
 Options include dark-mode and turning tooltips on/off.

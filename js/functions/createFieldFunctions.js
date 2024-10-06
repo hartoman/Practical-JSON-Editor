@@ -26,30 +26,30 @@ export const initFieldTemplates = () => {
   fieldTemplates.booleanField = $("#boolean-template").html();
 };
 
-export const createFields = (fieldName, selectedOption, holdingContainer) => {
+export const createFields = (fieldName, selectedOption, holdingContainer,indexNumber=null) => {
   switch (selectedOption) {
     case "object":
-      createObjectField(fieldName, holdingContainer);
+      createObjectField(fieldName, holdingContainer,indexNumber);
       break;
     case "text":
-      createTextInputField(fieldName, "", holdingContainer);
+      createTextInputField(fieldName, "", holdingContainer,indexNumber);
       break;
     case "textarea":
-      createTextArea(fieldName, "", holdingContainer);
+      createTextArea(fieldName, "", holdingContainer,indexNumber);
       break;
    /* case "number":
       createNumberInputField(fieldName, "", holdingContainer);
       break;*/
     case "boolean":
-      createBooleanField(fieldName, false, holdingContainer);
+      createBooleanField(fieldName, false, holdingContainer,indexNumber);
       break;
     case "array":
-      createArrayField(fieldName, holdingContainer);
+      createArrayField(fieldName, holdingContainer,indexNumber);
       break;
   }
 };
 
-export const createObjectField = (fieldKey, parentContainer) => {
+export const createObjectField = (fieldKey, parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.object;
@@ -59,11 +59,19 @@ export const createObjectField = (fieldKey, parentContainer) => {
       return this.key !== "";
     },
   };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+    // Use Mustache to render the template with values
+    let renderedTemplate = Mustache.render(templateElement, elementValues);
+
+    // If indexNumber is not null, insert after the child at that index
+    if (indexNumber !== null) {
+      $(parentContainer).children().eq(indexNumber).before(renderedTemplate);
+    } else {
+      $(parentContainer).append(renderedTemplate);
+    }
   return fieldinput;
 };
 
-export const createArrayField = (fieldKey, parentContainer) => {
+export const createArrayField = (fieldKey, parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.array;
@@ -73,11 +81,19 @@ export const createArrayField = (fieldKey, parentContainer) => {
       return this.key !== "";
     },
   };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+    // Use Mustache to render the template with values
+    let renderedTemplate = Mustache.render(templateElement, elementValues);
+
+    // If indexNumber is not null, insert after the child at that index
+    if (indexNumber !== null) {
+      $(parentContainer).children().eq(indexNumber).before(renderedTemplate);
+    } else {
+      $(parentContainer).append(renderedTemplate);
+    }
   return fieldinput;
 };
 
-export const createTextInputField = (fieldKey, fieldValue = "", parentContainer) => {
+export const createTextInputField = (fieldKey, fieldValue = "", parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.textInput;
@@ -88,11 +104,19 @@ export const createTextInputField = (fieldKey, fieldValue = "", parentContainer)
       return this.key !== "";
     },
   };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+    // Use Mustache to render the template with values
+    let renderedTemplate = Mustache.render(templateElement, elementValues);
+
+    // If indexNumber is not null, insert after the child at that index
+    if (indexNumber !== null) {
+      $(parentContainer).children().eq(indexNumber).before(renderedTemplate);
+    } else {
+      $(parentContainer).append(renderedTemplate);
+    }
   return fieldinput;
 };
 
-export const createTextArea = (fieldKey, fieldValue = "", parentContainer) => {
+export const createTextArea = (fieldKey, fieldValue = "", parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.textArea;
@@ -103,11 +127,20 @@ export const createTextArea = (fieldKey, fieldValue = "", parentContainer) => {
       return this.key !== "";
     },
   };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+    // Use Mustache to render the template with values
+    let renderedTemplate = Mustache.render(templateElement, elementValues);
+
+    // If indexNumber is not null, insert after the child at that index
+    if (indexNumber !== null) {
+      $(parentContainer).children().eq(indexNumber).before(renderedTemplate);
+    } else {
+      $(parentContainer).append(renderedTemplate);
+    }
   return fieldinput;
 };
 
-export const createNumberInputField = (fieldKey, fieldValue, parentContainer) => {
+/*
+export const createNumberInputField = (fieldKey, fieldValue, parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.numberInput;
@@ -121,8 +154,9 @@ export const createNumberInputField = (fieldKey, fieldValue, parentContainer) =>
   $(parentContainer).append(Mustache.render(templateElement, elementValues));
   return fieldinput;
 };
+*/
 
-export const createBooleanField = (fieldKey, fieldValue, parentContainer) => {
+export const createBooleanField = (fieldKey, fieldValue, parentContainer,indexNumber=null) => {
   let fieldinput = document.createElement("div");
   // Get the template element
   let templateElement = fieldTemplates.booleanField;
@@ -136,7 +170,15 @@ export const createBooleanField = (fieldKey, fieldValue, parentContainer) => {
       return this.value ? "checked" : "";
     },
   };
-  $(parentContainer).append(Mustache.render(templateElement, elementValues));
+   // Use Mustache to render the template with values
+   let renderedTemplate = Mustache.render(templateElement, elementValues);
+
+   // If indexNumber is not null, insert after the child at that index
+   if (indexNumber !== null) {
+     $(parentContainer).children().eq(indexNumber).before(renderedTemplate);
+   } else {
+     $(parentContainer).append(renderedTemplate);
+   }
   return fieldinput;
 };
 

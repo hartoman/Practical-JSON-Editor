@@ -85,6 +85,7 @@ If you remix, transform, or build upon the material, you must distribute your co
 
 .icon-clearAll:before {
   content: "\02297";
+  color:red;
 }
 
 .icon-expand:before {
@@ -104,6 +105,10 @@ If you remix, transform, or build upon the material, you must distribute your co
 .icon-add:before {
   // color: green;
   content: "\271A";
+}
+
+.icon-addbefore:before {
+  content: "\21B1";
 }
 
 .icon-checkbox-checked:before {

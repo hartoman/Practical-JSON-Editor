@@ -309,6 +309,7 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="col-1 my-auto text-center icon-object">:</p>
         <button
           class="btn col-1 hide-button custom-tooltip icon-expand"
@@ -356,6 +357,7 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn btn-solid my-auto addbefore-btn icon-addbefore">add before</button>
         <p class="col-1 my-auto text-center icon-array">:</p>
         <button
           class="btn col-1 hide-button custom-tooltip icon-expand"
@@ -399,6 +401,7 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="my-auto text-center">:</p>
         <input type="text" value="{{value}}" />
       </div>
@@ -416,13 +419,14 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="col-1 my-auto text-center">:</p>
         <textarea type="text" class="col" value="">{{value}}</textarea>
       </div>
     </template>
     <!--textarea template end -->
 
-    <!-- number template start -->
+    <!-- number template 
     <template id="numberinput-template">
       <div class="container d-flex">
         <button
@@ -433,11 +437,12 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="my-auto text-center">:</p>
         <input type="number" class="" value="{{value}}" />
       </div>
     </template>
-    <!--number template end -->
+    number template end -->
 
     <!--boolean template start-->
     <template id="boolean-template">
@@ -450,6 +455,7 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="my-auto text-center">:</p>
         <input type="checkbox" class="col-1" value="{{value}}" {{checked}} />
       </div>

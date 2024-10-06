@@ -34,6 +34,7 @@ const selectors = {
   mainContainer: "#mainContainer",
   // buttons inside objects
   addBtn: ".add-button",
+  addafterBtn: ".addbefore-btn",
   clearBtn: ".clear-button",
   deleteBtn: ".del-button",
   hideBtn: ".hide-btn",
@@ -71,7 +72,7 @@ $(document).ready(function () {
 function init() {
   modalOptions.loadSettings()
   bindButtons();
-  disableRightClickContextMenu();
+ // disableRightClickContextMenu();
   createField.initFieldTemplates();
   toggleSaveBtn(document.getElementById("mainContainer"));
   bindModals();
@@ -106,6 +107,7 @@ function bindButtons() {
   $(selectors.topAddBtnArray).on("click", function () {
     holdingContainer = $(selectors.mainContainer);
     createField.createArrayField("", holdingContainer);
+    $(holdingContainer).find('.addbefore-btn').remove();
     lazy.lazyLoad()
   });
 
@@ -206,7 +208,7 @@ function bindButtons() {
     // if we add from array
     if ($(parentOfParent).children(".array-container").length) {
       targetContainer = $(parentOfParent).children(".array-container");
-        modalAdd.toggleAddModalArrayMode(true);
+      modalAdd.toggleAddModalArrayMode(true);
     }
     else {
       // add from object
@@ -219,6 +221,30 @@ function bindButtons() {
     lazy.lazyLoad();
 
   });
+
+  // delegation for all addafter buttons
+  $(selectors.mainContainer).on("click", ".addbefore-btn", function () {
+    let parentOfParent = $(this).parents()[2];
+    let parent = $(this).parent();
+    let targetContainer;
+    // if we add from array
+    if ($(parentOfParent).children(".array-container").length) {
+      targetContainer = $(parentOfParent).children(".array-container");
+      modalAdd.toggleAddModalArrayMode(true);
+    }
+    else {
+      // add from object
+      targetContainer = $(parentOfParent).children(".obj-container");
+      modalAdd.toggleAddModalArrayMode(false);
+    }
+    holdingContainer = targetContainer;
+    const indexnum = modalAdd.getElementIndex(parent);
+    modalAdd.addModal(targetContainer,indexnum);
+    $(parentOfParent).children(".clear-button").prop("disabled", false);
+    lazy.lazyLoad();
+  });
+  
+
 
   // delegation for all delete buttons
   $(selectors.mainContainer).on("click", ".del-button", function () {
@@ -345,6 +371,7 @@ function loadFile(e) {
       // if contents are array
       if (Array.isArray(jsonContent)) {
         createField.createArrayField("", holdingContainer);
+        $(holdingContainer).find('.addbefore-btn').remove();
         holdingContainer = $(holdingContainer).find(".array-container")[0];
       }
       // display contents

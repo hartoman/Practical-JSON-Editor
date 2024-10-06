@@ -17,41 +17,381 @@ If you remix, transform, or build upon the material, you must distribute your co
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Practical Json Editor</title>
-    <meta name="description" content="Simple and intuitive interface for easy json editing" />
+    <meta
+      name="description"
+      content="Simple and intuitive interface for easy json editing"
+    />
     <meta name="keywords" content="json, editor, simple, practical" />
     <meta name="author" content="Christos Chartomatsidis" />
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/braces-asterisk.svg" />
-</head>
-<body>
-    <h1>Practical JSON Editor</h1>
-    <h2>LICENSE</h2>
-    <h5>Copyright © 2024 Christos Chartomatsidis. </h5>
-    <p>"Practical JSON Editor" is free software: you can redistribute it and/or modify it under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.</p>
-    <p>You should have received a copy of the Creative Commons Attribution-ShareAlike 4.0 International License along with this program. If not, see  </p>
-    <a href="https://creativecommons.org/licenses/by-sa/4.0/">https://creativecommons.org/licenses/by-sa/4.0/</a>
-    <ul>
-        <li>This software is provided on an "as-is" basis, meaning without any warranties or guarantees of any kind. </li>
-        <li>You must give appropriate credit and indicate if changes were made.</li>
-        <li>You must distribute under the same license as the original, <i>even if modified</i>.</li>
-    </ul>
-    <hr>
-    <h2>RELEASE NOTES</h2>
-    <p>Release version 1.0.1:</p>
-    <ul>
-        <li>Text and Numbers are now both using the text input field, which is then parsed based on content, to string, number or null.</li>
+
+    <!-- bootstrap 5 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./dist/index.css" />
+  </head>
+  <body class="json-editor-base about-page">
+    <section>
+      <h1>Practical JSON Editor</h1>
+      <h2>LICENSE</h2>
+      <h5>Copyright © 2024 Christos Chartomatsidis.</h5>
+      <p>
+        "Practical JSON Editor" is free software: you can redistribute it and/or
+        modify it under the terms of the Creative Commons Attribution-ShareAlike
+        4.0 International License.
+      </p>
+      <p>
+        You should have received a copy of the Creative Commons
+        Attribution-ShareAlike 4.0 International License along with this
+        program. If not, see
+      </p>
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/"
+        >https://creativecommons.org/licenses/by-sa/4.0/</a
+      >
+      <ul>
+        <li>
+          This software is provided on an "as-is" basis, meaning without any
+          warranties or guarantees of any kind.
+        </li>
+        <li>
+          You must give appropriate credit and indicate if changes were made.
+        </li>
+        <li>
+          You must distribute under the same license as the original,
+          <i>even if modified</i>.
+        </li>
+      </ul>
+    </section>
+    <hr />
+    <section>
+      <h2>RELEASE NOTES</h2>
+      <p>Release version 1.0.1:</p>
+      <ul>
+        <li>
+          Text and Numbers are now both using the text input field, which is
+          then parsed based on content, to string, number or null.
+        </li>
         <li>Minor bugfixes</li>
-        <li>changed fieldnames width from fixed to dynamic, so as to display the entire name</li>
-    </ul>
-    <hr>
-    <h2>DESCRIPTION</h2>
-    <p>Practical JSON Editor is a personal project created for fun and learning. Its purpose is to make an easy to use tool for myself and others who wish to create and edit .json files. </p>
-    <p> With PJE you can load .json files or even open .xml and .csv files transformed into json format to edit and save.  </p>
-    <p>This app works only on the client side, so no information is collected, everything stays on your computer. </p>
-    <p>There are no cookies, and the only the selected visual options are saved in your local storage.</p>
-</body>
+        <li>
+          changed fieldnames width from fixed to dynamic, so as to display the
+          entire name
+        </li>
+      </ul>
+    </section>
+    <hr />
+    <section>
+      <h2>DESCRIPTION</h2>
+      <p>
+        Practical JSON Editor is a personal project created for fun and
+        learning. Its purpose is to make an easy to use tool for myself and
+        others who wish to create and edit .json files.
+      </p>
+      <p>
+        With PJE you can load .json files or even open .xml and .csv files
+        transformed into json format to edit and save.
+      </p>
+      <p>
+        This app works only on the client side, so no information is collected,
+        everything stays on your computer.
+      </p>
+      <p>
+        There are no cookies, and the only the selected visual options are saved
+        in your local storage.
+      </p>
+    </section>
+    <section>
+      <h2>The buttons, grouped by function and location, explained:</h2>
+      <section class="subsection">
+        <h3>Top Section</h3>
+        <div class="buttons-explained">
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-newfile"></div>
+              </button>
+              <label>New</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-loadfile"></div>
+              </button>
+              <label>Load</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-savefile"></div>
+              </button>
+              <label>Save</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class=""></div>
+              </button>
+              <label>File Name</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-search"></div>
+              </button>
+              <label>Search</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-options"></div>
+              </button>
+              <label for="optionsBtn">Options</label>
+            </div>
+            <p>
+              Opens options dialog. Options include dark-mode and turning
+              tooltips on/off.
+            </p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-info"></div>
+              </button>
+              <label>About</label>
+            </div>
+            <p>
+              Opens the manual in a new tab (which you are currently reading).
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="subsection">
+        <h3>Bottom-Left Section</h3>
+        <div class="buttons-explained">
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-object"></div>
+              </button>
+              <label for="optionsBtn">Field</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-array"></div>
+              </button>
+              <label>Array</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-paste"></div>
+              </button>
+              <label>Paste</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-expand"></div>
+              </button>
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-fold"></div>
+              </button>
+              <label>Expand / Collapse all</label>
+              <!-- TODO change text upon expansion/collaping in main app-->
+            </div>
+            <p></p>
+          </div>
+        </div>
+      </section>
+      <section class="subsection">
+        <h3>Bottom-Right Section</h3>
+        <div class="buttons-explained">
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-goto-top"></div>
+              </button>
+              <label for="optionsBtn">Top</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-select-off"></div>
+              </button>
+              <label>Tag</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-undo"></div>
+              </button>
+              <label for="optionsBtn">Undo</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-redo"></div>
+              </button>
+              <label>Redo</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-clipboard"></div>
+              </button>
+              <label for="optionsBtn">Clipboard</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-clearAll"></div>
+              </button>
+              <label>Clear</label>
+            </div>
+            <p></p>
+          </div>
+        </div>
+      </section>
+      <section class="subsection">
+        <h3>Buttons of elements</h3>
+        <div class="buttons-explained">
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-select-off"></div>
+              </button>
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-select-on"></div>
+              </button>
+              <label for="optionsBtn">Tag</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-delete"></div>
+              </button>
+              <label>Delete</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div></div>
+              </button>
+              <label for="optionsBtn">Element name</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-addbefore"></div>
+              </button>
+              <label>Add before</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-object"></div>
+              </button>
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-array"></div>
+              </button>
+              <label for="optionsBtn">Object / Array symbol</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-expand"></div>
+              </button>
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-fold"></div>
+              </button>
+              <label>Expand / Collapse only this element</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-add"></div>
+              </button>
+              <label for="optionsBtn">Add</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-clearAll"></div>
+              </button>
+              <label>Clear</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button  class="btn-solid custom-tooltip">
+                <div class="icon-copy"></div>
+              </button>
+              <label for="optionsBtn">Copy to clipoard</label>
+            </div>
+            <p></p>
+          </div>
+          <div class="buttons-line">
+            <div class="btn-wrapper">
+              <button class="btn-solid custom-tooltip">
+                <div class="icon-paste"></div>
+              </button>
+              <label>Paste from clipboard</label>
+            </div>
+            <p></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
 </html>
+<!-- TODO clean up the readme file and add a link to the about page-->

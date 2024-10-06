@@ -45,11 +45,11 @@ export const removeFromAllObjectsInArray = (parentContainer, fieldName) => {
   });
 };
 
-export const addToAllObjectsInArray = (parentContainer, fieldName, selectedOption) => {
+export const addToAllObjectsInArray = (parentContainer, fieldName, selectedOption,indexNum) => {
   let siblingObjects = $(parentContainer).children().children(".obj-container");
 
   siblingObjects.map(function () {
     // choosing to create the field in all objects of array
-    createField.createFields(fieldName, selectedOption, $(this));
+    createField.createFields(fieldName, selectedOption, $(this),indexNum);
   });
 };
