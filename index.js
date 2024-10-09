@@ -72,7 +72,7 @@ $(document).ready(function () {
 function init() {
   modalOptions.loadSettings()
   bindButtons();
- // disableRightClickContextMenu();
+  disableRightClickContextMenu();
   createField.initFieldTemplates();
   toggleSaveBtn(document.getElementById("mainContainer"));
   bindModals();

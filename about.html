@@ -20,7 +20,7 @@ If you remix, transform, or build upon the material, you must distribute your co
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Practical Json Editor</title>
+    <title>About Practical Json Editor</title>
     <meta
       name="description"
       content="Simple and intuitive interface for easy json editing"
@@ -120,7 +120,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>New</label>
             </div>
-            <p></p>
+            <p>Sets up an empty json object, default file-name, and clears up everything except the contents of the clipboard. </p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -129,7 +129,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Load</label>
             </div>
-            <p></p>
+            <p>Loads a json, xls, xlsx or csv file in json format. To improve performance, the contents first appear folded.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -138,7 +138,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Save</label>
             </div>
-            <p></p>
+            <p>Saves the current objects as a json file and 'downloads' it. The file is actually created on the user's PC</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -147,7 +147,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>File Name</label>
             </div>
-            <p></p>
+            <p>The name of the file to be saved.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -156,7 +156,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Search</label>
             </div>
-            <p></p>
+            <p>Searches for the target words in the document and cycles among the found results.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -191,9 +191,9 @@ If you remix, transform, or build upon the material, you must distribute your co
               <button  class="btn-solid custom-tooltip">
                 <div class="icon-object"></div>
               </button>
-              <label for="optionsBtn">Field</label>
+              <label>Field</label>
             </div>
-            <p></p>
+            <p>Creates a new field of any type. Possible types are text/num, textfield(a convenience feature for longer texts), boolean, object or array. The field will have a name and the resulting json will be of type 'object'</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -202,7 +202,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Array</label>
             </div>
-            <p></p>
+            <p>Sets the top-level element to be an array, so the resulting json will also be of type 'array'. Elements of an array do not get names (keys), they are defined only by their index number.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -211,7 +211,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Paste</label>
             </div>
-            <p></p>
+            <p>Pastes the contents of the clipboard inside the top container. If the top container is an array, and you try to paste fields from an objects, the field names will be removed. If it is an object and you paste fields from an array, fields for field names will be created.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -221,10 +221,10 @@ If you remix, transform, or build upon the material, you must distribute your co
               <button class="btn-solid custom-tooltip">
                 <div class="icon-fold"></div>
               </button>
-              <label>Expand / Collapse all</label>
+              <label>Expand / Fold all</label>
               <!-- TODO change text upon expansion/collaping in main app-->
             </div>
-            <p></p>
+            <p>Expands or folds all objects and arrays, as well their nested children.</p>
           </div>
         </div>
       </section>
@@ -236,18 +236,18 @@ If you remix, transform, or build upon the material, you must distribute your co
               <button  class="btn-solid custom-tooltip">
                 <div class="icon-goto-top"></div>
               </button>
-              <label for="optionsBtn">Top</label>
+              <label for="optionsBtn">Go to Top</label>
             </div>
-            <p></p>
+            <p>Takes you directly to the top of the page. Useful to avoid a lot of scrolling if the json is too long.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
               <button class="btn-solid custom-tooltip">
                 <div class="icon-select-off"></div>
               </button>
-              <label>Tag</label>
+              <label>Go to Tag</label>
             </div>
-            <p></p>
+            <p>Takes you directly to a 'tagged' element. If more than one elements are tagged, consecutives clicks on this button cycle through all of them.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -256,7 +256,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Undo</label>
             </div>
-            <p></p>
+            <p>Un-does the last action, like adding or deleting fields.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -265,7 +265,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Redo</label>
             </div>
-            <p></p>
+            <p>Re-does a previously undone action.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -274,7 +274,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Clipboard</label>
             </div>
-            <p></p>
+            <p>Show the contents of the clipboard.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -283,7 +283,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Clear</label>
             </div>
-            <p></p>
+            <p>Deletes all children elements of the top level. So basically, everything.</p>
           </div>
         </div>
       </section>
@@ -300,7 +300,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Tag</label>
             </div>
-            <p></p>
+            <p>Tags / Untags an element. Tagged elements can be quickly reached via the 'Go to Tag' button above.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -309,7 +309,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Delete</label>
             </div>
-            <p></p>
+            <p>Deletes the element and all of its nested children.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -318,7 +318,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Element name</label>
             </div>
-            <p></p>
+            <p>By clicking on the name of the element it can be renamed. Elements nested directly inside arrays do not have names.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -327,7 +327,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Add before</label>
             </div>
-            <p></p>
+            <p>Adds a new element one position <i>before</i> the current one.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -339,7 +339,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Object / Array symbol</label>
             </div>
-            <p></p>
+            <p>This is just a symbol to represent if the element is an object or array, for convenient eye-balling.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -351,7 +351,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Expand / Collapse only this element</label>
             </div>
-            <p></p>
+            <p>Expands / Collapses the immediate children nested in the element.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -360,7 +360,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Add</label>
             </div>
-            <p></p>
+            <p>Appends a new element at the end of the children of this one.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -369,7 +369,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Clear</label>
             </div>
-            <p></p>
+            <p>Deletes all children of the element.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -378,7 +378,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label for="optionsBtn">Copy to clipoard</label>
             </div>
-            <p></p>
+            <p>Copies all children and their nested descendants of this element to the clipboard, so they can be pasted.</p>
           </div>
           <div class="buttons-line">
             <div class="btn-wrapper">
@@ -387,7 +387,7 @@ If you remix, transform, or build upon the material, you must distribute your co
               </button>
               <label>Paste from clipboard</label>
             </div>
-            <p></p>
+            <p>Pastes the contents of the clipboard inside the target element. If this element is an object and the contents of the clipboard do not have names (i.e. are copied from array), they will gain name fields. Vice versa, contents will lose their name if pasted inside an array.</p>
           </div>
         </div>
       </section>
