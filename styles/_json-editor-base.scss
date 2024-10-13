@@ -112,10 +112,8 @@ If you remix, transform, or build upon the material, you must distribute your co
       font-size: $icon-size;
 
       .left-side-btns {
-        display: flex;
-        flex-direction: row;
-        justify-content: left;
-        align-items: center;
+        display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
       }
 
       .right-side-btns {

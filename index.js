@@ -139,6 +139,7 @@ function bindButtons() {
     let targets; 
      $(this).toggleClass("icon-fold icon-expand");
 
+
     if ($(this).val() === "fold") {
       $(this).val("expand");
       $(this).attr("data-tooltiptext", "Expand all");
@@ -148,6 +149,7 @@ function bindButtons() {
       $(this).val("fold");
       $(this).attr("data-tooltiptext", "Fold all");
       targets = $(selectors.mainContainer).find(".icon-expand");
+
     }
     const parents = $(targets).parent()
     utils.toggleFold(parents)
