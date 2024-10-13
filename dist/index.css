@@ -260,7 +260,7 @@ If you remix, transform, or build upon the material, you must distribute your co
   align-items: center;
 }
 .json-editor-base .main-container {
-  margin: 0 5% 0 5%;
+  margin: 0 5% 50vh 5%;
   max-width: 90%;
   width: 100%;
   position: relative;
@@ -347,6 +347,7 @@ If you remix, transform, or build upon the material, you must distribute your co
 }
 .json-editor-base .btn-solid {
   width: 3vw;
+  min-width: 3vw;
   height: 3vw;
   margin-right: 0;
   display: flex;
