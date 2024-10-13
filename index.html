@@ -56,7 +56,7 @@ If you remix, transform, or build upon the material, you must distribute your co
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
 
     <!-- custom css and js -->
-    <link rel="stylesheet" href="./dist/index.css" />
+    <link rel="stylesheet" href="./index.css" />
     <script src="index.js" type="module"></script>
   </head>
 
@@ -357,7 +357,7 @@ If you remix, transform, or build upon the material, you must distribute your co
         {{#hasLabel}}
         <label class="col-1 my-auto custom-tooltip" data-tooltiptext="Click to change field name">{{key}}</label>
         {{/hasLabel}}
-        <button class="btn btn-solid my-auto addbefore-btn icon-addbefore">add before</button>
+        <button class="btn my-auto addbefore-btn icon-addbefore custom-tooltip" data-tooltiptext="Add before this element"></button>
         <p class="col-1 my-auto text-center icon-array">:</p>
         <button
           class="btn col-1 hide-button custom-tooltip icon-expand"

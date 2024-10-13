@@ -50,7 +50,7 @@ export const createJsonObj = (holdingContainer) => {
     }
 
     const isNull = $(inputs[i]).val() === "";
-    const isNumber = !isNaN(parseInt($(inputs[i]).val())) && !isNaN($(inputs[i]).val());
+    const isNumber = /^-?[0-9]+(\.[0-9]+)?$/.test($(inputs[i]).val());
 
     if (inputs[i].type === "text" || inputs[i].type === "textarea") {
       console.log($(inputs[i]).val());
@@ -62,14 +62,7 @@ export const createJsonObj = (holdingContainer) => {
       } else {
         value = $(inputs[i]).val();
       }
-
-      // TODO REMOVE THE INPUT NUMBER
     }
-    /*  if (inputs[i].type === "number") {
-      if (isNull) {
-        value = null;
-      } else value = Number($(inputs[i]).val());
-    }*/
     if (inputs[i].classList.contains("obj-container")) {
       holdingContainer = inputs[i];
       value = createJsonObj(inputs[i]);
@@ -112,7 +105,7 @@ export const fromArrayToJson = (arrayContainer) => {
       }
     } else {
       const isNull = $(inputs[i]).val() === "";
-      const isNumber = !isNaN(parseInt($(inputs[i]).val())) && !isNaN($(inputs[i]).val());
+      const isNumber = /^-?[0-9]+(\.[0-9]+)?$/.test($(inputs[i]).val());
       if (isNull) {
         value = null;
       } else if (isNumber) {
