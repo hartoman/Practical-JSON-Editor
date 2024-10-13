@@ -325,7 +325,10 @@ If you remix, transform, or build upon the material, you must distribute your co
 .json-editor-base .clear-button {
   display: none;
 }
-.json-editor-base h1, .json-editor-base h2, .json-editor-base h3, .json-editor-base h5,
+.json-editor-base h1,
+.json-editor-base h2,
+.json-editor-base h3,
+.json-editor-base h5,
 .json-editor-base label,
 .json-editor-base p,
 .json-editor-base li,

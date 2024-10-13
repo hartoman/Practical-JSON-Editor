@@ -33,13 +33,13 @@ If you remix, transform, or build upon the material, you must distribute your co
     z-index: 2;
     background: inherit;
 
-    .btn-wrapper{
+    .btn-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-right: 1rem;
 
-      label{
+      label {
         display: block;
         font-size: 0.75rem;
         margin: 0;
@@ -70,8 +70,6 @@ If you remix, transform, or build upon the material, you must distribute your co
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-
-
     }
 
     .file-btn-row {
@@ -113,7 +111,7 @@ If you remix, transform, or build upon the material, you must distribute your co
 
       .left-side-btns {
         display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
       }
 
       .right-side-btns {
@@ -132,8 +130,8 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
 
     label {
       cursor: pointer;
-      width: auto; //10vw; 
-      overflow:hidden;
+      width: auto; //10vw;
+      overflow: hidden;
     }
   }
 
@@ -150,8 +148,6 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
       padding-right: 0;
       margin-right: 0;
     }
-
-
   }
 
   input[type="checkbox"] {
@@ -198,7 +194,10 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
     display: none;
   }
 
-  h1,h2,h3,h5,
+  h1,
+  h2,
+  h3,
+  h5,
   label,
   p,
   li,
@@ -216,15 +215,14 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
 
   .btn {
     border: none;
-    
-    }
+  }
 
   .btn-solid {
     //  padding: 0;
     width: 3vw;
     min-width: 3vw;
     height: 3vw;
-    margin-right: 0;//10px;
+    margin-right: 0; //10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -237,9 +235,9 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
       margin: 0;
     }
   }
-  #searchBtn{
+  #searchBtn {
     width: auto;
-    height:auto;
+    height: auto;
   }
 
   .clipboardModal {
@@ -301,8 +299,6 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
 
-
-
   /*mobile version */
   .temp-mobile {
     display: none;
@@ -334,36 +330,32 @@ grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 
+.about-page {
+  padding: 2rem;
+  // font-family: "courier new", monospace;
+  margin-right: 2rem;
 
-.about-page{
-
-  padding:2rem;
- // font-family: "courier new", monospace;
- margin-right: 2rem;
-
-  .buttons-explained{
-
-    .buttons-line{
+  .buttons-explained {
+    .buttons-line {
       display: flex;
       flex-direction: row;
       align-items: center;
 
-      .btn-wrapper{
+      .btn-wrapper {
         display: flex;
         flex-direction: row;
         align-items: center;
-        flex:1;
-        gap:5%;
+        flex: 1;
+        gap: 5%;
 
-        label{
+        label {
           font-weight: 600;
         }
       }
 
-      p{
-        flex:5;
+      p {
+        flex: 5;
       }
     }
-
   }
 }
