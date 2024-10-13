@@ -119,10 +119,8 @@ If you remix, transform, or build upon the material, you must distribute your co
       }
 
       .right-side-btns {
-        display: flex;
-        flex-direction: row;
-        justify-content: right;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
       }
     }
   }

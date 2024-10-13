@@ -254,10 +254,8 @@ If you remix, transform, or build upon the material, you must distribute your co
   align-items: center;
 }
 .json-editor-base .interface-container .controls-btn-row .right-side-btns {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .json-editor-base .main-container {
   margin: 0 5% 50vh 5%;
@@ -580,8 +578,9 @@ If you remix, transform, or build upon the material, you must distribute your co
 .json-editor-dark .highlight {
   box-shadow: 0 0 25px white;
 }
-.json-editor-dark .inteface-container {
-  background-color: red;
+.json-editor-dark .interface-container .hr-double {
+  border-top: 1px solid white;
+  border-bottom: 2px solid white;
 }
 .json-editor-dark .obj-wrapper:hover,
 .json-editor-dark .array-wrapper:hover {
